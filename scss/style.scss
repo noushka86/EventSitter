@@ -78,12 +78,13 @@ img {
 img{
     height:60px;
     vertical-align: middle; 
-    margin-left:85px;  
+    margin-left:166px;  
 
 }
 
 h4{
  display: inline-block;
+ margin-right:470px;
 
 }
 }
@@ -94,10 +95,11 @@ height:570px;
 background-color:#ddc0d9;
 background-repeat:repeat;
 text-align: center;
-border:2px solid #dedfdf;
+border-top:1px solid #dedfdf;
 
 h2{
 margin:100px;
+
 
 }
 
@@ -111,3 +113,45 @@ button{
 
 }
 
+#ParentFormPage{
+    text-align: center;
+
+
+}
+
+#formBox{
+    background-color: #ddc0d9;
+    border-top:1px solid #dedfdf;
+    height:570px;
+h3{
+    margin-top: 50px;
+
+}
+
+#Form{
+
+    margin:0 auto;
+    max-width:500px;
+    text-align: center;
+    border:2px solid black;
+    margin-top: 100px;
+    padding-top: 50px;
+    padding-bottom: 50px;
+
+
+    input{
+        margin: 0 auto;
+        margin-top: 20px;
+        margin-bottom: 20px;
+        display:block;
+
+    }
+
+    button{
+        margin:0 auto;
+        margin-top: 20px;
+        display: block;
+
+    }
+}
+}

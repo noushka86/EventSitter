@@ -14,7 +14,7 @@ var LandingPage=React.createClass({
 	render:function(){
 		return(
 			<div>
-				<UpperPanel/>
+				<UpperPanel showButtons={this.props.showButtons}/>
 				<SelectionBox/>
 			</div>
 			)
@@ -23,12 +23,21 @@ var LandingPage=React.createClass({
 
 
 var SelectionBox=React.createClass({
+	_parentLogin:function(){
+		location.hash="/parent"
+	},
+
+	_sitterLogin:function(){
+		location.hash="/sitter"
+	},
+
+
 	render:function(){
 		return(
 			<div id="SelectionBox">
 				<h2>Manage your babysitting schedule, easily.</h2>
-				<button>I am a Parent</button>
-				<button>I am a Sitter</button>
+				<button onClick={this._parentLogin}>I am a Parent</button>
+				<button onClick={this._sitterLogin}>I am a Sitter</button>
 			</div>
 			)
 	}
