@@ -24,7 +24,8 @@ import {FormPage} from "./FormPage.js"
 var SitterRouter=Backbone.Router.extend({
 	routes:{
 		'welcome':'showLandingPage',
-		'invite/:type':'showForm'
+		'parent':'showParentForm',
+		'sitter':'showSitterForm'
 	},
 
 	showLandingPage:function(){
@@ -33,16 +34,26 @@ var SitterRouter=Backbone.Router.extend({
 		React.render(<LandingPage showButtons={false}/>, document.querySelector('#container'))
 	},
 
-	
+	showParentForm:function(){
+		this.renderParentForm(true);
+		self=this;
+	},
 
-	showForm:function(type){
-		console.log(type)
-		React.render(<FormPage 
-						showButtons={true} 
-						sendUserInfo={this.processUserInfo}
-						userType={type}
-					/>,
-						document.querySelector('#container'))
+	showSitterForm:function(){
+		React.render(<SitterFormPage showButtons={true} />,document.querySelector('#container'))
+	},
+
+	showSignup:function(){
+		self.renderParentForm(true)
+	},
+
+	showLogin:function(){
+		self.renderParentForm(false)
+	},
+
+	renderParentForm:function(bool){
+		React.render(<ParentFormPage showButtons={true} showLogin={this.showLogin} 
+			showSignup={this.showSignup} signup={bool} sendUserInfo={this.processUserInfo}/>,document.querySelector('#container'))
 	},
 
 	processUserInfo:function(userInputObj, action){

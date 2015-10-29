@@ -7,29 +7,46 @@ let fetch = require('./fetcher'),
 
 import {UpperPanel} from "./UpperPanel.js"
 
-var ParentFormPage=React.createClass({
-	render:function(){
+var FormPage=React.createClass({
 
+	getInitialState: function(){
+		return {
+			formType: "signUp"
+		}
+	},
+
+	_toggleForm: function(newFormType){
+		this.setState({formType: newFormType})
+	},
+
+	render:function(){
+		console.log(this.state)
 		return(
-			<div id="ParentFormPage">
-				<UpperPanel showButtons={this.props.showButtons} showLogin={this.props.showLogin}
-				showSignup={this.props.showSignup}/>
+			<div id="FormPage">
+				<UpperPanel 
+					showButtons={this.props.showButtons} 
+					toggleForm={this._toggleForm}
+				/>
 		
-				<Form sendUserInfo={this.props.sendUserInfo} signup={this.props.signup}/>
+				<Form 
+					sendUserInfo={this.props.sendUserInfo} 
+					formType = {this.state.formType}
+					userType={this.props.userType}
+				/>
 				
 			</div>
 			)
 	}
 })
 
-var Form=React.createClass({
+var Form = React.createClass({
 
 	componentDidMount:function(){
 			this.userInput={
 				username:null,
 				email:null,
 				password:null,
-				type:'parent'
+				type:this.props.userType
 			}
 		},
 
@@ -55,22 +72,31 @@ var Form=React.createClass({
 
 
 	render:function(){
-		console.log('rendered')
-		console.log(this.props,'xxxx')
-		var styleObjSignup={}, styleObjLogin={}
 
-		if(this.props.signup===false){
+		var title,
+			sitterTitle="Manage your work schedule, easily.",
+			parentTitle="Invite a babysitter, in one click."
+
+		console.log('rendered')
+		var styleObjSignup={}, 
+			styleObjLogin={}
+
+		if (this.props.formType==="logIn"){
 			styleObjSignup={display:'none'}
 			styleObjLogin={display:'inline'}
 		}
-		else{
+		else {
 			styleObjLogin={display:'none'}
 			styleObjSignup={display:'inline'}
 		}
 
+		if(this.props.userType==="sitter") title=sitterTitle;
+		else title=parentTitle;
+		
+			console.log(title,this.props)
 		return(
 			<div id="formBox">
-				<h3>Invite a babysitter, in one click.</h3>
+				<h3>{title}</h3>
 				<div id="Form">
 					<input onBlur={this._validateInput} name="username" type="text" placeholder="User Name"/>
 					<input onBlur={this._validateInput} name="email" type="text" placeholder="Email"/>
@@ -87,4 +113,4 @@ var Form=React.createClass({
 
 
 
-export {ParentFormPage}
+export {FormPage}

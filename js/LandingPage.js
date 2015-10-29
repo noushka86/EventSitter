@@ -24,11 +24,11 @@ var LandingPage=React.createClass({
 
 var SelectionBox=React.createClass({
 	_parentLogin:function(){
-		location.hash="/parent"
+		location.hash="invite/parent"
 	},
 
 	_sitterLogin:function(){
-		location.hash="/sitter"
+		location.hash="invite/sitter"
 	},
 
 
