@@ -20,6 +20,7 @@ Parse.initialize(APP_ID,JS_KEY)
 import {LandingPage} from "./LandingPage.js"
 import {FormPage} from "./FormPage.js"
 import {ParentHomePage} from "./ParentHomePage.js"
+import {SitterHomePage} from "./SitterHomePage.js"
 
 
 var SitterRouter=Backbone.Router.extend({
@@ -27,6 +28,7 @@ var SitterRouter=Backbone.Router.extend({
 		'welcome':'showLandingPage',
 		'invite/:type':'showForm',
 		'parent/home':'showParentHome',
+		'sitter/home':'showSitterHome'
 	},
 
 
@@ -52,6 +54,9 @@ var SitterRouter=Backbone.Router.extend({
 		React.render(<ParentHomePage showButtons={false}/>,document.querySelector('#container'))
 	},
 
+	showSitterHome:function(){
+		React.render(<SitterHomePage showButtons={false}/>, document.querySelector('#container'))
+	},
 
 	processUserInfo:function(userInputObj, action){
 		var newUsr = new Parse.User()
