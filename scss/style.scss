@@ -155,3 +155,68 @@ h3{
     }
 }
 }
+
+
+#Menu{
+    border-bottom: 1px solid #dedfdf;
+    padding-top: 10px;
+    
+
+    p,a{
+        margin:0;
+        display: inline-block;
+        padding:10px;
+        text-decoration: none;
+        color:#551a8b;
+        cursor:pointer;
+    }
+
+
+    #home{
+        margin-left: 166px;
+    }
+    
+
+}
+
+#InfoBox{
+    height:510px;
+    background-color: #ddc0d9;
+    border-top:1px solid #dedfdf;
+
+    #EventsBox{
+       display: inline-block;
+       text-align: center;
+            #EBox{
+                width: 400px;
+                height: 400px;
+                border: 2px solid black;
+                margin-top: 20px;
+                margin-left: 35px;
+            
+            }
+}
+    #NotificationBox{
+        display: inline-block;
+        text-align: center;
+        float: right;
+            #NBox{ 
+                vertical-align: top;
+                margin-top: 20px;
+                width: 400px;
+                margin-right: 30px;
+                height:200px;
+                border:2px solid black;
+            }
+}
+
+button{
+    vertical-align: top;
+    margin-top: 48px;
+    margin-left: 20px;
+}
+}
+
+
+
+

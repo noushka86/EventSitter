@@ -19,13 +19,16 @@ Parse.initialize(APP_ID,JS_KEY)
 
 import {LandingPage} from "./LandingPage.js"
 import {FormPage} from "./FormPage.js"
+import {ParentHomePage} from "./ParentHomePage.js"
 
 
 var SitterRouter=Backbone.Router.extend({
 	routes:{
 		'welcome':'showLandingPage',
-		'invite/:type':'showForm'
+		'invite/:type':'showForm',
+		'parent/home':'showParentHome',
 	},
+
 
 	showLandingPage:function(){
 		//add:(1) if a user is currently logged in I want to redirect him to 
@@ -45,6 +48,11 @@ var SitterRouter=Backbone.Router.extend({
 						document.querySelector('#container'))
 	},
 
+	showParentHome:function(){
+		React.render(<ParentHomePage showButtons={false}/>,document.querySelector('#container'))
+	},
+
+
 	processUserInfo:function(userInputObj, action){
 		var newUsr = new Parse.User()
 		newUsr.set('username',userInputObj["username"])
@@ -57,14 +65,14 @@ var SitterRouter=Backbone.Router.extend({
 		newUsr.signUp().then(
 			function(){
 				alert('nice');
-				location.hash=userInputObj["type"]+"/upcomingEvents"
+				location.hash=userInputObj["type"]+"/home"
 			})
 		}
 		else {
 			newUsr.logIn().then(
 				function(){
 					alert('nice');
-					location.hash=userInputObj["type"]+"/upcomingEvents"
+					location.hash=userInputObj["type"]+"/home"
 				})
 			}
 		},
