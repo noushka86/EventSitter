@@ -138,9 +138,6 @@ findSitterByEmail: function(email){
 	},
 
 sendInvitation:function(sitterId,parentId){
-		// console.log(sitterId,parentId)
-		// var p=window.Parse
-
 		var invitation= new Parse.Object('Invitation')
 		invitation.set("sitterId",sitterId)
 		invitation.set("parentId",parentId)

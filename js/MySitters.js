@@ -84,7 +84,8 @@ var SitterConfirm=React.createClass({
 		}
 		
 		else{
-		var SitterId=this.props.sitterModel.attributes.objectId
+			
+		var SitterId=this.props.sitterModel.attributes.results[0].objectId
 		var ParentId=Parse.User.current().id
 
 		this.props.sendInvitation(SitterId,ParentId)
