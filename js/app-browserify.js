@@ -21,6 +21,29 @@ import {LandingPage} from "./LandingPage.js"
 import {FormPage} from "./FormPage.js"
 import {ParentHomePage} from "./ParentHomePage.js"
 import {SitterHomePage} from "./SitterHomePage.js"
+import {MySitters} from "./MySitters.js"
+
+var SitterModel=Backbone.Model.extend({
+	url: function(){//params>>{email:email}
+		return "https://api.parse.com/1/users/?where=" + JSON.stringify(this.attributes)
+	},
+	
+	defaults: {
+		email: ''
+	},
+
+	parseHeaders: {
+		"X-Parse-Application-Id": APP_ID,
+		"X-Parse-REST-API-Key": REST_API_KEY
+	},
+
+	// parse:function(responseData){
+	// 	return responseData.results[0]
+
+	// }
+
+
+})
 
 
 var SitterRouter=Backbone.Router.extend({
@@ -28,7 +51,9 @@ var SitterRouter=Backbone.Router.extend({
 		'welcome':'showLandingPage',
 		'invite/:type':'showForm',
 		'parent/home':'showParentHome',
-		'sitter/home':'showSitterHome'
+		'sitter/home':'showSitterHome',
+		'MySitters':'showMySitters',
+		'parent/sitterSearch/:email':'findSitterByEmail'
 	},
 
 
@@ -58,6 +83,18 @@ var SitterRouter=Backbone.Router.extend({
 		React.render(<SitterHomePage showButtons={false}/>, document.querySelector('#container'))
 	},
 
+	showMySitters:function(confirm){
+		// console.log('running show my sitters')
+		self=this
+		React.render(<MySitters 
+						showButtons={false}
+						sitterModel={this.sm}
+						showConfirm={confirm||false}
+						sendInvitation={this.sendInvitation}
+						/>,
+						 document.querySelector('#container'))
+	},
+
 	processUserInfo:function(userInputObj, action){
 		var newUsr = new Parse.User()
 		newUsr.set('username',userInputObj["username"])
@@ -65,12 +102,15 @@ var SitterRouter=Backbone.Router.extend({
 		newUsr.set('password',userInputObj["password"])
 		newUsr.set('type',userInputObj["type"])
 		window.usr = newUsr
-		console.log(action)
+		// console.log(action)
 		if(action==='signUp') {
 		newUsr.signUp().then(
 			function(){
 				alert('nice');
 				location.hash=userInputObj["type"]+"/home"
+			}).fail(function(err){
+				console.log(err)
+				Parse.User.logOut()
 			})
 		}
 		else {
@@ -78,13 +118,43 @@ var SitterRouter=Backbone.Router.extend({
 				function(){
 					alert('nice');
 					location.hash=userInputObj["type"]+"/home"
-				})
-			}
-		},
+			}).fail(function(err){
+				console.log(err)
+			})
+		}
+	},
 
+findSitterByEmail: function(email){
+		
+		window.s=this.sm
+		var modelParams={email:email}
+		this.sm.set(modelParams)
+		var self=this
+		this.sm.fetch({
+			headers:self.sm.parseHeaders
+		}).then(function(responseData){console.log(responseData)})
+		this.sm.on("sync change",()=>this.showMySitters(true))
 
+	},
+
+sendInvitation:function(sitterId,parentId){
+		// console.log(sitterId,parentId)
+		// var p=window.Parse
+
+		var invitation= new Parse.Object('Invitation')
+		invitation.set("sitterId",sitterId)
+		invitation.set("parentId",parentId)
+		console.log(Parse.User.current().get('username'))
+		invitation.set("from",Parse.User.current().get('username'))
+		invitation.set("complete",false)
+		invitation.save().then(function(){
+			alert('nice')
+		})
+		self.showMySitters(false)
+	},
 
 initialize:function(){
+		this.sm=new SitterModel();
 		Backbone.history.start();
 	}
 })

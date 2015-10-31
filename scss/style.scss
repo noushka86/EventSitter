@@ -85,20 +85,24 @@ img{
 h4{
  display: inline-block;
  margin-right:470px;
-
+font-family: Helvetica;
+font-weight: 200;
+color:#9b59b6;
 }
 }
 
 
 #SelectionBox{
 height:570px;
-background-color:#ddc0d9;
-background-repeat:repeat;
+background-color:#ecf0f1;
 text-align: center;
 border-top:1px solid #dedfdf;
 
 h2{
 margin:100px;
+font-family: helvetica;
+font-weight: 200;
+color: #9b59b6;
 
 
 }
@@ -109,6 +113,16 @@ button{
     margin:40px;
     font-size: 30px;
     font-weight: bold;
+    font-weight: 200;
+    color: #ecf0f1;
+    border-radius: 20px;
+    background-color: #9b59b6;
+    font-family: helvetica;
+    border-bottom: none;
+        border-left: none;
+        border-right: none;
+        border-top: none;
+
 }
 
 }
@@ -120,23 +134,28 @@ button{
 }
 
 #formBox{
-    background-color: #ddc0d9;
+    background-color: #ecf0f1;
     border-top:1px solid #dedfdf;
     height:570px;
 h3{
     margin-top: 50px;
+    color:#9b59b6;
+    font-family: helvetica;
+    font-weight: 200;
 
 }
 
 #Form{
 
     margin:0 auto;
-    max-width:500px;
+    max-width:400px;
     text-align: center;
-    border:2px solid black;
-    margin-top: 100px;
+    border:2px solid #9b59b6;
+    margin-top: 80px;
     padding-top: 50px;
     padding-bottom: 50px;
+    background-color: #ecf0f1;
+    border-radius: 20px;
 
 
     input{
@@ -151,6 +170,20 @@ h3{
         margin:0 auto;
         margin-top: 20px;
         display: block;
+        font-family: helvetica;
+        font-weight: 200;
+        width:140px;
+        font-weight:200;
+        background-color: #9b59b6;
+        border-radius: 20px;
+        font-family: helvetica;
+        color: #ecf0f1;
+        border-bottom: none;
+        border-left: none;
+        border-right: none;
+        border-top: none;
+
+
 
     }
 }
@@ -167,8 +200,10 @@ h3{
         display: inline-block;
         padding:10px;
         text-decoration: none;
-        color:#551a8b;
+        color:#9b59b6;
         cursor:pointer;
+        font-family: helvetica;
+        font-weight: 200;
     }
 
 
@@ -180,43 +215,140 @@ h3{
 }
 
 #InfoBox{
-    height:510px;
-    background-color: #ddc0d9;
+    min-height:510px;
+    background-color: #ecf0f1;
     border-top:1px solid #dedfdf;
 
     #EventsBox{
        display: inline-block;
        text-align: center;
+       padding-top: 30px;
+
+       label{
+        color:#9b59b6;
+        font-family: helvetica;
+        font-weight: 200;
+        }
+
+        button{
+        background-color: #9b59b6;
+        height: 30px;
+        width:30px;
+        border-radius: 50%;
+        font-family: helvetica;
+        color: #ecf0f1;
+        float: right;
+        font-size: 30px;
+        line-height: 0px;
+        text-align: center;
+        border-bottom: none;
+        border-left: none;
+        border-right: none;
+        border-top: none;
+
+        }
+
+
+
             #EBox{
-                width: 400px;
+                min-width: 400px;
                 height: 400px;
-                border: 2px solid black;
+                border: 2px solid #9b59b6;
                 margin-top: 20px;
-                margin-left: 35px;
-            
+                margin-left: 170px;
+                border-radius: 20px;
+                background-color: white;
+
             }
 }
     #NotificationBox{
         display: inline-block;
         text-align: center;
         float: right;
+        padding-top: 30px;
+        
+        label{
+        color:#9b59b6;
+        font-family: helvetica;
+        font-weight: 200;
+        }
             #NBox{ 
                 vertical-align: top;
                 margin-top: 20px;
                 width: 400px;
                 margin-right: 30px;
                 height:200px;
-                border:2px solid black;
+                border: 2px solid #9b59b6;
+                border-radius: 20px;
+                background-color: white;
+
             }
 }
 
-button{
-    vertical-align: top;
-    margin-top: 48px;
-    margin-left: 20px;
-}
 }
 
+
+#SittersBox{
+    min-height:510px;
+    background-color: #ecf0f1;
+    border-top:1px solid #dedfdf;
+    padding-top: 30px;
+
+
+    #ListOfSitters{
+        text-align: center;
+        display: inline-block;
+        text-align: center;
+        margin-left: 170px;
+
+
+
+
+        label{
+            color:#9b59b6;
+            font-family: helvetica;
+            font-weight: 200;
+
+        }
+
+        #ListBox{
+            margin-top: 20px;
+            width: 400px;
+            height:200px;
+            border: 2px solid #9b59b6;
+            border-radius: 20px;
+            background-color: white;
+
+        }
+        overflow: auto;
+        vertical-align: top;
+    }
+
+    #AddSitter{
+    text-align: center;
+    padding-left: 260px;
+    display: inline-block;
+    overflow: auto;
+    vertical-align: top;
+    padding-top: 0px;
+
+
+    label{
+            color:#9b59b6;
+            font-family: helvetica;
+            font-weight: 200;
+        }
+
+    input{
+        display: block;
+        margin-top: 15px;
+        }
+
+    
+    }
+
+
+}
 
 
 

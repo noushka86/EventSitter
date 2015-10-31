@@ -10,7 +10,7 @@ var NotificationBox=React.createClass({
 	render:function(){
 		return(
 			<div id="NotificationBox">
-				<label for="NBox">Notifications</label>
+				<label>Notifications</label>
 				<div id="NBox">
 
 				</div>

@@ -28,7 +28,6 @@ var InfoBox=React.createClass({
 		return(
 			<div id="InfoBox">
 				<EventsBox/>
-				<button>Create New Event</button>
 				<NotificationBox/>
 			</div>
 			)

@@ -27,7 +27,18 @@ var UpperPanel=React.createClass({
 			styleObj={
 				display:'inline',
 				marginLeft:'20px',
-				width:'140px'
+				width:'140px',
+			    fontWeight: '200',
+			    color: '#ecf0f1',
+			    borderRadius: '20px',
+			    backgroundColor: '#9b59b6',
+			    fontFamily: 'helvetica',
+			    borderBottom: 'none',
+		        borderLeft: 'none',
+		        borderRight: 'none',
+		        borderTop: 'none'
+
+
 			}
 		}
 

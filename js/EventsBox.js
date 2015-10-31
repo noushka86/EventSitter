@@ -10,7 +10,8 @@ var EventsBox=React.createClass({
 	render:function(){
 		return(
 			<div id="EventsBox">
-				<label for="EBox">Upcoming Events</label>
+				<label>Upcoming Events</label>
+				<button>+</button>
 				<div id="EBox">
 
 				</div>
