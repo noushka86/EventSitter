@@ -122,6 +122,8 @@ button{
         border-left: none;
         border-right: none;
         border-top: none;
+    box-shadow:2px 2px 2px 2px #999;
+
 
 }
 
@@ -156,6 +158,8 @@ h3{
     padding-bottom: 50px;
     background-color: #ecf0f1;
     border-radius: 20px;
+    box-shadow:4px 4px 4px 4px #999;
+
 
 
     input{
@@ -163,6 +167,8 @@ h3{
         margin-top: 20px;
         margin-bottom: 20px;
         display:block;
+        font-weight: 200;
+        font-family: helvetica;
 
     }
 
@@ -170,9 +176,8 @@ h3{
         margin:0 auto;
         margin-top: 20px;
         display: block;
-        font-family: helvetica;
-        font-weight: 200;
         width:140px;
+        font-family: helvetica;
         font-weight:200;
         background-color: #9b59b6;
         border-radius: 20px;
@@ -182,6 +187,7 @@ h3{
         border-left: none;
         border-right: none;
         border-top: none;
+        box-shadow:2px 2px 2px 2px #999;
 
 
 

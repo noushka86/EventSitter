@@ -8,10 +8,16 @@ let fetch = require('./fetcher'),
 
 var EventsBox=React.createClass({
 	render:function(){
+		var styleObj={}
+		if(!this.props.showCreateEventButton){
+			styleObj={
+				display:'none'
+			}
+		}
 		return(
 			<div id="EventsBox">
 				<label>Upcoming Events</label>
-				<button>+</button>
+				<button style={styleObj}>+</button>
 				<div id="EBox">
 
 				</div>

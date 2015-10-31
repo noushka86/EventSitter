@@ -76,11 +76,11 @@ var SitterRouter=Backbone.Router.extend({
 	},
 
 	showParentHome:function(){
-		React.render(<ParentHomePage showButtons={false}/>,document.querySelector('#container'))
+		React.render(<ParentHomePage showButtons={false} showCreateEventButton={true}/>,document.querySelector('#container'))
 	},
 
 	showSitterHome:function(){
-		React.render(<SitterHomePage showButtons={false}/>, document.querySelector('#container'))
+		React.render(<SitterHomePage showButtons={false} showCreateEventButton={false}/>, document.querySelector('#container'))
 	},
 
 	showMySitters:function(confirm){
