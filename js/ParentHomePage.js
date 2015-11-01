@@ -28,9 +28,11 @@ var InfoBox=React.createClass({
 		return(
 			<div id="InfoBox">
 				<EventsBox showCreateEventButton={this.props.showCreateEventButton}/>
-				<NotificationBox/>
 			</div>
 			)
 	}
 })
+
+				// <NotificationBox/>
+
 export {ParentHomePage}

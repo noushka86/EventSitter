@@ -281,12 +281,36 @@ h3{
             #NBox{ 
                 vertical-align: top;
                 margin-top: 20px;
-                width: 400px;
+                min-width: 400px;
                 margin-right: 30px;
-                height:200px;
+                min-height:30px;
                 border: 2px solid #9b59b6;
                 border-radius: 20px;
                 background-color: white;
+                padding:20px;
+                text-align: left;
+
+
+                p{
+                    display:inline-block;
+                    font-family: helvetica;
+                    font-weight: 200;
+                }
+
+                button{
+                    margin-left: 10px;
+                    height: 30px;
+                    width: 30px;
+                    border-radius: 50%;
+                    border-bottom: none;
+                    border-left: none;
+                    border-right: none;
+                    border-top: none;
+                    box-shadow:2px 2px 2px 2px #999;
+                    color: white;
+                    background-color:#9b59b6;
+                    float:right; 
+                    }
 
             }
 }

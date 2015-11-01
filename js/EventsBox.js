@@ -17,7 +17,7 @@ var EventsBox=React.createClass({
 		return(
 			<div id="EventsBox">
 				<label>Upcoming Events</label>
-				<button style={styleObj}>+</button>
+				<button style={styleObj}>{"\u2795"}</button>
 				<div id="EBox">
 
 				</div>
