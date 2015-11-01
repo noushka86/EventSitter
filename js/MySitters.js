@@ -78,6 +78,7 @@ var ListOfSitters=React.createClass({
 
 var SitterConfirm=React.createClass({
 	_clickHandler:function(event){
+
 		if(event.target.value==='No'){
 
 			location.hash="MySitters"
@@ -85,10 +86,12 @@ var SitterConfirm=React.createClass({
 		
 		else{
 			
-		var SitterId=this.props.sitterModel.attributes.results[0].objectId
-		var ParentId=Parse.User.current().id
 
-		this.props.sendInvitation(SitterId,ParentId)
+		var SitterId=this.props.sitterModel.attributes.results[0].objectId,
+			SitterUsername=this.props.sitterModel.attributes.results[0].username,
+			ParentId=Parse.User.current().id
+
+		this.props.sendInvitation(SitterId,SitterUsername,ParentId)
 		location.hash="MySitters"
 	}
 

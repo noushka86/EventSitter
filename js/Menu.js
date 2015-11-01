@@ -23,7 +23,7 @@ var Menu=React.createClass({
 		 	hrefGroup="#MySitters"
 		}
 		else{
-			group="My Sitters"
+			group="My Parents"
 			hrefGroup="#MyParents"
 		} 
 

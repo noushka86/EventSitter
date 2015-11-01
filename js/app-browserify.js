@@ -8,7 +8,7 @@ let fetch = require('./fetcher'),
     Parse = require('parse')
 
 console.log("jS loaded")
-var self
+var self, selfSitter
 
 var APP_ID = 'wXCq4PN1u7OGDCjyS4xkWMwTvIMlN8dfJKGkA4DE',
 	JS_KEY = 'u3F2jXFkB1WZX44vRiGX7roenlOY8CadeGp4uzwi',
@@ -109,7 +109,8 @@ var SitterRouter=Backbone.Router.extend({
 	},
 
 	showSitterHome:function(){
-		var self=this
+		console.log('running show sitter home');
+		selfSitter=this
 		this.ic.searchParams={sitterId:Parse.User.current().id,
 							  complete:false
 							}
@@ -117,8 +118,8 @@ var SitterRouter=Backbone.Router.extend({
 		this.ic.customFetch().done(function(){
 					React.render(<SitterHomePage showButtons={false} 
 						showCreateEventButton={false}
-						notifications={self.ic}
-						InvitationHandler={self.InvitationHandler}
+						notifications={selfSitter.ic}
+						InvitationHandler={selfSitter.InvitationHandler}
 						/>, document.querySelector('#container'))
 
 		})
@@ -178,12 +179,13 @@ findSitterByEmail: function(email){
 
 	},
 
-sendInvitation:function(sitterId,parentId){
+sendInvitation:function(sitterId,sitterUsername,parentId){
 		var invitation= new Parse.Object('Invitation')
 		invitation.set("sitterId",sitterId)
 		invitation.set("parentId",parentId)
 		console.log(Parse.User.current().get('username'))
 		invitation.set("from",Parse.User.current().get('username'))
+		invitation.set("to",sitterUsername)
 		invitation.set("complete",false)
 		invitation.save().then(function(){
 			alert('nice')
@@ -193,6 +195,7 @@ sendInvitation:function(sitterId,parentId){
 
 
 	InvitationHandler:function(ObjectId,action){
+		console.log(this)
 		if(action==='confirm'){
 			var q=new Parse.Query("Invitation")
 			q.equalTo('objectId',ObjectId) // where targetId is the one you want to grab
@@ -200,7 +203,7 @@ sendInvitation:function(sitterId,parentId){
 				var invite = results[0]
 				invite.set('complete',true)
 				invite.save()
-	}).done(function(){alert('done')})
+	}).done(function(){alert("The request has been confirmed")}).done(selfSitter.showSitterHome.bind(selfSitter))
 
 		}
 
@@ -211,9 +214,11 @@ sendInvitation:function(sitterId,parentId){
 				var invite = results[0]
 				invite.destroy()
 				
-	}).done(function(){alert('done')})
+	}).done(function(){alert("The request has been denied")}).done(selfSitter.showSitterHome.bind(selfSitter))
 		}
 
+
+	// selfSitter.ic.on("sync change",()=>this.showSitterHome())
 
 	},
 
