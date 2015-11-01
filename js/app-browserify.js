@@ -118,6 +118,7 @@ var SitterRouter=Backbone.Router.extend({
 					React.render(<SitterHomePage showButtons={false} 
 						showCreateEventButton={false}
 						notifications={self.ic}
+						InvitationHandler={self.InvitationHandler}
 						/>, document.querySelector('#container'))
 
 		})
@@ -188,6 +189,32 @@ sendInvitation:function(sitterId,parentId){
 			alert('nice')
 		})
 		self.showMySitters(false)
+	},
+
+
+	InvitationHandler:function(ObjectId,action){
+		if(action==='confirm'){
+			var q=new Parse.Query("Invitation")
+			q.equalTo('objectId',ObjectId) // where targetId is the one you want to grab
+			q.find().then(function(results){
+				var invite = results[0]
+				invite.set('complete',true)
+				invite.save()
+	}).done(function(){alert('done')})
+
+		}
+
+		else{
+			var q=new Parse.Query("Invitation")
+			q.equalTo('objectId',ObjectId)
+			q.find().then(function(results){
+				var invite = results[0]
+				invite.destroy()
+				
+	}).done(function(){alert('done')})
+		}
+
+
 	},
 
 initialize:function(){

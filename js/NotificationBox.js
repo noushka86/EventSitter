@@ -9,7 +9,10 @@ let fetch = require('./fetcher'),
 var NotificationBox=React.createClass({
 	
 	_createNotification:function(notificationObj){
-		return (<Notification data={notificationObj} key={notificationObj.parentId}/>)
+		return (<Notification data={notificationObj} 
+								key={notificationObj.parentId}
+								InvitationHandler={this.props.InvitationHandler}
+								/>)
 	},
 
 	render:function(){
@@ -33,15 +36,23 @@ var NotificationBox=React.createClass({
 
 var Notification=React.createClass({
 
+	_confirm:function(){
+		this.props.InvitationHandler(this.props.data.objectId,"confirm")
+		
+		
+	},
 
+	_deny:function(){
+		this.props.InvitationHandler(this.props.data.objectId,"deny")
+	},
 
 	render:function(){
 	
 		return(
 			<div>
 				<p>{this.props.data.from} added you as a sitter</p>
-				<button onClick={this._confirm}>{"\u2715"}</button>
-				<button onClick={this.deny}>{"\u2713"}</button>
+				<button onClick={this._deny}>{"\u2715"}</button>
+				<button onClick={this._confirm}>{"\u2713"}</button>
 				
 			</div>
 			)

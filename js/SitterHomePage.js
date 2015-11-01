@@ -18,7 +18,9 @@ var SitterHomePage=React.createClass({
 			<div>
 				<UpperPanel showButtons={this.props.showButtons}/>
 				<Menu userType={userType}/>
-				<InfoBox notifications={this.props.notifications}/>
+				<InfoBox notifications={this.props.notifications}
+							InvitationHandler={this.props.InvitationHandler}
+						/>
 			</div>
 			)
 	}
@@ -30,7 +32,9 @@ var InfoBox=React.createClass({
 		return(
 			<div id="InfoBox">
 				<EventsBox/>
-				<NotificationBox notifications={this.props.notifications}/>
+				<NotificationBox notifications={this.props.notifications}
+									InvitationHandler={this.props.InvitationHandler}
+				/>
 			</div>
 			)
 	}
