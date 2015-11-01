@@ -18,7 +18,7 @@ var MySitters=React.createClass({
 				<UpperPanel showButtons={this.props.showButtons}/>
 				<Menu userType={userType}/>
 				<SittersBox sitterModel={this.props.sitterModel} show={this.props.showConfirm}
-    				sendInvitation={this.props.sendInvitation} />
+    				sendInvitation={this.props.sendInvitation} mySittersList={this.props.mySittersList}/>
 			</div>
 			)
 	}
@@ -30,7 +30,7 @@ var SittersBox=React.createClass({
 	render:function(){
 		return(
 			<div id="SittersBox">
-				<ListOfSitters/>
+				<ListOfSitters mySittersList={this.props.mySittersList}/>
 				<AddSitter/>
 				<SitterConfirm sitterModel={this.props.sitterModel} show={this.props.show}
     				sendInvitation={this.props.sendInvitation}/>
@@ -65,11 +65,22 @@ _getSitterInfo:function(event){
 })
 
 var ListOfSitters=React.createClass({
+	
+	_createSitter:function(sitterObj){
+		return (<Sitter data={sitterObj}
+						key={sitterObj.sitterId}/>)
+	},
+
 	render:function(){
+		console.log('my sitters')
+		console.log(this.props.mySittersList.models[0].attributes.results)
+		var sittersList=this.props.mySittersList.models[0].attributes.results
+
 		return(
 			<div id="ListOfSitters">
 				<label>My Sitters</label>
 				<div id="ListBox">
+					{sittersList.map(this._createSitter)}
 				</div>
 			</div>
 			)
@@ -125,7 +136,6 @@ var SitterConfirm=React.createClass({
 			popUpStyleObj={
 				display:'inline',
 				position: 'fixed',
-				height:'150px',
 				width:'250px',
 				border:'2px solid #9b59b6',
 				borderRadius:'20px',
@@ -161,6 +171,16 @@ var SitterConfirm=React.createClass({
 				
 
 			</div>
+			)
+	}
+})
+
+
+var Sitter=React.createClass({
+	render:function(){
+		console.log(this.props.data.to)
+		return(
+			<p>{this.props.data.to}</p>
 			)
 	}
 })

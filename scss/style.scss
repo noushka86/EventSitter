@@ -341,15 +341,24 @@ h3{
 
         #ListBox{
             margin-top: 20px;
-            width: 400px;
-            height:200px;
+            width: 200px;
+            min-height: 60px;
             border: 2px solid #9b59b6;
             border-radius: 20px;
             background-color: white;
+            text-align: left;
+            overflow: auto;
+            vertical-align: top;
+
+            p{
+                font-family: helvetica;
+                font-weight: 200;
+                text-indent: 4px; 
+
+            }
 
         }
-        overflow: auto;
-        vertical-align: top;
+       
     }
 
     #AddSitter{
@@ -370,6 +379,8 @@ h3{
     input{
         display: block;
         margin-top: 15px;
+        font-family: helvetica;
+        font-weight: 200;
         }
 
     
