@@ -33,9 +33,7 @@ var NotificationBox=React.createClass({
 
 var Notification=React.createClass({
 
-	_confirm:function(e){
-		
-	},
+
 
 	render:function(){
 	
