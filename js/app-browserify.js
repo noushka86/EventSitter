@@ -22,6 +22,7 @@ import {FormPage} from "./FormPage.js"
 import {ParentHomePage} from "./ParentHomePage.js"
 import {SitterHomePage} from "./SitterHomePage.js"
 import {MySitters} from "./MySitters.js"
+import {MyProfile} from "./MyProfile.js"
 
 var SitterModel=Backbone.Model.extend({
 	url: function(){//params>>{email:email}
@@ -95,6 +96,28 @@ var MySittersCollection=Backbone.Collection.extend({
 
 })
 
+var ProfileModel=Backbone.Model.extend({
+	url: function(){//params>>{email:email}
+		return "https://api.parse.com/1/users/?where=" + JSON.stringify(this.attributes)
+	},
+	
+	defaults: {
+		email: ''
+	},
+
+	parseHeaders: {
+		"X-Parse-Application-Id": APP_ID,
+		"X-Parse-REST-API-Key": REST_API_KEY
+	},
+
+	// parse:function(responseData){
+	// 	return responseData.results[0]
+
+	// }
+
+
+})
+
 
 
 var SitterRouter=Backbone.Router.extend({
@@ -104,7 +127,8 @@ var SitterRouter=Backbone.Router.extend({
 		'parent/home':'showParentHome',
 		'sitter/home':'showSitterHome',
 		'MySitters':'showMySitters',
-		'parent/sitterSearch/:email':'findSitterByEmail'
+		'parent/sitterSearch/:email':'findSitterByEmail',
+		':type/myProfile':'showMyProfile'
 	},
 
 
@@ -159,6 +183,7 @@ var SitterRouter=Backbone.Router.extend({
 							}
 
 		this.msc.customFetch().done(function(){
+
 						React.render(<MySitters 
 						showButtons={false}
 						sitterModel={self.sm}
@@ -166,10 +191,19 @@ var SitterRouter=Backbone.Router.extend({
 						sendInvitation={self.sendInvitation}
 						mySittersList={self.msc}
 						
-
 						/>,
 						 document.querySelector('#container'))
 	})
+
+	},
+
+	showMyProfile:function(type){
+		console.log("profile")
+		console.log(type)
+
+		React.render(<MyProfile showButtons={false}
+								userType={type}
+								/> , document.querySelector('#container'))
 
 	},
 
