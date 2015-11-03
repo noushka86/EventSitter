@@ -15,7 +15,26 @@ var MyProfile=React.createClass({
 			<div>
 				<UpperPanel showButtons={this.props.showButtons}/>
 				<Menu userType={this.props.userType}/>
+				<ProfileForm />
+				
 			</div>
+			)
+	}
+})
+
+var ProfileForm=React.createClass({
+	render:function(){
+		return(
+			<div id="ProfileForm">
+				<input type="text" placeholder="first name"/>
+				<input type="text" placeholder="last name"/>
+				<input type="text" placeholder="address"/>
+				<input type="text" placeholder="phone"/>
+
+				<button>update</button>
+			</div>
+
+
 			)
 	}
 })

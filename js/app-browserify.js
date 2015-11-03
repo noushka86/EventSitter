@@ -196,8 +196,7 @@ var SitterRouter=Backbone.Router.extend({
 							  complete:false
 							}
 
-		this.ic.customFetch().done(function(){
-					console.log('YUMMYYY');
+		this.ic.customFetch().done(function(){	
 					console.log(selfSitter.ic);
 					React.render(<SitterHomePage showButtons={false} 
 						showCreateEventButton={false}
@@ -207,6 +206,22 @@ var SitterRouter=Backbone.Router.extend({
 
 		})
 
+		// var q=new Parse.Query("Invitation")
+		// q.equalTo("parentId",Parse.User.current().id)
+		// q.find(function(results){
+		// 	console.log(results);
+		// })
+		
+
+		// this.ec.searchParams={
+
+		// }
+		// this.ec.customSetch().done(function(){
+		// 	// React.render(<EventsBox />)
+
+		// 	console.log(selfSitter.ec)
+		// })
+
 	},
 
 	showMySitters:function(confirm){
@@ -214,6 +229,7 @@ var SitterRouter=Backbone.Router.extend({
 		this.msc.searchParams={complete:true,
 								parentId:Parse.User.current().id
 							}
+
 
 		this.msc.customFetch().done(function(){
 

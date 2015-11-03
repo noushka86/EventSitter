@@ -38,14 +38,14 @@ var EventsBox=React.createClass({
 				<label>Upcoming Events</label>
 				<button id="newEvent" onClick={this._clickHandler} 
 				style={styleObj}>{"\u2795"}</button>
-				
+
 				<EventForm show={this.state.showEventForm} 
 							changeState={this.changeState}
 							sendEventDetails={this.props.sendEventDetails}
 							/>
 
 				<div id="EBox">
-
+					
 				</div>
 			</div>
 			)

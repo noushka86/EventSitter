@@ -423,7 +423,44 @@ h3{
 }
 
 
+#ProfileForm{
+    margin:0 auto;
+    max-width:400px;
+    text-align: center;
+    border:2px solid #9b59b6;
+    margin-top: 80px;
+    padding-top: 50px;
+    padding-bottom: 50px;
+    background-color: #ecf0f1;
+    border-radius: 20px;
+    box-shadow:4px 4px 4px 4px #999;
 
+    button{
+        margin:0 auto;
+        margin-top: 20px;
+        display: block;
+        width:140px;
+        font-family: helvetica;
+        font-weight:200;
+        background-color: #9b59b6;
+        border-radius: 20px;
+        font-family: helvetica;
+        color: #ecf0f1;
+        border-bottom: none;
+        border-left: none;
+        border-right: none;
+        border-top: none;
+        box-shadow:2px 2px 2px 2px #999;
+    }
+
+}
+ #ProfileForm >* {
+        margin:0 auto;
+        display: block;
+        margin-bottom: 20px;
+
+    
+}
 
 
 
