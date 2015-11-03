@@ -8,7 +8,7 @@ let fetch = require('./fetcher'),
     Parse = require('parse')
 
 console.log("jS loaded")
-var self, selfSitter
+var self, selfSitter, selfParent;
 
 var APP_ID = 'wXCq4PN1u7OGDCjyS4xkWMwTvIMlN8dfJKGkA4DE',
 	JS_KEY = 'u3F2jXFkB1WZX44vRiGX7roenlOY8CadeGp4uzwi',
@@ -96,6 +96,31 @@ var MySittersCollection=Backbone.Collection.extend({
 
 })
 
+var EventsCollection=Backbone.Collection.extend({
+
+	url:function(){
+		return "https://api.parse.com/1/classes/Event/?where=" + JSON.stringify(this.searchParams)
+	},
+
+	parseHeaders: {
+		"X-Parse-Application-Id": APP_ID,
+		"X-Parse-REST-API-Key": REST_API_KEY
+	},
+
+	customFetch: function(){
+		return this.fetch({
+			headers: this.parseHeaders
+		})
+	},
+
+	// parse: function(response){
+	// 	console.log(response)
+	// 	return response.results
+	// }
+
+})
+
+
 var ProfileModel=Backbone.Model.extend({
 	url: function(){//params>>{email:email}
 		return "https://api.parse.com/1/users/?where=" + JSON.stringify(this.attributes)
@@ -151,14 +176,22 @@ var SitterRouter=Backbone.Router.extend({
 	},
 
 	showParentHome:function(){
+		selfParent=this
+		
+
 		React.render(<ParentHomePage showButtons={false} 
 									showCreateEventButton={true}
+									// createEvent={selfParent.createEvent}
+									sendEventDetails={selfParent.createEvent}
+
 									/>,document.querySelector('#container'))
 	},
 
 	showSitterHome:function(){
 		console.log('running show sitter home');
 		selfSitter=this
+		
+
 		this.ic.searchParams={sitterId:Parse.User.current().id,
 							  complete:false
 							}
@@ -236,6 +269,8 @@ var SitterRouter=Backbone.Router.extend({
 		}
 	},
 
+
+
 findSitterByEmail: function(email){
 		
 		window.s=this.sm
@@ -248,6 +283,21 @@ findSitterByEmail: function(email){
 		this.sm.on("sync change",()=>this.showMySitters(true))
 
 	},
+
+	createEvent:function(eventObj){
+		var event=new Parse.Object('Event')
+			event.set("parentId",Parse.User.current().id)
+			event.set("sitterId",null)
+			event.set("title",eventObj["title"])
+			event.set('date',eventObj["date"])
+			event.set('time',eventObj["time"])
+			event.set('claimed', null)
+			event.save().then(function(){
+			alert('nice')
+		})
+
+
+	},	
 
 sendInvitation:function(sitterId,sitterUsername,parentId){
 		var invitation= new Parse.Object('Invitation')
@@ -292,10 +342,12 @@ sendInvitation:function(sitterId,sitterUsername,parentId){
 
 	},
 
+
 initialize:function(){
 		this.sm=new SitterModel();
 		this.ic=new InvitationCollection();
 		this.msc=new MySittersCollection();
+		this.ec=new EventsCollection();
 
 		Backbone.history.start();
 	}

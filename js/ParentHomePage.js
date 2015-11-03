@@ -17,7 +17,11 @@ var ParentHomePage=React.createClass({
 			<div>
 				<UpperPanel showButtons={this.props.showButtons}/>
 				<Menu userType={userType}/>
-				<InfoBox showCreateEventButton={this.props.showCreateEventButton}/>
+				<InfoBox showCreateEventButton={this.props.showCreateEventButton}
+							// createEvent={this.props.createEvent}
+							sendEventDetails={this.props.sendEventDetails}
+
+					/>
 			</div>
 			)
 	}
@@ -27,11 +31,17 @@ var InfoBox=React.createClass({
 	render:function(){
 		return(
 			<div id="InfoBox">
-				<EventsBox showCreateEventButton={this.props.showCreateEventButton}/>
+				<EventsBox showCreateEventButton={this.props.showCreateEventButton}
+							// createEvent={this.props.createEvent}
+							sendEventDetails={this.props.sendEventDetails}
+
+							/>
+
 			</div>
 			)
 	}
 })
+
 
 				// <NotificationBox/>
 

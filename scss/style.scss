@@ -236,7 +236,7 @@ h3{
         font-weight: 200;
         }
 
-        button{
+        #newEvent{
         background-color: #9b59b6;
         height: 30px;
         width:30px;
@@ -251,6 +251,39 @@ h3{
         border-top: none;
 
         }
+
+      
+
+        #EventForm{
+            p{
+                color: white;
+            }
+
+            button{
+            font-family: helvetica;
+            font-weight:200;
+            background-color: #9b59b6;
+            border-radius: 20px;
+            color: #ecf0f1;
+            border-bottom: none;
+            border-left: none;
+            border-right: none;
+            border-top: none;
+            padding: 0 10px 0 10px;
+            display: inline-block;
+            margin-left: 10px;
+
+            }
+        }
+
+          #EventForm >* {
+            display: block;
+            margin: 0 auto ;
+            margin-bottom: 20px;
+
+                }
+        
+
 
 
 
@@ -388,6 +421,9 @@ h3{
 
 
 }
+
+
+
 
 
 
