@@ -11,6 +11,14 @@ import {EventsBox} from "./EventsBox.js"
 import {NotificationBox} from "./NotificationBox.js"
 
 var ParentHomePage=React.createClass({
+
+	componentDidMount:function(){
+		var self = this
+		this.props.events.on('change update', function(){
+			self.forceUpdate()
+		})
+	},
+
 	render:function(){
 		var userType="parent"
 		return(
@@ -18,7 +26,7 @@ var ParentHomePage=React.createClass({
 				<UpperPanel showButtons={this.props.showButtons}/>
 				<Menu userType={userType}/>
 				<InfoBox showCreateEventButton={this.props.showCreateEventButton}
-							// createEvent={this.props.createEvent}
+							events={this.props.events}
 							sendEventDetails={this.props.sendEventDetails}
 
 					/>
@@ -32,9 +40,9 @@ var InfoBox=React.createClass({
 		return(
 			<div id="InfoBox">
 				<EventsBox showCreateEventButton={this.props.showCreateEventButton}
-							// createEvent={this.props.createEvent}
 							sendEventDetails={this.props.sendEventDetails}
-
+							events={this.props.events}
+							userType={'parent'}
 							/>
 
 			</div>

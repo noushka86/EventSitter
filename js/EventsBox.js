@@ -26,7 +26,17 @@ var EventsBox=React.createClass({
 
 	},
 
+	_createEvent:function(eventObj){
+		return(<Event data={eventObj.attributes}
+						key={eventObj.objectId}
+						userType={this.props.userType}
+						/>)
+	},
+
 	render:function(){
+
+		var events=this.props.events.models
+		console.log(events)
 		var styleObj={}
 		if(!this.props.showCreateEventButton){
 			styleObj={
@@ -45,7 +55,7 @@ var EventsBox=React.createClass({
 							/>
 
 				<div id="EBox">
-					
+					{events.map(this._createEvent)}
 				</div>
 			</div>
 			)
@@ -65,7 +75,7 @@ var EventForm=React.createClass({
 	_cancel:function(){
 		
 		this.props.changeState(false)
-
+		this._clearForm()
 	},
 
 
@@ -86,11 +96,20 @@ var EventForm=React.createClass({
 						}
 					}
 					console.log(this.eventDetails)
-					this.props.sendEventDetails(this.eventDetails)					
+					this.props.sendEventDetails(this.eventDetails)
+					this._clearForm()
+					this.props.changeState(false)			
 					// this.props.sendUserInfo(this.userInput,e.target.value)
 		},
 
+		_clearForm:function(){
+			for (var key in this.refs){
+						this.refs[key].getDOMNode().value = ''
+					}	
+				},
+
 	render:function(){
+		window.form = this
 		var styleObj={}
 
 		if(!this.props.show){
@@ -117,9 +136,9 @@ var EventForm=React.createClass({
 		return(
 			<div id="EventForm" style={styleObj}>
 				<p>Create New Event</p>
-				<input onBlur={this._validateInput} name="title" type="text" placeholder="Title"/>
-				<input  onBlur={this._validateInput} name="date" type="date" placeholder="date"/>
-				<input  onBlur={this._validateInput} name="time" type="time" placeholder="time"/>
+				<input ref="titleInput" onBlur={this._validateInput} name="title" type="text" placeholder="Title"/>
+				<input ref="dateInput" onBlur={this._validateInput} name="date" type="date" placeholder="date"/>
+				<input ref="timeInput" onBlur={this._validateInput} name="time" type="time" placeholder="time"/>
 				<button onClick={this._checkValidInput} >Submit Event</button>
 				<button onClick={this._cancel}>Cancel</button>
 			</div>
@@ -128,6 +147,29 @@ var EventForm=React.createClass({
 
 })
 
+
+var Event=React.createClass({
+	render:function(){
+		console.log(this.props.userType)
+
+		var message,title=""
+		if(this.props.userType==='parent')
+		{
+			message=this.props.data.sitterUserName
+			title=this.props.data.title
+		}
+
+		else{
+			message=this.props.data.parentUserName
+		}
+
+		return(
+			<div id="Event">
+			<p>{title} | {message} | {this.props.data.date} at {this.props.data.time}</p>
+			</div>
+			)
+	}
+})
 
 
 

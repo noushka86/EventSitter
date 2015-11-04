@@ -289,12 +289,21 @@ h3{
 
             #EBox{
                 min-width: 400px;
-                height: 400px;
                 border: 2px solid #9b59b6;
                 margin-top: 20px;
                 margin-left: 170px;
                 border-radius: 20px;
                 background-color: white;
+
+                #Event{
+                   
+                    p{
+                        display:inline-block;
+                        font-family: helvetica;
+                        font-weight: 200;
+                    }
+
+                }
 
             }
 }

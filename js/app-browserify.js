@@ -121,6 +121,28 @@ var NewEventsCollection=Backbone.Collection.extend({
 
 })
 
+var ApprovedEventsCollection=Backbone.Collection.extend({
+	url:function(){
+		return "https://api.parse.com/1/classes/Event/?where=" + JSON.stringify(this.searchParams)
+	},
+
+	parseHeaders: {
+		"X-Parse-Application-Id": APP_ID,
+		"X-Parse-REST-API-Key": REST_API_KEY
+	},
+
+	customFetch: function(){
+		return this.fetch({
+			headers: this.parseHeaders
+		})
+	},
+
+	parse: function(response){
+		console.log(response)
+		return response.results
+	}
+})
+
 
 var ProfileModel=Backbone.Model.extend({
 	url: function(){//params>>{email:email}
@@ -181,13 +203,18 @@ var SitterRouter=Backbone.Router.extend({
 
 
 		selfParent=this
+
+		selfParent.aec.searchParams={claimed:true,parentUserName:Parse.User.current().get("username")}
+
+		selfParent.aec.customFetch()
+
 		
 		selfParent.fetchMySitters();
 
 		React.render(<ParentHomePage showButtons={false} 
 									showCreateEventButton={true}
 									sendEventDetails={selfParent.createEvent}
-
+									events={selfParent.aec}
 									/>,document.querySelector('#container'))
 	},
 
@@ -195,41 +222,46 @@ var SitterRouter=Backbone.Router.extend({
 
 		console.log('running show sitter home');
 		selfSitter=this
+
+		selfSitter.aec.searchParams={claimed:true,sitterUserName:Parse.User.current().get("username")}
+
+		selfSitter.aec.customFetch()
 		
 
 		this.ic.searchParams={sitterId:Parse.User.current().id,
 							  complete:false
-							}
+							  }
 
 		this.ic.customFetch()
 		window.p=Parse
 		window.n=this.nec
+
 		this.nec.searchParams={listOfSitters:{$in:[Parse.User.current().get("username")]}, claimed:false}
 		this.nec.customFetch()
 
-					console.log(selfSitter.ic);
-					React.render(<SitterHomePage showButtons={false} 
-						showCreateEventButton={false}
-						inviteNotifications={selfSitter.ic}
-						newEventNotifications={this.nec}
-						InvitationHandler={selfSitter.InvitationHandler}
-						newEventHandler={selfSitter.newEventHandler}
-						/>, document.querySelector('#container'))
+		console.log(selfSitter.ic);
+
+		React.render(<SitterHomePage showButtons={false} 
+			showCreateEventButton={false}
+			inviteNotifications={selfSitter.ic}
+			newEventNotifications={this.nec}
+			InvitationHandler={selfSitter.InvitationHandler}
+			newEventHandler={selfSitter.newEventHandler}
+			events={selfSitter.aec}
+			/>, document.querySelector('#container'))
 
 	},
 
 	showMySitters:function(confirm){
 		self=this
-		
-
-	React.render(<MySitters 
-	showButtons={false}
-	sitterModel={self.sm}
-	showConfirm={confirm||false}
-	sendInvitation={self.sendInvitation}
-	mySittersList={self.msc}
-						
-	/>,document.querySelector('#container'))
+		React.render(<MySitters 
+		showButtons={false}
+		sitterModel={self.sm}
+		showConfirm={confirm||false}
+		sendInvitation={self.sendInvitation}
+		mySittersList={self.msc}
+							
+		/>,document.querySelector('#container'))
 
 
 
@@ -241,7 +273,6 @@ var SitterRouter=Backbone.Router.extend({
 	showMyProfile:function(type){
 		console.log("profile")
 		console.log(type)
-
 		React.render(<MyProfile showButtons={false}
 								userType={type}
 								/> , document.querySelector('#container'))
@@ -304,7 +335,7 @@ findSitterByEmail: function(email){
 
 			event.save().then(function(){
 			alert('nice')
-		})
+		}).done(selfParent.showParentHome.bind(selfParent))
 
 
 	},	
@@ -406,7 +437,7 @@ initialize:function(){
 		this.ic=new InvitationCollection();
 		this.msc=new MySittersCollection();
 		this.nec=new NewEventsCollection();
-
+		this.aec=new ApprovedEventsCollection();
 		Backbone.history.start();
 	}
 })
