@@ -8,24 +8,38 @@ let fetch = require('./fetcher'),
 
 var NotificationBox=React.createClass({
 	
-	_createNotification:function(notificationObj){
-		return (<Notification data={notificationObj} 
+
+	_createInviteNotification:function(notificationObj){
+		
+		return (<InviteNotification data={notificationObj.attributes} 
 								key={notificationObj.parentId}
 								InvitationHandler={this.props.InvitationHandler}
 								/>)
 	},
 
-	render:function(){
-		console.log('notifications');
-		console.log(this.props.notifications)
+	_createNewEventNotification:function(notificationObj){
+		return (<NewEventNotification data={notificationObj.attributes} 
+								key={notificationObj.objectId}
+								newEventHandler={this.props.newEventHandler}
+								/>)
+	},
 
-		var notifications=this.props.notifications.models[0].attributes.results
+	render:function(){
+		// console.log('notifications');
+		// console.log(this.props.notifications)
+
+		var inviteNotifications=this.props.inviteNotifications.models,
+			newEventNotifications=this.props.newEventNotifications.models
+
+			console.log(this.props.newEventNotifications)
+
 
 		return(
 			<div id="NotificationBox">
 				<label>Notifications</label>
 				<div id="NBox">
-					{notifications.map(this._createNotification)}
+					{inviteNotifications.map(this._createInviteNotification)}
+					{newEventNotifications.map(this._createNewEventNotification)}
 				</div>
 			</div>
 			)
@@ -34,7 +48,7 @@ var NotificationBox=React.createClass({
 
 
 
-var Notification=React.createClass({
+var InviteNotification=React.createClass({
 
 	_confirm:function(){
 		this.props.InvitationHandler(this.props.data.objectId,"confirm")
@@ -47,10 +61,35 @@ var Notification=React.createClass({
 	},
 
 	render:function(){
-	
+		console.log(this.props.data)
 		return(
 			<div>
 				<p>{this.props.data.from} added you as a sitter</p>
+				<button onClick={this._deny}>{"\u2715"}</button>
+				<button onClick={this._confirm}>{"\u2713"}</button>
+				
+			</div>
+			)
+	}
+})
+
+var NewEventNotification=React.createClass({
+
+	_confirm:function(){
+		this.props.newEventHandler(this.props.data.objectId,"confirm")
+		
+		
+	},
+
+	_deny:function(){
+		this.props.newEventHandler(this.props.data.objectId,"deny")
+	},
+
+	render:function(){
+		console.log(this.props.data)
+		return(
+			<div>
+				<p>{this.props.data.parentUserName} posted an event on {this.props.data.date} at {this.props.data.time}</p>
 				<button onClick={this._deny}>{"\u2715"}</button>
 				<button onClick={this._confirm}>{"\u2713"}</button>
 				

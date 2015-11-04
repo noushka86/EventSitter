@@ -9,6 +9,7 @@ let fetch = require('./fetcher'),
 
 console.log("jS loaded")
 var self, selfSitter, selfParent;
+var MYSITTERS;
 
 var APP_ID = 'wXCq4PN1u7OGDCjyS4xkWMwTvIMlN8dfJKGkA4DE',
 	JS_KEY = 'u3F2jXFkB1WZX44vRiGX7roenlOY8CadeGp4uzwi',
@@ -65,10 +66,10 @@ var InvitationCollection=Backbone.Collection.extend({
 		})
 	},
 
-	// parse: function(response){
-	// 	console.log(response)
-	// 	return response.results
-	// }
+	parse: function(response){
+		console.log(response)
+		return response.results
+	}
 
 })
 
@@ -96,7 +97,7 @@ var MySittersCollection=Backbone.Collection.extend({
 
 })
 
-var EventsCollection=Backbone.Collection.extend({
+var NewEventsCollection=Backbone.Collection.extend({
 
 	url:function(){
 		return "https://api.parse.com/1/classes/Event/?where=" + JSON.stringify(this.searchParams)
@@ -113,10 +114,10 @@ var EventsCollection=Backbone.Collection.extend({
 		})
 	},
 
-	// parse: function(response){
-	// 	console.log(response)
-	// 	return response.results
-	// }
+	parse: function(response){
+		console.log(response)
+		return response.results
+	}
 
 })
 
@@ -152,6 +153,7 @@ var SitterRouter=Backbone.Router.extend({
 		'parent/home':'showParentHome',
 		'sitter/home':'showSitterHome',
 		'MySitters':'showMySitters',
+		
 		'parent/sitterSearch/:email':'findSitterByEmail',
 		':type/myProfile':'showMyProfile'
 	},
@@ -176,18 +178,21 @@ var SitterRouter=Backbone.Router.extend({
 	},
 
 	showParentHome:function(){
+
+
 		selfParent=this
 		
+		selfParent.fetchMySitters();
 
 		React.render(<ParentHomePage showButtons={false} 
 									showCreateEventButton={true}
-									// createEvent={selfParent.createEvent}
 									sendEventDetails={selfParent.createEvent}
 
 									/>,document.querySelector('#container'))
 	},
 
 	showSitterHome:function(){
+
 		console.log('running show sitter home');
 		selfSitter=this
 		
@@ -196,55 +201,42 @@ var SitterRouter=Backbone.Router.extend({
 							  complete:false
 							}
 
-		this.ic.customFetch().done(function(){	
+		this.ic.customFetch()
+		window.p=Parse
+		window.n=this.nec
+		this.nec.searchParams={listOfSitters:{$in:[Parse.User.current().get("username")]}, claimed:false}
+		this.nec.customFetch()
+
 					console.log(selfSitter.ic);
 					React.render(<SitterHomePage showButtons={false} 
 						showCreateEventButton={false}
-						notifications={selfSitter.ic}
+						inviteNotifications={selfSitter.ic}
+						newEventNotifications={this.nec}
 						InvitationHandler={selfSitter.InvitationHandler}
+						newEventHandler={selfSitter.newEventHandler}
 						/>, document.querySelector('#container'))
-
-		})
-
-		// var q=new Parse.Query("Invitation")
-		// q.equalTo("parentId",Parse.User.current().id)
-		// q.find(function(results){
-		// 	console.log(results);
-		// })
-		
-
-		// this.ec.searchParams={
-
-		// }
-		// this.ec.customSetch().done(function(){
-		// 	// React.render(<EventsBox />)
-
-		// 	console.log(selfSitter.ec)
-		// })
 
 	},
 
 	showMySitters:function(confirm){
 		self=this
-		this.msc.searchParams={complete:true,
-								parentId:Parse.User.current().id
-							}
+		
 
-
-		this.msc.customFetch().done(function(){
-
-						React.render(<MySitters 
-						showButtons={false}
-						sitterModel={self.sm}
-						showConfirm={confirm||false}
-						sendInvitation={self.sendInvitation}
-						mySittersList={self.msc}
+	React.render(<MySitters 
+	showButtons={false}
+	sitterModel={self.sm}
+	showConfirm={confirm||false}
+	sendInvitation={self.sendInvitation}
+	mySittersList={self.msc}
 						
-						/>,
-						 document.querySelector('#container'))
-	})
+	/>,document.querySelector('#container'))
+
+
 
 	},
+
+
+	
 
 	showMyProfile:function(type){
 		console.log("profile")
@@ -301,13 +293,15 @@ findSitterByEmail: function(email){
 	},
 
 	createEvent:function(eventObj){
+
 		var event=new Parse.Object('Event')
-			event.set("parentId",Parse.User.current().id)
-			event.set("sitterId",null)
+			event.set("parentUserName",Parse.User.current().get("username"))
 			event.set("title",eventObj["title"])
 			event.set('date',eventObj["date"])
 			event.set('time',eventObj["time"])
-			event.set('claimed', null)
+			event.set('listOfSitters',MYSITTERS)
+			event.set('claimed',false)
+
 			event.save().then(function(){
 			alert('nice')
 		})
@@ -334,8 +328,9 @@ sendInvitation:function(sitterId,sitterUsername,parentId){
 		console.log(this)
 		if(action==='confirm'){
 			var q=new Parse.Query("Invitation")
-			q.equalTo('objectId',ObjectId) // where targetId is the one you want to grab
+			q.equalTo('objectId',ObjectId) // where targetId is the one you want 
 			q.find().then(function(results){
+				console.log(results[0])
 				var invite = results[0]
 				invite.set('complete',true)
 				invite.save()
@@ -359,11 +354,58 @@ sendInvitation:function(sitterId,sitterUsername,parentId){
 	},
 
 
+	newEventHandler:function(ObjectId,action){
+		console.log(ObjectId)
+		if(action==='confirm'){
+			var q=new Parse.Query("Event")
+			q.equalTo('objectId',ObjectId) // where targetId is the one you want 
+			q.find().then(function(results){
+				var event = results[0]
+				window.e=event
+				event.set('claimed',true)
+				event.set('sitterUserName',Parse.User.current().get("username"))
+				event.save()
+	}).done(function(){alert("You have claimed this event")}).done(selfSitter.showSitterHome.bind(selfSitter))
+
+		}
+
+		else{
+			var q=new Parse.Query("Event")
+			q.equalTo('objectId',ObjectId)
+			q.find().then(function(results){
+				var event = results[0]
+				event.remove('listOfSitters',Parse.User.current().get("username"))
+				event.save()
+				
+	}).done(function(){alert("The request has been denied")}).done(selfSitter.showSitterHome.bind(selfSitter))
+		}
+
+	},
+
+fetchMySitters:function(){
+	var self=this;
+	this.msc.searchParams={complete:true,
+							parentId:Parse.User.current().id
+							}
+
+
+		this.msc.customFetch().done(function(){
+		var sitters=self.msc.models[0].attributes.results
+			MYSITTERS=sitters.map(function(sitter){
+				return sitter["to"]
+						
+					})
+		})
+
+	},
+
+
+
 initialize:function(){
 		this.sm=new SitterModel();
 		this.ic=new InvitationCollection();
 		this.msc=new MySittersCollection();
-		this.ec=new EventsCollection();
+		this.nec=new NewEventsCollection();
 
 		Backbone.history.start();
 	}

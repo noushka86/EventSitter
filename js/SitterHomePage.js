@@ -12,14 +12,29 @@ import {NotificationBox} from "./NotificationBox.js"
 
 
 var SitterHomePage=React.createClass({
+
+
+	componentDidMount: function(){
+		var self = this
+		this.props.inviteNotifications.on('change update', function(){
+			self.forceUpdate()
+		})
+		this.props.newEventNotifications.on('change update', function(){
+			self.forceUpdate()
+		})
+
+	},
+
 	render:function(){
 		var userType="sitter"
 		return(
 			<div>
 				<UpperPanel showButtons={this.props.showButtons}/>
 				<Menu userType={userType}/>
-				<InfoBox notifications={this.props.notifications}
+				<InfoBox inviteNotifications={this.props.inviteNotifications}
+							newEventNotifications={this.props.newEventNotifications}
 							InvitationHandler={this.props.InvitationHandler}
+							newEventHandler={this.props.newEventHandler}
 						/>
 			</div>
 			)
@@ -32,8 +47,10 @@ var InfoBox=React.createClass({
 		return(
 			<div id="InfoBox">
 				<EventsBox/>
-				<NotificationBox notifications={this.props.notifications}
+				<NotificationBox inviteNotifications={this.props.inviteNotifications}
+									newEventNotifications={this.props.newEventNotifications}
 									InvitationHandler={this.props.InvitationHandler}
+									newEventHandler={this.props.newEventHandler}
 				/>
 			</div>
 			)
