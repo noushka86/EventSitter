@@ -73,31 +73,8 @@ var InvitationCollection=Backbone.Collection.extend({
 
 })
 
-var MySittersCollection=Backbone.Collection.extend({
 
-	url:function(){
-		return "https://api.parse.com/1/classes/Invitation/?where=" + JSON.stringify(this.searchParams)
-	},
-
-	parseHeaders: {
-		"X-Parse-Application-Id": APP_ID,
-		"X-Parse-REST-API-Key": REST_API_KEY
-	},
-
-	customFetch: function(){
-		return this.fetch({
-			headers: this.parseHeaders
-		})
-	},
-
-	// parse: function(response){
-	// 	console.log(response)
-	// 	return response.results
-	// }
-
-})
-
-var NewEventsCollection=Backbone.Collection.extend({
+var EventsCollection=Backbone.Collection.extend({
 
 	url:function(){
 		return "https://api.parse.com/1/classes/Event/?where=" + JSON.stringify(this.searchParams)
@@ -121,27 +98,6 @@ var NewEventsCollection=Backbone.Collection.extend({
 
 })
 
-var ApprovedEventsCollection=Backbone.Collection.extend({
-	url:function(){
-		return "https://api.parse.com/1/classes/Event/?where=" + JSON.stringify(this.searchParams)
-	},
-
-	parseHeaders: {
-		"X-Parse-Application-Id": APP_ID,
-		"X-Parse-REST-API-Key": REST_API_KEY
-	},
-
-	customFetch: function(){
-		return this.fetch({
-			headers: this.parseHeaders
-		})
-	},
-
-	parse: function(response){
-		console.log(response)
-		return response.results
-	}
-})
 
 
 var ProfileModel=Backbone.Model.extend({
@@ -435,9 +391,9 @@ fetchMySitters:function(){
 initialize:function(){
 		this.sm=new SitterModel();
 		this.ic=new InvitationCollection();
-		this.msc=new MySittersCollection();
-		this.nec=new NewEventsCollection();
-		this.aec=new ApprovedEventsCollection();
+		this.msc=new InvitationCollection();
+		this.nec=new EventsCollection();
+		this.aec=new EventsCollection();
 		Backbone.history.start();
 	}
 })
