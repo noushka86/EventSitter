@@ -129,7 +129,9 @@ var SitterConfirm=React.createClass({
         borderTop: 'none',
         margin:'10px',
 
-		}
+		},
+		OKbuttonStyle={display:'none'}
+
 
 
 		if(this.props.show===true){
@@ -152,7 +154,21 @@ var SitterConfirm=React.createClass({
 
 			if(typeof this.props.sitterModel.attributes.results[0] ==='undefined'){
 			message=errMessage;
-		}
+			buttonsStyleObj={display:'none'}
+			OKbuttonStyle={fontFamily: 'helvetica',
+							width:'60px',
+					        fontWeight:'200',
+					        backgroundColor: '#9b59b6',
+					        borderRadius: '20px',
+					        fontFamily: 'helvetica',
+					        color: '#ecf0f1',
+					        borderBottom: 'none',
+					        borderLeft: 'none',
+					        borderRight: 'none',
+					        borderTop: 'none',
+					        margin:'10px',}
+
+						}
 
 			else{
 				email=this.props.sitterModel.attributes.results[0].email
@@ -165,10 +181,10 @@ var SitterConfirm=React.createClass({
 		}
 		return(
 			<div style={popUpStyleObj}>
-				 <p>{message}</p>
-				 <button style={buttonsStyleObj} onClick={this._clickHandler} value="Yes">Yes</button>
-				 <button style={buttonsStyleObj} onClick={this._clickHandler} value="No">No</button>
-				
+				<p>{message}</p>
+				<button style={buttonsStyleObj} onClick={this._clickHandler} value="Yes">Yes</button>
+				<button style={buttonsStyleObj} onClick={this._clickHandler} value="No">No</button>
+				<button style={OKbuttonStyle} onClick={this._clickHandler} value="No">OK</button>
 
 			</div>
 			)

@@ -175,7 +175,6 @@ var SitterRouter=Backbone.Router.extend({
 		'parent/home':'showParentHome',
 		'sitter/home':'showSitterHome',
 		'MySitters':'showMySitters',
-		
 		'parent/sitterSearch/:email':'findSitterByEmail',
 		':type/myProfile':'showMyProfile'
 	},
@@ -313,6 +312,7 @@ var SitterRouter=Backbone.Router.extend({
 findSitterByEmail: function(email){
 		
 		window.s=this.sm
+		this.sm.clear()
 		var modelParams={email:email}
 		this.sm.set(modelParams)
 		var self=this
@@ -335,7 +335,7 @@ findSitterByEmail: function(email){
 
 			event.save().then(function(){
 			alert('nice')
-		}).done(selfParent.showParentHome.bind(selfParent))
+		})
 
 
 	},	
