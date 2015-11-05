@@ -10,6 +10,14 @@ import {Menu} from "./Menu.js"
 
 
 var MySitters=React.createClass({
+
+	componentDidMount:function(){
+		var self = this
+		this.props.mySittersList.on('change update', function(){
+			self.forceUpdate()
+		})
+	},
+
 	render:function(){
 		// console.log(this)
 		var userType="parent";
@@ -67,14 +75,14 @@ _getSitterInfo:function(event){
 var ListOfSitters=React.createClass({
 	
 	_createSitter:function(sitterObj){
-		return (<Sitter data={sitterObj}
-						key={sitterObj.sitterId}/>)
+		return (<Sitter data={sitterObj.attributes}
+						key={sitterObj.attributes.sitterId}/>)
 	},
 
 	render:function(){
 		console.log('my sitters')
-		console.log(this.props.mySittersList.models[0].attributes.results)
-		var sittersList=this.props.mySittersList.models[0].attributes.results
+		// console.log(this.props.mySittersList.models[0].attributes.results)
+		var sittersList=this.props.mySittersList.models
 
 		return(
 			<div id="ListOfSitters">

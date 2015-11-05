@@ -36,7 +36,7 @@ var EventsBox=React.createClass({
 	render:function(){
 
 		var events=this.props.events.models
-		console.log(events)
+		console.log(events,"EVENTS")
 		var styleObj={}
 		if(!this.props.showCreateEventButton){
 			styleObj={
@@ -55,7 +55,9 @@ var EventsBox=React.createClass({
 							/>
 
 				<div id="EBox">
+					{console.log(events,"EVENTS")}
 					{events.map(this._createEvent)}
+					
 				</div>
 			</div>
 			)

@@ -209,6 +209,7 @@ var SitterRouter=Backbone.Router.extend({
 
 	showMySitters:function(confirm){
 		self=this
+		self.fetchMySitters()
 		React.render(<MySitters 
 		showButtons={false}
 		sitterModel={self.sm}
@@ -377,9 +378,10 @@ fetchMySitters:function(){
 
 
 		this.msc.customFetch().done(function(){
-		var sitters=self.msc.models[0].attributes.results
+		var sitters=self.msc.models
+		console.log(sitters,'sitters')
 			MYSITTERS=sitters.map(function(sitter){
-				return sitter["to"]
+				return sitter.attributes["to"]
 						
 					})
 		})
@@ -394,6 +396,7 @@ initialize:function(){
 		this.msc=new InvitationCollection();
 		this.nec=new EventsCollection();
 		this.aec=new EventsCollection();
+
 		Backbone.history.start();
 	}
 })
