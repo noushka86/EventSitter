@@ -18,6 +18,8 @@ var APP_ID = 'wXCq4PN1u7OGDCjyS4xkWMwTvIMlN8dfJKGkA4DE',
 
 Parse.initialize(APP_ID,JS_KEY)
 
+window.Parse = Parse
+
 import {LandingPage} from "./LandingPage.js"
 import {FormPage} from "./FormPage.js"
 import {ParentHomePage} from "./ParentHomePage.js"
@@ -60,14 +62,22 @@ var InvitationCollection=Backbone.Collection.extend({
 		"X-Parse-REST-API-Key": REST_API_KEY
 	},
 
-	customFetch: function(){
+	customFetch: function(data){
+		if (data) {
+			return this.fetch({
+				headers: this.parseHeaders,
+				data: data
+			})
+		}
+
 		return this.fetch({
-			headers: this.parseHeaders
+			headers: this.parseHeaders,
 		})
 	},
 
 	parse: function(response){
 		console.log(response)
+		window.invitationResponse = response
 		return response.results
 	}
 
@@ -210,6 +220,7 @@ var SitterRouter=Backbone.Router.extend({
 	showMySitters:function(confirm){
 		self=this
 		self.fetchMySitters()
+
 		React.render(<MySitters 
 		showButtons={false}
 		sitterModel={self.sm}
@@ -280,7 +291,7 @@ findSitterByEmail: function(email){
 
 	},
 
-	createEvent:function(eventObj){
+createEvent:function(eventObj){
 
 		var event=new Parse.Object('Event')
 			event.set("parentUserName",Parse.User.current().get("username"))
@@ -321,6 +332,8 @@ sendInvitation:function(sitterId,sitterUsername,parentId){
 				console.log(results[0])
 				var invite = results[0]
 				invite.set('complete',true)
+				console.log('get skittle')
+				invite.set('skittle', Parse.User.current())
 				invite.save()
 	}).done(function(){alert("The request has been confirmed")}).done(selfSitter.showSitterHome.bind(selfSitter))
 
@@ -377,7 +390,7 @@ fetchMySitters:function(){
 							}
 
 
-		this.msc.customFetch().done(function(){
+		this.msc.customFetch({include: 'sitter'}).done(function(){
 		var sitters=self.msc.models
 		console.log(sitters,'sitters')
 			MYSITTERS=sitters.map(function(sitter){

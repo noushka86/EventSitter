@@ -54,12 +54,17 @@ var EventsBox=React.createClass({
 							sendEventDetails={this.props.sendEventDetails}
 							/>
 
-				<div id="EBox">
-					{console.log(events,"EVENTS")}
-					{events.map(this._createEvent)}
-					
+			<div id="EBox">
+				<div id="Event">
+					<p className="header">Event Name</p> 
+					<p className="header">Sitter</p> 
+					<p className="header">Date</p>
+					<p className="header">Time</p>
+				</div>
+						{events.map(this._createEvent)}
 				</div>
 			</div>
+			
 			)
 	}
 })
@@ -167,7 +172,10 @@ var Event=React.createClass({
 
 		return(
 			<div id="Event">
-			<p>{title} | {message} | {this.props.data.date} at {this.props.data.time}</p>
+			<p>{title}</p>
+			<p>{message}</p>
+			<p>{this.props.data.date}</p>
+			<p>{this.props.data.time}</p>
 			</div>
 			)
 	}

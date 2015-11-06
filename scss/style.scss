@@ -20,6 +20,8 @@
  * GRIDS
  */
 
+
+
 .grid {
     display: flex;
     flex-direction: row;
@@ -70,9 +72,9 @@ img {
     max-width: 100%;
 }
 
+ $purple:#9b59b6;
 
 #UpperPanel{
-    max-width:100%;
     border-bottom: 1px solid #dedfdf;
 
 img{
@@ -206,10 +208,11 @@ h3{
         display: inline-block;
         padding:10px;
         text-decoration: none;
-        color:#9b59b6;
+        color: $purple;
         cursor:pointer;
         font-family: helvetica;
         font-weight: 200;
+
     }
 
 
@@ -226,17 +229,23 @@ h3{
     border-top:1px solid #dedfdf;
 
     #EventsBox{
-       display: inline-block;
-       text-align: center;
-       padding-top: 30px;
+        display: inline-block;
+        text-align: center;
+        padding-top: 30px;
+        margin-left: 170px;
+        min-width: 50%;
+
+
 
        label{
         color:#9b59b6;
         font-family: helvetica;
         font-weight: 200;
+        text-align: center;
         }
 
         #newEvent{
+        box-shadow:2px 2px 2px 2px #999;
         background-color: #9b59b6;
         height: 30px;
         width:30px;
@@ -273,6 +282,7 @@ h3{
             display: inline-block;
             margin-left: 10px;
 
+
             }
         }
 
@@ -291,17 +301,34 @@ h3{
                 min-width: 400px;
                 border: 2px solid #9b59b6;
                 margin-top: 20px;
-                margin-left: 170px;
                 border-radius: 20px;
                 background-color: white;
+                box-shadow:4px 4px 4px 4px #999;
+                font-size: 16px;
+                display: flex;
+                flex-direction:column;
+                padding:15px;
+
+
+
 
                 #Event{
+                    flex:1;
+                    display: flex;
                    
                     p{
+                        flex:1;
+                        margin:0;
                         display:inline-block;
                         font-family: helvetica;
                         font-weight: 200;
+                        text-align: left;
                     }
+
+                    .header{
+                    font-weight: bold;
+                    color:$purple;
+                }
 
                 }
 
@@ -365,11 +392,12 @@ h3{
     padding-top: 30px;
 
 
+
     #ListOfSitters{
         text-align: center;
-        display: inline-block;
         text-align: center;
-        margin-left: 170px;
+        margin:0 auto;
+        max-width: 600px;
 
 
 
@@ -379,11 +407,14 @@ h3{
             font-family: helvetica;
             font-weight: 200;
 
+
         }
 
         #ListBox{
+            display: flex;
+            flex-direction:column;
+            padding:10px;
             margin-top: 20px;
-            width: 200px;
             min-height: 60px;
             border: 2px solid #9b59b6;
             border-radius: 20px;
@@ -391,25 +422,45 @@ h3{
             text-align: left;
             overflow: auto;
             vertical-align: top;
+            box-shadow:5px 5px 5px 5px #999;
+            
+            
+          
 
+           #Sitter{
+            flex:1;
+            display: flex;
             p{
+                flex:1;
                 font-family: helvetica;
                 font-weight: 200;
-                text-indent: 4px; 
+                text-indent: 4px;
+                font-size: 16px;
+                display: inline-block;
+                margin: 0 auto;
+
+
 
             }
+            .header{
+                font-weight: bold;
+                color:#9b59b6;
+
+            }
+        }
 
         }
        
     }
 
     #AddSitter{
+    margin: 0 auto;
     text-align: center;
-    padding-left: 260px;
-    display: inline-block;
     overflow: auto;
     vertical-align: top;
-    padding-top: 0px;
+    max-width: 300px;
+    margin-top: 40px;
+    padding-bottom:15px; 
 
 
     label{
@@ -419,11 +470,19 @@ h3{
         }
 
     input{
+        margin: 0 auto;
         display: block;
         margin-top: 15px;
         font-family: helvetica;
         font-weight: 200;
+        border:2px solid $purple;
+        box-shadow:5px 5px 5px 5px #999;
+        outline: none;
+
+
         }
+
+
 
     
     }
@@ -431,6 +490,15 @@ h3{
 
 }
 
+.search {
+    padding:6px 15px 6px 30px;
+}
+
+.rounded{
+    border-radius:15px; 
+    -moz-border-radius:15px; 
+    -webkit-border-radius:15px; 
+}
 
 #ProfileForm{
     margin:0 auto;

@@ -42,6 +42,7 @@ var FormPage=React.createClass({
 var Form = React.createClass({
 
 	componentDidMount:function(){
+
 			this.userInput={
 				username:null,
 				email:null,
@@ -100,7 +101,7 @@ var Form = React.createClass({
 				<div id="Form">
 					<input onBlur={this._validateInput} name="username" type="text" placeholder="User Name"/>
 					<input onBlur={this._validateInput} name="email" type="text" placeholder="Email"/>
-    				<input onBlur={this._validateInput} name="password" type="text" placeholder="Password"/>
+    				<input onBlur={this._validateInput} name="password" type="password" placeholder="Password"/>
 					<button onClick={this._checkValidInput} value="signUp" style={styleObjSignup}>SIGN UP</button>
 					<button onClick={this._checkValidInput} value="logIn" style={styleObjLogin}>LOG IN</button> 	
 
@@ -111,6 +112,8 @@ var Form = React.createClass({
 
 })
 
+
+// <input onBlur={this._validateInput} name="phone" type="text" placeholder="phone"/>
 
 
 export {FormPage}

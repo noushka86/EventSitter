@@ -16,6 +16,7 @@ var MySitters=React.createClass({
 		this.props.mySittersList.on('change update', function(){
 			self.forceUpdate()
 		})
+		console.log("My Sitters List",this.props.mySittersList)
 	},
 
 	render:function(){
@@ -65,7 +66,8 @@ _getSitterInfo:function(event){
 		return(
 			<div id="AddSitter">
 				<label>Add New Sitter</label>
-				<input onKeyPress={this._getSitterInfo} type="text" placeholder="add sitter by email"/>
+				<input className="search rounded" onKeyPress={this._getSitterInfo}
+				 type="text" placeholder="add sitter by email"></input>
 
 			</div>
 			)
@@ -88,8 +90,13 @@ var ListOfSitters=React.createClass({
 			<div id="ListOfSitters">
 				<label>My Sitters</label>
 				<div id="ListBox">
-					{sittersList.map(this._createSitter)}
-				</div>
+					<div id="Sitter">
+						<p className="header">Username</p> 
+						<p className="header">Email</p> 
+						<p className="header">Phone</p>
+					</div>
+						{sittersList.map(this._createSitter)}
+					</div>
 			</div>
 			)
 	}
@@ -202,9 +209,15 @@ var SitterConfirm=React.createClass({
 
 var Sitter=React.createClass({
 	render:function(){
-		console.log(this.props.data.to)
+		console.log('XXXXXXXXXXXXXXXXXX')
+		console.log(this.props.data)
+		window.s=this.props.data
 		return(
+			<div id="Sitter">
 			<p>{this.props.data.to}</p>
+			<p>{this.props.data.sitter.email}</p>
+			<p> {this.props.data.sitter.phone}</p>
+			</div>
 			)
 	}
 })
