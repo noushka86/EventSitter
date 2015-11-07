@@ -127,7 +127,8 @@ var SitterConfirm=React.createClass({
 		// console.log(this.props.sitterModel.attributes)
 		// console.log("xxx")
 		var popUpStyleObj={},
-		email="",
+		fName="",
+		lName="",
 		errMessage="email not found",
 		message="",
 		buttonsStyleObj={
@@ -186,8 +187,9 @@ var SitterConfirm=React.createClass({
 						}
 
 			else{
-				email=this.props.sitterModel.attributes.results[0].email
-				message="are you sure you want to add "+email+" to your sitters?"
+				fName=this.props.sitterModel.attributes.results[0].firstName
+				lName=this.props.sitterModel.attributes.results[0].lastName
+				message="are you sure you want to add "+fName+" "+lName+" to your sitters?"
 			}
 		}
 

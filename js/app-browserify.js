@@ -332,10 +332,9 @@ sendInvitation:function(sitterId,sitterUsername,parentId){
 				console.log(results[0])
 				var invite = results[0]
 				invite.set('complete',true)
-				console.log('get skittle')
-				invite.set('skittle', Parse.User.current())
+				invite.set('sitter', Parse.User.current())
 				invite.save()
-	}).done(function(){alert("The request has been confirmed")}).done(selfSitter.showSitterHome.bind(selfSitter))
+	}).done(selfSitter.showSitterHome.bind(selfSitter))
 
 		}
 
