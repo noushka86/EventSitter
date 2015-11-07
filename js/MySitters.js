@@ -67,7 +67,7 @@ _getSitterInfo:function(event){
 			<div id="AddSitter">
 				<label>Add New Sitter</label>
 				<input className="search rounded" onKeyPress={this._getSitterInfo}
-				 type="text" placeholder="add sitter by email"></input>
+				 type="text" placeholder="Invite New Sitter to My Group"></input>
 
 			</div>
 			)

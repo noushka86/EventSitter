@@ -9,12 +9,17 @@ import {UpperPanel} from "./UpperPanel.js"
 import {Menu} from "./Menu.js"
 import {EventsBox} from "./EventsBox.js"
 import {NotificationBox} from "./NotificationBox.js"
+import {PrntNotificationBox} from "./PrntNotificationBox.js"
 
 var ParentHomePage=React.createClass({
 
 	componentDidMount:function(){
 		var self = this
 		this.props.events.on('change update', function(){
+			self.forceUpdate()
+		})
+
+		this.props.approvedInvitationBySitter.on('change update', function(){
 			self.forceUpdate()
 		})
 	},
@@ -28,6 +33,8 @@ var ParentHomePage=React.createClass({
 				<InfoBox showCreateEventButton={this.props.showCreateEventButton}
 							events={this.props.events}
 							sendEventDetails={this.props.sendEventDetails}
+							approvedInvitationBySitter={this.props.approvedInvitationBySitter}
+							seenByParent={this.props.seenByParent}
 
 					/>
 			</div>
@@ -44,6 +51,10 @@ var InfoBox=React.createClass({
 							events={this.props.events}
 							userType={'parent'}
 							/>
+
+				<PrntNotificationBox approvedInvitationBySitter={this.props.approvedInvitationBySitter}
+										seenByParent={this.props.seenByParent}
+				/>
 
 			</div>
 			)

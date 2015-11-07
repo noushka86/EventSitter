@@ -276,8 +276,11 @@ h3{
       
 
         #EventForm{
-            p{
+
+            
+            #CreateEvent{
                 color: white;
+                font-weight: bold;
             }
 
             button{
@@ -301,12 +304,23 @@ h3{
 
           #EventForm >* {
             display: block;
-            margin: 0 auto ;
             margin-bottom: 20px;
 
                 }
         
+            .item{
+                display: inline-block;
+                text-align: left;
 
+                label{
+                    margin-right:20px; 
+                }
+
+                input{
+                    margin-right: 10px;
+                }
+
+            }
 
 
 
@@ -495,6 +509,12 @@ h3{
 
 
         }
+
+        ::-webkit-input-placeholder {
+            font-size:14.5px;
+        }
+
+        
 
 
 

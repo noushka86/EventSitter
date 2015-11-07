@@ -176,10 +176,17 @@ var SitterRouter=Backbone.Router.extend({
 		
 		selfParent.fetchMySitters();
 
+
+		selfParent.aic.searchParams={complete:true, seenByParent:false,
+										from:Parse.User.current().get("username")}
+		selfParent.aic.customFetch();
+
 		React.render(<ParentHomePage showButtons={false} 
 									showCreateEventButton={true}
 									sendEventDetails={selfParent.createEvent}
 									events={selfParent.aec}
+									approvedInvitationBySitter={this.aic}
+									seenByParent={this.seenByParent}
 									/>,document.querySelector('#container'))
 	},
 
@@ -316,6 +323,7 @@ sendInvitation:function(sitterId,sitterUsername,parentId){
 		invitation.set("from",Parse.User.current().get('username'))
 		invitation.set("to",sitterUsername)
 		invitation.set("complete",false)
+		invitation.set("seenByParent",false)
 		invitation.save().then(function(){
 			alert('nice')
 		})
@@ -382,6 +390,17 @@ sendInvitation:function(sitterId,sitterUsername,parentId){
 
 	},
 
+	seenByParent:function(objectId){
+		var q=new Parse.Query('Invitation')
+		q.equalTo('objectId',objectId)
+		q.find().then(function(results){
+			var invitation=results[0]
+			invitation.set('seenByParent',true)
+			invitation.save()
+		}).done(selfParent.showParentHome.bind(selfParent))
+		
+	},
+
 fetchMySitters:function(){
 	var self=this;
 	this.msc.searchParams={complete:true,
@@ -408,6 +427,7 @@ initialize:function(){
 		this.msc=new InvitationCollection();
 		this.nec=new EventsCollection();
 		this.aec=new EventsCollection();
+		this.aic=new InvitationCollection();
 
 		Backbone.history.start();
 	}

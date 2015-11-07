@@ -37,12 +37,24 @@ var EventsBox=React.createClass({
 
 		var events=this.props.events.models
 		console.log(events,"EVENTS")
-		var styleObj={}
+		var styleObj={},
+			userHeader="",
+			eventNameStyleObj={}
+
 		if(!this.props.showCreateEventButton){
 			styleObj={
 				display:'none'
 			}
+			userHeader="Parent"
+			eventNameStyleObj={display:'none'}
 		}
+
+		else{
+			userHeader="Sitter"
+
+		}
+
+
 		return(
 			<div id="EventsBox">
 				<label>Upcoming Events</label>
@@ -56,8 +68,8 @@ var EventsBox=React.createClass({
 
 			<div id="EBox">
 				<div id="Event">
-					<p className="header">Event Name</p> 
-					<p className="header">Sitter</p> 
+					<p style={eventNameStyleObj} className="header">Event Name</p> 
+					<p className="header">{userHeader}</p> 
 					<p className="header">Date</p>
 					<p className="header">Time</p>
 				</div>
@@ -75,7 +87,8 @@ var EventForm=React.createClass({
 			this.eventDetails={
 				title:null,
 				date:null,
-				time:null
+				startTime:null,
+				endTime:null
 			}
 		},
 
@@ -129,7 +142,7 @@ var EventForm=React.createClass({
 				border:'2px solid #9b59b6',
 				borderRadius:'20px',
 				left: '50%',
-                top: '30%',
+                top: '50%',
                 transform: "translate(-50%,-50%)",
                 'backgroundColor':'#AEA8D3',
                 textAlign:'center',
@@ -138,14 +151,27 @@ var EventForm=React.createClass({
                 boxShadow:'4px 4px 4px 4px #999',
                 padding:'20px',
 
+
 			}
 		}
 		return(
 			<div id="EventForm" style={styleObj}>
-				<p>Create New Event</p>
-				<input ref="titleInput" onBlur={this._validateInput} name="title" type="text" placeholder="Title"/>
-				<input ref="dateInput" onBlur={this._validateInput} name="date" type="date" placeholder="date"/>
-				<input ref="timeInput" onBlur={this._validateInput} name="time" type="time" placeholder="time"/>
+				<p id="CreateEvent">Create New Event</p>
+				<div className="item">
+					<label>Title </label>
+					<input ref="titleInput" onBlur={this._validateInput} name="title" type="text" placeholder="Title"/>
+				</div>
+				<div className="item">
+					<label>Date</label>
+					<input ref="dateInput" onBlur={this._validateInput} name="date" type="date" placeholder="date"/>
+				</div>
+				<div className="item">
+					<label>Start</label>
+					<input ref="timeInputStart" onBlur={this._validateInput} name="startTime" type="time" placeholder="time"/>
+				
+					<label>End</label>
+					<input ref="timeInputEnd" onBlur={this._validateInput} name="endTime" type="time" placeholder="time"/>
+				</div>
 				<button onClick={this._checkValidInput} >Submit Event</button>
 				<button onClick={this._cancel}>Cancel</button>
 			</div>
@@ -159,20 +185,22 @@ var Event=React.createClass({
 	render:function(){
 		console.log(this.props.userType)
 
-		var message,title=""
+		var message,title="", styleObj={}
 		if(this.props.userType==='parent')
 		{
 			message=this.props.data.sitterUserName
 			title=this.props.data.title
+
 		}
 
 		else{
 			message=this.props.data.parentUserName
+			styleObj={display:'none'}
 		}
 
 		return(
 			<div id="Event">
-			<p>{title}</p>
+			<p style={styleObj}>{title}</p>
 			<p>{message}</p>
 			<p>{this.props.data.date}</p>
 			<p>{this.props.data.time}</p>
