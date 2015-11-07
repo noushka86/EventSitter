@@ -37,7 +37,8 @@ var UpperPanel=React.createClass({
 		        borderLeft: 'none',
 		        borderRight: 'none',
 		        borderTop: 'none',
-		        boxShadow:'2px 2px 2px 2px #999'
+		        boxShadow:'2px 2px 2px 2px #999',
+		        outline:'none'
 
 
 

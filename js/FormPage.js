@@ -11,7 +11,7 @@ var FormPage=React.createClass({
 
 	getInitialState: function(){
 		return {
-			formType: "signUp"
+			formType: "logIn"
 		}
 	},
 
@@ -33,6 +33,8 @@ var FormPage=React.createClass({
 					formType = {this.state.formType}
 					userType={this.props.userType}
 				/>
+
+
 				
 			</div>
 			)
@@ -43,32 +45,68 @@ var Form = React.createClass({
 
 	componentDidMount:function(){
 
-			this.userInput={
+			this.userInputLogin={
 				username:null,
-				email:null,
 				password:null,
 				type:this.props.userType
 			}
+
+			this.userInputSignup={
+				username:null,
+				email:null,
+				password:null,
+				firstName:null,
+				lastName:null,
+				phone:null,
+				address:null,
+				type:this.props.userType
+			}
+
 		},
 
 		_checkValidInput:function(e){
-					for(var prop in this.userInput){
-						if(this.userInput[prop]===null)
+
+			if(e.target.value==='logIn'){
+					for(var prop in this.userInputLogin){
+						if(this.userInputLogin[prop]===null)
 						{
 							alert('missing fields')
 							return
 						}
 					}
-					console.log(this.props)
-					this.props.sendUserInfo(this.userInput,e.target.value)
+				this.props.sendUserInfo(this.userInputLogin,e.target.value)
+
+			}
+
+			else{
+				for(var prop in this.userInputSignup){
+						if(this.userInputSignup[prop]===null)
+						{
+							alert('missing fields')
+							return
+						}
+					}
+				this.props.sendUserInfo(this.userInputSignup,e.target.value)
+
+			}
+					
+
 		},
 
-		_validateInput: function(e){
+		_validateInputLogin: function(e){
     		// console.log('blurred!')
     		var name=e.target.name, 
     			value=e.target.value
-    			this.userInput[name]=value
-    			console.log(this.userInput)
+    			this.userInputLogin[name]=value
+    			console.log(this.userInputLogin)
+    	},
+
+    		_validateInputSignup: function(e){
+    		// console.log('blurred!')
+    		var name=e.target.name, 
+    			value=e.target.value
+    			this.userInputSignup[name]=value
+    			console.log(this.userInputSignup)
     	},
 
 
@@ -79,16 +117,27 @@ var Form = React.createClass({
 			parentTitle="Invite a babysitter, in one click."
 
 		console.log('rendered')
-		var styleObjSignup={}, 
-			styleObjLogin={}
+		var styleObjButtonSignup={}, 
+			styleObjButtonLogin={},
+			styleObjFormLogin={},
+			styleObjFormSignup={}
 
 		if (this.props.formType==="logIn"){
-			styleObjSignup={display:'none'}
-			styleObjLogin={display:'inline'}
+			styleObjButtonSignup={display:'none'}
+			styleObjButtonLogin={display:'inline'}
+
+			styleObjFormSignup={display:'none'}
+			styleObjFormLogin={display:'block'}
+			
+
+
 		}
 		else {
-			styleObjLogin={display:'none'}
-			styleObjSignup={display:'inline'}
+			styleObjButtonLogin={display:'none'}
+			styleObjButtonSignup={display:'inline'}
+
+			styleObjFormSignup={display:'block'}
+			styleObjFormLogin={display:'none'}
 		}
 
 		if(this.props.userType==="sitter") title=sitterTitle;
@@ -97,14 +146,31 @@ var Form = React.createClass({
 			console.log(title,this.props)
 		return(
 			<div id="formBox">
-				<h3>{title}</h3>
-				<div id="Form">
-					<input onBlur={this._validateInput} name="username" type="text" placeholder="User Name"/>
-					<input onBlur={this._validateInput} name="email" type="text" placeholder="Email"/>
-    				<input onBlur={this._validateInput} name="password" type="password" placeholder="Password"/>
-					<button onClick={this._checkValidInput} value="signUp" style={styleObjSignup}>SIGN UP</button>
-					<button onClick={this._checkValidInput} value="logIn" style={styleObjLogin}>LOG IN</button> 	
+				<div style={styleObjFormLogin} id="Login">
+					<h3>{title}</h3>
+					<div id="Form">
+						<input onBlur={this._validateInputLogin} name="username" type="text" placeholder="User Name"/>
+	    				<input onBlur={this._validateInputLogin} name="password" type="password" placeholder="Password"/>
+						<button onClick={this._checkValidInput} value="signUp" style={styleObjButtonSignup}>SIGN UP</button>
+						<button onClick={this._checkValidInput} value="logIn" style={styleObjButtonLogin}>LOG IN</button> 	
+					</div>
+				</div>
 
+				<div style={styleObjFormSignup} id="Signup">
+					<h3>{title}</h3>
+					<div id="Form">
+						<input onBlur={this._validateInputSignup} name="username" type="text" placeholder="User Name"/>
+	    				<input onBlur={this._validateInputSignup} name="email" type="text" placeholder="Email"/>
+						
+						<input onBlur={this._validateInputSignup} name="firstName" type="text" placeholder="First Name"/>
+						<input onBlur={this._validateInputSignup} name="lastName" type="text" placeholder="Last Name"/>
+						<input onBlur={this._validateInputSignup} name="phone" type="text" placeholder="Phone"/>
+						<input onBlur={this._validateInputSignup} name="address" type="text" placeholder="Address"/>
+
+	    				<input onBlur={this._validateInputSignup} name="password" type="password" placeholder="Password"/>
+						<button onClick={this._checkValidInput} value="signUp" style={styleObjButtonSignup}>SIGN UP</button>
+						<button onClick={this._checkValidInput} value="logIn" style={styleObjButtonLogin}>LOG IN</button> 	
+					</div>
 				</div>
 			</div>
 			)
