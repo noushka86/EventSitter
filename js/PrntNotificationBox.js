@@ -39,9 +39,10 @@ var ApprovedInvitation=React.createClass({
 	},
 
 	render:function(){
+		
 		return(
 			<div>
-				<p>{this.props.data.to} approved your friendship request</p>
+				<p>{this.props.data.sitter.firstName} {this.props.data.sitter.lastName} approved your friendship request</p>
 				<button onClick={this._seen}>{"\u2715"}</button>
 			</div>
 			)

@@ -95,9 +95,16 @@ var EventsCollection=Backbone.Collection.extend({
 		"X-Parse-REST-API-Key": REST_API_KEY
 	},
 
-	customFetch: function(){
+	customFetch: function(data){
+		if (data) {
+			return this.fetch({
+				headers: this.parseHeaders,
+				data: data
+			})
+		}
+
 		return this.fetch({
-			headers: this.parseHeaders
+			headers: this.parseHeaders,
 		})
 	},
 
@@ -171,7 +178,7 @@ var SitterRouter=Backbone.Router.extend({
 
 		selfParent.aec.searchParams={claimed:true,parentUserName:Parse.User.current().get("username")}
 
-		selfParent.aec.customFetch()
+		selfParent.aec.customFetch({include:'sitterWhoClaimed'})
 
 		
 		selfParent.fetchMySitters();
@@ -179,7 +186,7 @@ var SitterRouter=Backbone.Router.extend({
 
 		selfParent.aic.searchParams={complete:true, seenByParent:false,
 										from:Parse.User.current().get("username")}
-		selfParent.aic.customFetch();
+		selfParent.aic.customFetch({include:'sitter'});
 
 		React.render(<ParentHomePage showButtons={false} 
 									showCreateEventButton={true}
@@ -197,26 +204,25 @@ var SitterRouter=Backbone.Router.extend({
 
 		selfSitter.aec.searchParams={claimed:true,sitterUserName:Parse.User.current().get("username")}
 
-		selfSitter.aec.customFetch()
+		selfSitter.aec.customFetch({include:'parent'})
 		
 
 		this.ic.searchParams={sitterId:Parse.User.current().id,
 							  complete:false
 							  }
 
-		this.ic.customFetch()
+		this.ic.customFetch({include:'parent'})
 		window.p=Parse
 		window.n=this.nec
 
 		this.nec.searchParams={listOfSitters:{$in:[Parse.User.current().get("username")]}, claimed:false}
-		this.nec.customFetch()
+		this.nec.customFetch({include:'parent'})
 
-		console.log(selfSitter.ic);
 
 		React.render(<SitterHomePage showButtons={false} 
 			showCreateEventButton={false}
 			inviteNotifications={selfSitter.ic}
-			newEventNotifications={this.nec}
+			newEventNotifications={selfSitter.nec}
 			InvitationHandler={selfSitter.InvitationHandler}
 			newEventHandler={selfSitter.newEventHandler}
 			events={selfSitter.aec}
@@ -245,8 +251,6 @@ var SitterRouter=Backbone.Router.extend({
 	
 
 	showMyProfile:function(type){
-		console.log("profile")
-		console.log(type)
 		React.render(<MyProfile showButtons={false}
 								userType={type}
 								/> , document.querySelector('#container'))
@@ -254,11 +258,17 @@ var SitterRouter=Backbone.Router.extend({
 	},
 
 	processUserInfo:function(userInputObj, action){
+		console.log("processUserInfo:")
+		console.log(userInputObj)
 		var newUsr = new Parse.User()
 		newUsr.set('username',userInputObj["username"])
 		newUsr.set('email',userInputObj["email"])
 		newUsr.set('password',userInputObj["password"])
 		newUsr.set('type',userInputObj["type"])
+		newUsr.set('firstName',userInputObj["firstName"])
+		newUsr.set('lastName',userInputObj["lastName"])
+		newUsr.set('phone',userInputObj["phone"])
+		newUsr.set('address',userInputObj["address"])
 		window.usr = newUsr
 		// console.log(action)
 		if(action==='signUp') {
@@ -293,8 +303,8 @@ findSitterByEmail: function(email){
 		var self=this
 		this.sm.fetch({
 			headers:self.sm.parseHeaders
-		}).then(function(responseData){console.log(responseData)})
-		this.sm.on("sync change",()=>this.showMySitters(true))
+		})
+		this.sm.on("sync update",()=>this.showMySitters(true))
 
 	},
 
@@ -304,9 +314,12 @@ createEvent:function(eventObj){
 			event.set("parentUserName",Parse.User.current().get("username"))
 			event.set("title",eventObj["title"])
 			event.set('date',eventObj["date"])
-			event.set('time',eventObj["time"])
+			event.set('startTime',eventObj["startTime"])
+			event.set('endTime',eventObj["endTime"])
 			event.set('listOfSitters',MYSITTERS)
 			event.set('claimed',false)
+			event.set('sitterWhoClaimed',null)
+			event.set('parent',Parse.User.current())
 
 			event.save().then(function(){
 			alert('nice')
@@ -317,13 +330,13 @@ createEvent:function(eventObj){
 
 sendInvitation:function(sitterId,sitterUsername,parentId){
 		var invitation= new Parse.Object('Invitation')
-		invitation.set("sitterId",sitterId)
-		invitation.set("parentId",parentId)
-		console.log(Parse.User.current().get('username'))
+		invitation.set("sitterId",sitterId)//check if I can delete it
+		invitation.set("parentId",parentId)//check if I can delete it
 		invitation.set("from",Parse.User.current().get('username'))
 		invitation.set("to",sitterUsername)
 		invitation.set("complete",false)
 		invitation.set("seenByParent",false)
+		invitation.set("parent",Parse.User.current())
 		invitation.save().then(function(){
 			alert('nice')
 		})
@@ -332,12 +345,11 @@ sendInvitation:function(sitterId,sitterUsername,parentId){
 
 
 	InvitationHandler:function(ObjectId,action){
-		console.log(this)
+
 		if(action==='confirm'){
 			var q=new Parse.Query("Invitation")
 			q.equalTo('objectId',ObjectId) // where targetId is the one you want 
 			q.find().then(function(results){
-				console.log(results[0])
 				var invite = results[0]
 				invite.set('complete',true)
 				invite.set('sitter', Parse.User.current())
@@ -363,7 +375,6 @@ sendInvitation:function(sitterId,sitterUsername,parentId){
 
 
 	newEventHandler:function(ObjectId,action){
-		console.log(ObjectId)
 		if(action==='confirm'){
 			var q=new Parse.Query("Event")
 			q.equalTo('objectId',ObjectId) // where targetId is the one you want 
@@ -371,6 +382,7 @@ sendInvitation:function(sitterId,sitterUsername,parentId){
 				var event = results[0]
 				window.e=event
 				event.set('claimed',true)
+				event.set('sitterWhoClaimed',Parse.User.current())
 				event.set('sitterUserName',Parse.User.current().get("username"))
 				event.save()
 	}).done(function(){alert("You have claimed this event")}).done(selfSitter.showSitterHome.bind(selfSitter))
@@ -410,7 +422,6 @@ fetchMySitters:function(){
 
 		this.msc.customFetch({include: 'sitter'}).done(function(){
 		var sitters=self.msc.models
-		console.log(sitters,'sitters')
 			MYSITTERS=sitters.map(function(sitter){
 				return sitter.attributes["to"]
 						

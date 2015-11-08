@@ -15,7 +15,6 @@ var SitterHomePage=React.createClass({
 
 
 	componentDidMount: function(){
-		console.log('hi')
 		var self = this
 		window.sitterHomePage = this
 		this.props.inviteNotifications.on('change update', function(){
@@ -54,13 +53,15 @@ var InfoBox=React.createClass({
 	render:function(){
 		return(
 			<div id="InfoBox">
-				<EventsBox
-					events={this.props.events}
-				/>
+				
 				<NotificationBox inviteNotifications={this.props.inviteNotifications}
 									newEventNotifications={this.props.newEventNotifications}
 									InvitationHandler={this.props.InvitationHandler}
 									newEventHandler={this.props.newEventHandler}
+				/>
+
+				<EventsBox
+					events={this.props.events}
 				/>
 			</div>
 			)

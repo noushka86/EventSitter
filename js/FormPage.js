@@ -65,6 +65,7 @@ var Form = React.createClass({
 		},
 
 		_checkValidInput:function(e){
+					console.log('check Valid Input')
 
 			if(e.target.value==='logIn'){
 					for(var prop in this.userInputLogin){
@@ -86,6 +87,7 @@ var Form = React.createClass({
 							return
 						}
 					}
+
 				this.props.sendUserInfo(this.userInputSignup,e.target.value)
 
 			}
@@ -101,7 +103,7 @@ var Form = React.createClass({
     			console.log(this.userInputLogin)
     	},
 
-    		_validateInputSignup: function(e){
+    	_validateInputSignup: function(e){
     		// console.log('blurred!')
     		var name=e.target.name, 
     			value=e.target.value

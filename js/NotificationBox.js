@@ -31,7 +31,7 @@ var NotificationBox=React.createClass({
 		var inviteNotifications=this.props.inviteNotifications.models,
 			newEventNotifications=this.props.newEventNotifications.models
 
-			console.log(this.props.newEventNotifications)
+			// console.log(this.props.newEventNotifications)
 
 
 		return(
@@ -61,10 +61,10 @@ var InviteNotification=React.createClass({
 	},
 
 	render:function(){
-		console.log(this.props.data)
+
 		return(
 			<div>
-				<p>{this.props.data.from} added you as a sitter</p>
+				<p>{this.props.data.parent.firstName} {this.props.data.parent.lastName} added you as a sitter</p>
 				<button onClick={this._deny}>{"\u2715"}</button>
 				<button onClick={this._confirm}>{"\u2713"}</button>
 				
@@ -86,10 +86,10 @@ var NewEventNotification=React.createClass({
 	},
 
 	render:function(){
-		console.log(this.props.data)
 		return(
 			<div>
-				<p>{this.props.data.parentUserName} posted an event on {this.props.data.date} at {this.props.data.time}</p>
+				<p>{this.props.data.parent.firstName} {this.props.data.parent.lastName}
+				requested a sitter on {this.props.data.date} at {this.props.data.time}</p>
 				<button onClick={this._deny}>{"\u2715"}</button>
 				<button onClick={this._confirm}>{"\u2713"}</button>
 				

@@ -36,7 +36,7 @@ var EventsBox=React.createClass({
 	render:function(){
 
 		var events=this.props.events.models
-		console.log(events,"EVENTS")
+		// console.log(events,"EVENTS")
 		var styleObj={},
 			userHeader="",
 			eventNameStyleObj={}
@@ -71,7 +71,8 @@ var EventsBox=React.createClass({
 					<p style={eventNameStyleObj} className="header">Event Name</p> 
 					<p className="header">{userHeader}</p> 
 					<p className="header">Date</p>
-					<p className="header">Time</p>
+					<p className="header"> Start Time</p>
+					<p className="header"> End Time</p>
 				</div>
 						{events.map(this._createEvent)}
 				</div>
@@ -104,7 +105,7 @@ var EventForm=React.createClass({
     		var name=e.target.name, 
     			value=e.target.value
     			this.eventDetails[name]=value
-    			console.log(this.eventDetails)
+    			// console.log(this.eventDetails)
     	},
 
     _checkValidInput:function(e){
@@ -115,7 +116,7 @@ var EventForm=React.createClass({
 							return
 						}
 					}
-					console.log(this.eventDetails)
+					// console.log(this.eventDetails)
 					this.props.sendEventDetails(this.eventDetails)
 					this._clearForm()
 					this.props.changeState(false)			
@@ -183,27 +184,27 @@ var EventForm=React.createClass({
 
 var Event=React.createClass({
 	render:function(){
-		console.log(this.props.userType)
 
-		var message,title="", styleObj={}
+		var user,title="", styleObj={}
 		if(this.props.userType==='parent')
 		{
-			message=this.props.data.sitterUserName
+			user=this.props.data.sitterWhoClaimed.firstName+" "+this.props.data.sitterWhoClaimed.lastName
 			title=this.props.data.title
 
 		}
 
 		else{
-			message=this.props.data.parentUserName
+			user=this.props.data.parent.firstName+" "+this.props.data.parent.lastName
 			styleObj={display:'none'}
 		}
 
 		return(
 			<div id="Event">
 			<p style={styleObj}>{title}</p>
-			<p>{message}</p>
+			<p>{user}</p>
 			<p>{this.props.data.date}</p>
-			<p>{this.props.data.time}</p>
+			<p>{this.props.data.startTime}</p>
+			<p>{this.props.data.endTime}</p>
 			</div>
 			)
 	}

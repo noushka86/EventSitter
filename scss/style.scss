@@ -242,12 +242,10 @@ h3{
     border-top:1px solid #dedfdf;
 
     #EventsBox{
-        display: inline-block;
         text-align: center;
         padding-top: 30px;
-        margin-left: 30px;
-        width: 50%;
-
+        max-width: 800px;
+        margin: 0 auto; 
 
        label{
         color:#9b59b6;
@@ -362,10 +360,10 @@ h3{
             }
 }
     #NotificationBox{
-        display: inline-block;
         text-align: center;
-        float: right;
         padding-top: 30px;
+        max-width: 600px;
+        margin: 0 auto;
         
         label{
         color:#9b59b6;
@@ -376,7 +374,7 @@ h3{
                 vertical-align: top;
                 margin-top: 20px;
                 min-width: 400px;
-                margin-right: 30px;
+                margin:0 auto;
                 min-height:30px;
                 border: 2px solid #9b59b6;
                 border-radius: 20px;
@@ -506,12 +504,13 @@ h3{
         border:2px solid $purple;
         box-shadow:5px 5px 5px 5px #999;
         outline: none;
+        width: 255px;
 
 
         }
 
         ::-webkit-input-placeholder {
-            font-size:14.5px;
+            font-size:15.5px;
         }
 
         

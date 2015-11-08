@@ -62,12 +62,13 @@ _getSitterInfo:function(event){
 
 
 	render:function(){
-
+		var placeholder="Invite New Sitter to My Group";
+		
 		return(
 			<div id="AddSitter">
 				<label>Add New Sitter</label>
 				<input className="search rounded" onKeyPress={this._getSitterInfo}
-				 type="text" placeholder="Invite New Sitter to My Group"></input>
+				 type="text" placeholder={placeholder}></input>
 
 			</div>
 			)
@@ -91,7 +92,7 @@ var ListOfSitters=React.createClass({
 				<label>My Sitters</label>
 				<div id="ListBox">
 					<div id="Sitter">
-						<p className="header">Username</p> 
+						<p className="header">Name</p> 
 						<p className="header">Email</p> 
 						<p className="header">Phone</p>
 					</div>
@@ -166,6 +167,7 @@ var SitterConfirm=React.createClass({
                 fontWeight:'200',
                 boxShadow:'4px 4px 4px 4px #999',
                 color:'white',
+                padding:'15px',
 			}
 
 			if(typeof this.props.sitterModel.attributes.results[0] ==='undefined'){
@@ -189,7 +191,7 @@ var SitterConfirm=React.createClass({
 			else{
 				fName=this.props.sitterModel.attributes.results[0].firstName
 				lName=this.props.sitterModel.attributes.results[0].lastName
-				message="are you sure you want to add "+fName+" "+lName+" to your sitters?"
+				message="are you sure you want to add "+fName+" "+lName+" to your group of sitters?"
 			}
 		}
 
@@ -211,18 +213,20 @@ var SitterConfirm=React.createClass({
 
 var Sitter=React.createClass({
 	render:function(){
-		console.log('XXXXXXXXXXXXXXXXXX')
-		console.log(this.props.data)
+		
+		
 		window.s=this.props.data
 		return(
 			<div id="Sitter">
-			<p>{this.props.data.to}</p>
-			<p>{this.props.data.sitter.email}</p>
-			<p> {this.props.data.sitter.phone}</p>
+				<p>{this.props.data.sitter.firstName} {this.props.data.sitter.lastName}</p>
+				<p>{this.props.data.sitter.email}</p>
+				<p> {this.props.data.sitter.phone}</p>
 			</div>
 			)
 	}
 })
+
+			
 
 
 

@@ -46,15 +46,17 @@ var InfoBox=React.createClass({
 	render:function(){
 		return(
 			<div id="InfoBox">
+				<PrntNotificationBox approvedInvitationBySitter={this.props.approvedInvitationBySitter}
+										seenByParent={this.props.seenByParent}
+				/>	
+
 				<EventsBox showCreateEventButton={this.props.showCreateEventButton}
 							sendEventDetails={this.props.sendEventDetails}
 							events={this.props.events}
 							userType={'parent'}
 							/>
 
-				<PrntNotificationBox approvedInvitationBySitter={this.props.approvedInvitationBySitter}
-										seenByParent={this.props.seenByParent}
-				/>
+				
 
 			</div>
 			)
