@@ -1,3 +1,4 @@
+
 let fetch = require('./fetcher'),
 	React = require('react'),
     $ = require('jquery'),
@@ -27,7 +28,20 @@ var SitterHomePage=React.createClass({
 		this.props.events.on('change update', function(){
 			self.forceUpdate()
 		})
+	},
 
+	componentDidUnmount: function(){
+		var self = this
+		this.props.inviteNotifications.off('change update', function(){
+			self.forceUpdate()
+		})
+		this.props.newEventNotifications.off('change update', function(){
+			self.forceUpdate()
+		})
+
+		this.props.events.off('change update', function(){
+			self.forceUpdate()
+		})
 	},
 
 	render:function(){

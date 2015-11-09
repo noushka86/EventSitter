@@ -184,7 +184,7 @@ var SitterRouter=Backbone.Router.extend({
 
 		selfParent=this
 
-		selfParent.aec.searchParams={claimed:true,parentUserName:Parse.User.current().get("username")}
+		selfParent.aec.searchParams = {claimed:true,parentUserName:Parse.User.current().get("username")}
 
 		selfParent.aec.customFetch({include:'sitterWhoClaimed'})
 
@@ -412,12 +412,8 @@ sendInvitation:function(sitterId,sitterUsername,parentId){
 				
 	}).done(function(){selfSitter.showSitterHome()})
 		}
-
-
 	// selfSitter.ic.on("sync change",()=>this.showSitterHome())
-
 	},
-
 
 	newEventHandler:function(ObjectId,action){
 		if(action==='confirm'){

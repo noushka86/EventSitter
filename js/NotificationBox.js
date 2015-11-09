@@ -6,7 +6,7 @@ let fetch = require('./fetcher'),
     Parse = require('parse')
 
 
-var NotificationBox=React.createClass({
+var NotificationBox = React.createClass({
 	
 
 	_createInviteNotification:function(notificationObj){
@@ -30,9 +30,7 @@ var NotificationBox=React.createClass({
 
 		var inviteNotifications=this.props.inviteNotifications.models,
 			newEventNotifications=this.props.newEventNotifications.models
-
 			// console.log(this.props.newEventNotifications)
-
 
 		return(
 			<div id="NotificationBox">
@@ -75,10 +73,9 @@ var InviteNotification=React.createClass({
 
 var NewEventNotification=React.createClass({
 
+
 	_confirm:function(){
-		this.props.newEventHandler(this.props.data.objectId,"confirm")
-		
-		
+		this.props.newEventHandler(this.props.data.objectId,"confirm")		
 	},
 
 	_deny:function(){
@@ -91,7 +88,6 @@ var NewEventNotification=React.createClass({
 				<p>{this.props.data.parent.firstName} {this.props.data.parent.lastName} requested a sitter on {this.props.data.date} from {this.props.data.startTime} to {this.props.data.endTime}</p>
 				<button onClick={this._deny}>{"\u2715"}</button>
 				<button onClick={this._confirm}>{"\u2713"}</button>
-				
 			</div>
 			)
 	}

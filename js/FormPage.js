@@ -153,8 +153,7 @@ var Form = React.createClass({
 					<div id="Form">
 						<input onBlur={this._validateInputLogin} name="username" type="text" placeholder="User Name"/>
 	    				<input onBlur={this._validateInputLogin} name="password" type="password" placeholder="Password"/>
-						<button onClick={this._checkValidInput} value="signUp" style={styleObjButtonSignup}>SIGN UP</button>
-						<button onClick={this._checkValidInput} value="logIn" style={styleObjButtonLogin}>LOG IN</button> 	
+						<button onClick={this._checkValidInput} value="logIn" style={styleObjButtonLogin}>SUBMIT</button> 	
 					</div>
 				</div>
 
@@ -170,8 +169,7 @@ var Form = React.createClass({
 						<input onBlur={this._validateInputSignup} name="address" type="text" placeholder="Address"/>
 
 	    				<input onBlur={this._validateInputSignup} name="password" type="password" placeholder="Password"/>
-						<button onClick={this._checkValidInput} value="signUp" style={styleObjButtonSignup}>SIGN UP</button>
-						<button onClick={this._checkValidInput} value="logIn" style={styleObjButtonLogin}>LOG IN</button> 	
+						<button onClick={this._checkValidInput} value="signUp" style={styleObjButtonSignup}>SUBMIT</button>
 					</div>
 				</div>
 			</div>

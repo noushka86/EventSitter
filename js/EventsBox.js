@@ -40,12 +40,12 @@ var EventsBox=React.createClass({
 
 		if(this.props.approvedEvents){
 			events=this.props.events.models
-			title="Upcoming Events"
+			title="Claimed Events"
 		}
 
 		else{ 
 			events=this.props.pendingEvents.models
-			title="Pending Events"
+			title="Unclaimed Events"
 		}
 		// console.log(events,"EVENTS")
 		var styleObj={},
@@ -57,7 +57,7 @@ var EventsBox=React.createClass({
 			styleObj={
 				display:'none'
 			}
-			userHeader="Sitters Denied"
+			userHeader="Declined By"
 		}
 
 		else if(this.props.showCreateEventButton){

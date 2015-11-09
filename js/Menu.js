@@ -43,7 +43,7 @@ var Menu=React.createClass({
 				<a href={hrefGroup} >{group}</a>
 				<a href={hrefProfile}>My Profile</a>
 				<p onClick={this._logUserOut}>Log out</p>
-				<p id="user">Hello,</p>
+				<p id="user">Hello, {Parse.User.current().getUsername()}</p>
 			</div>
 			)
 	}
