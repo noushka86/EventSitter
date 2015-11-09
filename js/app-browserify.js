@@ -186,7 +186,7 @@ var SitterRouter=Backbone.Router.extend({
 
 		selfParent.aec.searchParams = {claimed:true,parentUserName:Parse.User.current().get("username")}
 
-		selfParent.aec.customFetch({include:'sitterWhoClaimed'})
+		
 
 		
 		selfParent.fetchMySitters();
@@ -194,15 +194,15 @@ var SitterRouter=Backbone.Router.extend({
 
 		selfParent.aic.searchParams={complete:true, seenByParent:false,
 										from:Parse.User.current().get("username")}
-		selfParent.aic.customFetch({include:'sitter'});
 
 		selfParent.pec.searchParams={claimed:false,parentUserName:Parse.User.current().get("username")}
-		
-		selfParent.pec.customFetch({include:'listOfDenials'})
-		// .done((results)=>console.log('PENDING EVENTS COLLECTION',selfParent.pec))
 
-
-
+	this.fetchIntervalId = setInterval(function(){
+			selfParent.aec.customFetch({include:'sitterWhoClaimed'})
+			selfParent.aic.customFetch({include:'sitter'});
+			selfParent.pec.customFetch({include:'listOfDenials'})
+			console.log('re-fetching collections')
+			},5000)
 
 		React.render(<ParentHomePage showButtons={false} 
 									showCreateEventButton={true}
@@ -213,6 +213,12 @@ var SitterRouter=Backbone.Router.extend({
 									pendingEvents={selfParent.pec}
 									/>,document.querySelector('#container'))
 
+		this.fetchIntervalId = setInterval(function(){
+			selfParent.aec.customFetch({include:'sitterWhoClaimed'})
+			selfParent.aic.customFetch({include:'sitter'});
+			selfParent.pec.customFetch({include:'listOfDenials'})
+			console.log('re-fetching collections')
+			},5000)
 
 	},
 
@@ -223,7 +229,7 @@ var SitterRouter=Backbone.Router.extend({
 
 		selfSitter.aec.searchParams={claimed:true,sitterUserName:Parse.User.current().get("username")}
 
-		selfSitter.aec.customFetch({include:'parent'})
+		
 		
 
 		this.ic.searchParams={sitterId:Parse.User.current().id,
@@ -235,8 +241,14 @@ var SitterRouter=Backbone.Router.extend({
 		window.n=this.nec
 
 		this.nec.searchParams={listOfSitters:{$in:[Parse.User.current().get("username")]}, claimed:false}
-		this.nec.customFetch({include:'parent'})
 
+
+this.fetchIntervalId = setInterval(function(){
+			selfSitter.nec.customFetch({include:'parent'})
+			selfSitter.ic.customFetch({include:'parent'})
+			selfSitter.aec.customFetch({include:'parent'})
+			console.log('re-fetching collections')
+			},5000)
 
 		React.render(<SitterHomePage showButtons={false} 
 			showCreateEventButton={false}
@@ -247,6 +259,12 @@ var SitterRouter=Backbone.Router.extend({
 			events={selfSitter.aec}
 			/>, document.querySelector('#container'))
 
+		this.fetchIntervalId = setInterval(function(){
+			selfSitter.nec.customFetch({include:'parent'})
+			selfSitter.ic.customFetch({include:'parent'})
+			selfSitter.aec.customFetch({include:'parent'})
+			console.log('re-fetching collections')
+			},5000)
 	},
 
 	showMySitters:function(confirm){
@@ -511,3 +529,7 @@ initialize:function(){
 })
 
 var router=new SitterRouter();
+router.on('route',function(){
+	console.log('removing fetch interval')
+	clearInterval(router.fetchIntervalId)
+})

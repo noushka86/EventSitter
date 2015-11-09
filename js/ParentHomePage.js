@@ -13,7 +13,7 @@ import {PrntNotificationBox} from "./PrntNotificationBox.js"
 
 var ParentHomePage=React.createClass({
 
-	componentDidMount:function(){
+	componentWillMount:function(){
 		var self = this
 		this.props.events.on('change update', function(){
 			self.forceUpdate()
@@ -27,6 +27,22 @@ var ParentHomePage=React.createClass({
 			self.forceUpdate()
 		})
 	},
+
+	componentWillUnmount: function(){
+		var self = this
+		this.props.events.off('change update', function(){
+			self.forceUpdate()
+		})
+
+		this.props.approvedInvitationBySitter.off('change update', function(){
+			self.forceUpdate()
+		})
+
+		this.props.pendingEvents.off('change update', function(){
+			self.forceUpdate()
+		})
+	},
+
 
 	render:function(){
 		var userType="parent"

@@ -15,7 +15,7 @@ import {NotificationBox} from "./NotificationBox.js"
 var SitterHomePage=React.createClass({
 
 
-	componentDidMount: function(){
+	componentWillMount: function(){
 		var self = this
 		window.sitterHomePage = this
 		this.props.inviteNotifications.on('change update', function(){
@@ -30,8 +30,9 @@ var SitterHomePage=React.createClass({
 		})
 	},
 
-	componentDidUnmount: function(){
+	componentWillUnmount: function(){
 		var self = this
+		clearInterval(this.refreshInterval)
 		this.props.inviteNotifications.off('change update', function(){
 			self.forceUpdate()
 		})
