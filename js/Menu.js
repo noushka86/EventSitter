@@ -6,6 +6,8 @@ let fetch = require('./fetcher'),
     Parse = require('parse')
 
 
+
+
 var Menu=React.createClass({
 	
 	_logUserOut:function(){
@@ -15,8 +17,11 @@ var Menu=React.createClass({
 			})
 
 	},
+	
 
 	render:function(){
+		
+		window.p=Parse
 		var group, hrefGroup, hrefHome, hrefProfile;
 		if(this.props.userType==='parent'){
 		 	group="My Sitters"
@@ -38,6 +43,7 @@ var Menu=React.createClass({
 				<a href={hrefGroup} >{group}</a>
 				<a href={hrefProfile}>My Profile</a>
 				<p onClick={this._logUserOut}>Log out</p>
+				<p id="user">Hello,</p>
 			</div>
 			)
 	}

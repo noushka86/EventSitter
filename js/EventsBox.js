@@ -30,18 +30,41 @@ var EventsBox=React.createClass({
 		return(<Event data={eventObj.attributes}
 						key={eventObj.objectId}
 						userType={this.props.userType}
+						approvedEvents={this.props.approvedEvents}
 						/>)
 	},
 
 	render:function(){
 
-		var events=this.props.events.models
+		var events,title
+
+		if(this.props.approvedEvents){
+			events=this.props.events.models
+			title="Upcoming Events"
+		}
+
+		else{ 
+			events=this.props.pendingEvents.models
+			title="Pending Events"
+		}
 		// console.log(events,"EVENTS")
 		var styleObj={},
 			userHeader="",
 			eventNameStyleObj={}
 
-		if(!this.props.showCreateEventButton){
+		if(!this.props.showCreateEventButton && !this.props.approvedEvents)
+		{
+			styleObj={
+				display:'none'
+			}
+			userHeader="Sitters Denied"
+		}
+
+		else if(this.props.showCreateEventButton){
+			userHeader="Sitter"
+		}
+		
+		else{
 			styleObj={
 				display:'none'
 			}
@@ -49,15 +72,12 @@ var EventsBox=React.createClass({
 			eventNameStyleObj={display:'none'}
 		}
 
-		else{
-			userHeader="Sitter"
-
-		}
+		
 
 
 		return(
 			<div id="EventsBox">
-				<label>Upcoming Events</label>
+				<label>{title}</label>
 				<button id="newEvent" onClick={this._clickHandler} 
 				style={styleObj}>{"\u2795"}</button>
 
@@ -185,13 +205,28 @@ var EventForm=React.createClass({
 var Event=React.createClass({
 	render:function(){
 
-		var user,title="", styleObj={}
-		if(this.props.userType==='parent')
+		var user="",title="", styleObj={}, tmp="";
+			
+		
+		if(this.props.userType==='parent' && this.props.approvedEvents)
 		{
 			user=this.props.data.sitterWhoClaimed.firstName+" "+this.props.data.sitterWhoClaimed.lastName
+		
 			title=this.props.data.title
 
 		}
+
+		else if(this.props.userType==='parent' && !this.props.approvedEvents){
+			for(var sitter in this.props.data.listOfDenials){
+				tmp+= this.props.data.listOfDenials[sitter].firstName+","
+			}
+			user=tmp.slice(0,tmp.length-1)
+			title=this.props.data.title
+			
+
+		}
+
+		
 
 		else{
 			user=this.props.data.parent.firstName+" "+this.props.data.parent.lastName

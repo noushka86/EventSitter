@@ -228,6 +228,10 @@ h3{
 
     }
 
+    #user{
+        float:right;
+    }
+
 
     #home{
         margin-left: 166px;
@@ -362,7 +366,7 @@ h3{
     #NotificationBox{
         text-align: center;
         padding-top: 30px;
-        max-width: 600px;
+        max-width: 700px;
         margin: 0 auto;
         
         label{
@@ -423,7 +427,7 @@ h3{
         text-align: center;
         text-align: center;
         margin:0 auto;
-        max-width: 600px;
+        max-width: 800px;
 
 
 
@@ -449,14 +453,14 @@ h3{
             overflow: auto;
             vertical-align: top;
             box-shadow:5px 5px 5px 5px #999;
-            
+
             
           
 
            #Sitter{
             flex:1;
             display: flex;
-            p{
+            p,a{
                 flex:1;
                 font-family: helvetica;
                 font-weight: 200;
@@ -465,9 +469,11 @@ h3{
                 display: inline-block;
                 margin: 0 auto;
 
-
-
             }
+            .address{
+               flex:2; 
+            }
+
             .header{
                 font-weight: bold;
                 color:#9b59b6;

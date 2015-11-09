@@ -9,7 +9,8 @@ let fetch = require('./fetcher'),
 
 console.log("jS loaded")
 var self, selfSitter, selfParent;
-var MYSITTERS;
+var MYSITTERS, CURRENTUSER;
+
 
 var APP_ID = 'wXCq4PN1u7OGDCjyS4xkWMwTvIMlN8dfJKGkA4DE',
 	JS_KEY = 'u3F2jXFkB1WZX44vRiGX7roenlOY8CadeGp4uzwi',
@@ -188,13 +189,24 @@ var SitterRouter=Backbone.Router.extend({
 										from:Parse.User.current().get("username")}
 		selfParent.aic.customFetch({include:'sitter'});
 
+		selfParent.pec.searchParams={claimed:false,parentUserName:Parse.User.current().get("username")}
+		
+		selfParent.pec.customFetch({include:'listOfDenials'})
+		// .done((results)=>console.log('PENDING EVENTS COLLECTION',selfParent.pec))
+
+
+
+
 		React.render(<ParentHomePage showButtons={false} 
 									showCreateEventButton={true}
 									sendEventDetails={selfParent.createEvent}
 									events={selfParent.aec}
 									approvedInvitationBySitter={this.aic}
 									seenByParent={this.seenByParent}
+									pendingEvents={selfParent.pec}
 									/>,document.querySelector('#container'))
+
+
 	},
 
 	showSitterHome:function(){
@@ -320,9 +332,10 @@ createEvent:function(eventObj){
 			event.set('claimed',false)
 			event.set('sitterWhoClaimed',null)
 			event.set('parent',Parse.User.current())
+			event.set('listOfDenials',[])
 
 			event.save().then(function(){
-			alert('nice')
+			selfParent.showParentHome()	
 		})
 
 
@@ -354,7 +367,9 @@ sendInvitation:function(sitterId,sitterUsername,parentId){
 				invite.set('complete',true)
 				invite.set('sitter', Parse.User.current())
 				invite.save()
-	}).done(selfSitter.showSitterHome.bind(selfSitter))
+	}).done(function(){
+		selfSitter.showSitterHome()
+	})
 
 		}
 
@@ -365,7 +380,7 @@ sendInvitation:function(sitterId,sitterUsername,parentId){
 				var invite = results[0]
 				invite.destroy()
 				
-	}).done(function(){alert("The request has been denied")}).done(selfSitter.showSitterHome.bind(selfSitter))
+	}).done(function(){selfSitter.showSitterHome()})
 		}
 
 
@@ -395,6 +410,7 @@ sendInvitation:function(sitterId,sitterUsername,parentId){
 			q.find().then(function(results){
 				var event = results[0]
 				event.remove('listOfSitters',Parse.User.current().get("username"))
+				event.add('listOfDenials',Parse.User.current())
 				event.save()
 				
 	}).done(function(){alert("The request has been denied")}).done(selfSitter.showSitterHome.bind(selfSitter))
@@ -439,6 +455,8 @@ initialize:function(){
 		this.nec=new EventsCollection();
 		this.aec=new EventsCollection();
 		this.aic=new InvitationCollection();
+		this.pec=new EventsCollection();
+		this.usrm=new SitterModel();
 
 		Backbone.history.start();
 	}

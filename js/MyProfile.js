@@ -14,7 +14,7 @@ var MyProfile=React.createClass({
 		return(
 			<div>
 				<UpperPanel showButtons={this.props.showButtons}/>
-				<Menu userType={this.props.userType}/>
+				<Menu userType={this.props.userType} currentUser={this.props.currentUser}/>
 				<ProfileForm />
 				
 			</div>

@@ -22,6 +22,10 @@ var ParentHomePage=React.createClass({
 		this.props.approvedInvitationBySitter.on('change update', function(){
 			self.forceUpdate()
 		})
+
+		this.props.pendingEvents.on('change update', function(){
+			self.forceUpdate()
+		})
 	},
 
 	render:function(){
@@ -29,12 +33,14 @@ var ParentHomePage=React.createClass({
 		return(
 			<div>
 				<UpperPanel showButtons={this.props.showButtons}/>
-				<Menu userType={userType}/>
+				<Menu userType={userType} currentUser={this.props.currentUser}/>
 				<InfoBox showCreateEventButton={this.props.showCreateEventButton}
 							events={this.props.events}
 							sendEventDetails={this.props.sendEventDetails}
 							approvedInvitationBySitter={this.props.approvedInvitationBySitter}
 							seenByParent={this.props.seenByParent}
+							pendingEvents={this.props.pendingEvents}
+
 
 					/>
 			</div>
@@ -54,7 +60,14 @@ var InfoBox=React.createClass({
 							sendEventDetails={this.props.sendEventDetails}
 							events={this.props.events}
 							userType={'parent'}
+							approvedEvents={true}
 							/>
+
+				<EventsBox  showCreateEventButton={false} //Pending Events
+							pendingEvents={this.props.pendingEvents}
+							userType={'parent'}
+							approvedEvents={false}
+				/>
 
 				
 

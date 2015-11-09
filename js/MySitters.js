@@ -25,7 +25,7 @@ var MySitters=React.createClass({
 		return(
 			<div>
 				<UpperPanel showButtons={this.props.showButtons}/>
-				<Menu userType={userType}/>
+				<Menu userType={userType} currentUser={this.props.currentUser}/>
 				<SittersBox sitterModel={this.props.sitterModel} show={this.props.showConfirm}
     				sendInvitation={this.props.sendInvitation} mySittersList={this.props.mySittersList}/>
 			</div>
@@ -79,7 +79,7 @@ var ListOfSitters=React.createClass({
 	
 	_createSitter:function(sitterObj){
 		return (<Sitter data={sitterObj.attributes}
-						key={sitterObj.attributes.sitterId}/>)
+						key={sitterObj.attributes.objectId}/>)
 	},
 
 	render:function(){
@@ -95,6 +95,7 @@ var ListOfSitters=React.createClass({
 						<p className="header">Name</p> 
 						<p className="header">Email</p> 
 						<p className="header">Phone</p>
+						<p className="header address">Adress</p>
 					</div>
 						{sittersList.map(this._createSitter)}
 					</div>
@@ -213,7 +214,7 @@ var SitterConfirm=React.createClass({
 
 var Sitter=React.createClass({
 	render:function(){
-		
+		var address="https://www.google.com/maps/search/"+this.props.data.sitter.address
 		
 		window.s=this.props.data
 		return(
@@ -221,6 +222,7 @@ var Sitter=React.createClass({
 				<p>{this.props.data.sitter.firstName} {this.props.data.sitter.lastName}</p>
 				<p>{this.props.data.sitter.email}</p>
 				<p> {this.props.data.sitter.phone}</p>
+				<a target="_blank" href={address} className="address"> {this.props.data.sitter.address}</a>
 			</div>
 			)
 	}
