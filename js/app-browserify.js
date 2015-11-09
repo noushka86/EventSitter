@@ -527,7 +527,7 @@ initialize:function(){
 })
 
 var router=new SitterRouter();
-// router.on('route',function(){
-// 	console.log('removing fetch interval')
-// 	clearInterval(router.fetchIntervalId)
-// })
+router.on('route',function(){
+	console.log('removing fetch interval')
+	clearInterval(router.fetchIntervalId)
+})
