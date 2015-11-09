@@ -83,9 +83,11 @@ var NewEventNotification=React.createClass({
 	},
 
 	render:function(){
+
+		var date=new Date(this.props.data.date)
 		return(
 			<div>
-				<p>{this.props.data.parent.firstName} {this.props.data.parent.lastName} requested a sitter on {this.props.data.date} from {this.props.data.startTime} to {this.props.data.endTime}</p>
+				<p>{this.props.data.parent.firstName} {this.props.data.parent.lastName} requested a sitter on {date.getUTCMonth()}/{date.getUTCDay()}/{date.getUTCFullYear()} from {this.props.data.startTime} to {this.props.data.endTime}</p>
 				<button onClick={this._deny}>{"\u2715"}</button>
 				<button onClick={this._confirm}>{"\u2713"}</button>
 			</div>

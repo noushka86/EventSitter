@@ -122,10 +122,20 @@ var EventForm=React.createClass({
 
 	_validateInput: function(e){
     		// console.log('blurred!')
+    		console.log(e)
+
     		var name=e.target.name, 
     			value=e.target.value
+    			if(name==='startTime'|| name==='endTime'){
+    				var hours=e.target.value.slice(0,2),
+    					suffix = (hours >= 12)? 'PM' : 'AM',
+    				 	t=(parseInt(e.target.value.slice(0,2))+11)%12+1
+
+    					value= t+':'+e.target.value.slice(3)+' '+suffix
+    			} 
     			this.eventDetails[name]=value
-    			// console.log(this.eventDetails)
+
+    			console.log(this.eventDetails)
     	},
 
     _checkValidInput:function(e){
@@ -233,11 +243,14 @@ var Event=React.createClass({
 			styleObj={display:'none'}
 		}
 
+
+		var date=new Date(this.props.data.date)
+
 		return(
 			<div id="Event">
 			<p style={styleObj}>{title}</p>
 			<p>{user}</p>
-			<p>{this.props.data.date}</p>
+			<p>{date.getUTCMonth()}/{date.getUTCDay()}/{date.getUTCFullYear()}</p>
 			<p>{this.props.data.startTime}</p>
 			<p>{this.props.data.endTime}</p>
 			</div>
