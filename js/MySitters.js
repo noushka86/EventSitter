@@ -25,7 +25,7 @@ var MySitters=React.createClass({
 		return(
 			<div>
 				<UpperPanel showButtons={this.props.showButtons}/>
-				<Menu userType={userType} currentUser={this.props.currentUser}/>
+				<Menu userType={userType}/>
 				<SittersBox sitterModel={this.props.sitterModel} show={this.props.showConfirm}
     				sendInvitation={this.props.sendInvitation} mySittersList={this.props.mySittersList}/>
 			</div>

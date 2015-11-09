@@ -73,6 +73,7 @@ img {
 }
 
  $purple:#9b59b6;
+ $grey:#ecf0f1;
 
  body{
     background-color: #ecf0f1;
@@ -540,16 +541,21 @@ h3{
 }
 
 #ProfileForm{
+    display: flex;
+    flex-direction:column;
     margin:0 auto;
-    max-width:400px;
-    text-align: center;
+    max-width:450px;
     border:2px solid #9b59b6;
-    margin-top: 80px;
-    padding-top: 50px;
-    padding-bottom: 50px;
-    background-color: #ecf0f1;
+    margin-top: 50px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    background-color: white;
     border-radius: 20px;
     box-shadow:4px 4px 4px 4px #999;
+
+   
+
+
 
     button{
         margin:0 auto;
@@ -571,12 +577,32 @@ h3{
     }
 
 }
- #ProfileForm >* {
-        margin:0 auto;
-        display: block;
-        margin-bottom: 20px;
+ #ProfileForm div{
+        flex:1; 
+        display: flex;
+        max-width: 350px;
+        font-family: helvetica;
+        font-weight: 200;
+        margin-left: 20px;
 
-    
+
+        p{
+            flex:3;
+           border:2px solid $purple;
+           border-radius: 10px;
+           margin-left: 20px;
+           padding:1px;
+           padding-left: 3px;
+           background-color: $grey;
+
+
+
+        }
+
+        label{
+            flex:2;
+            color: $purple;
+        }    
 }
 
 

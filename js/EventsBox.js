@@ -28,7 +28,7 @@ var EventsBox=React.createClass({
 
 	_createEvent:function(eventObj){
 		return(<Event data={eventObj.attributes}
-						key={eventObj.objectId}
+						key={eventObj.attributes.objectId}
 						userType={this.props.userType}
 						approvedEvents={this.props.approvedEvents}
 						/>)

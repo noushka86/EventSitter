@@ -27,9 +27,10 @@ import {ParentHomePage} from "./ParentHomePage.js"
 import {SitterHomePage} from "./SitterHomePage.js"
 import {MySitters} from "./MySitters.js"
 import {MyProfile} from "./MyProfile.js"
+import {MyParents} from "./MyParents.js"
 
 var SitterModel=Backbone.Model.extend({
-	url: function(){//params>>{email:email}
+	url: function(){
 		return "https://api.parse.com/1/users/?where=" + JSON.stringify(this.attributes)
 	},
 	
@@ -49,6 +50,7 @@ var SitterModel=Backbone.Model.extend({
 
 
 })
+
 
 
 
@@ -119,23 +121,27 @@ var EventsCollection=Backbone.Collection.extend({
 
 
 var ProfileModel=Backbone.Model.extend({
-	url: function(){//params>>{email:email}
-		return "https://api.parse.com/1/users/?where=" + JSON.stringify(this.attributes)
+	url: function(){
+		return "https://api.parse.com/1/users/?where=" + JSON.stringify(this.searchParams)
 	},
 	
-	defaults: {
-		email: ''
-	},
 
 	parseHeaders: {
 		"X-Parse-Application-Id": APP_ID,
 		"X-Parse-REST-API-Key": REST_API_KEY
 	},
 
-	// parse:function(responseData){
-	// 	return responseData.results[0]
+	customFetch:function(){
+	var self=this	
+		return this.fetch({
+			headers: self.parseHeaders,
+		})
+	},
 
-	// }
+	parse:function(responseData){
+		return responseData.results[0]
+
+	}
 
 
 })
@@ -149,6 +155,7 @@ var SitterRouter=Backbone.Router.extend({
 		'parent/home':'showParentHome',
 		'sitter/home':'showSitterHome',
 		'MySitters':'showMySitters',
+		'MyParents':'showMyParents',
 		'parent/sitterSearch/:email':'findSitterByEmail',
 		':type/myProfile':'showMyProfile'
 	},
@@ -259,13 +266,36 @@ var SitterRouter=Backbone.Router.extend({
 
 	},
 
+	showMyParents:function(){
+		this.mpc.searchParams={complete:true,sitterId:Parse.User.current().id}
+
+		this.mpc.customFetch({include:'parent'})
+
+		React.render(<MyParents showButtons={false}
+								myParentsList={this.mpc}
+
+			/>, document.querySelector('#container'))
+
+	},
+
 
 	
 
 	showMyProfile:function(type){
+
+		var self=this
+		this.prfm.searchParams={objectId:Parse.User.current().id}
+		
+		this.prfm.customFetch().done((result)=>console.log(result))
+
+
+		
 		React.render(<MyProfile showButtons={false}
 								userType={type}
+								profile={this.prfm}
+								updateProfile={this.updateProfile}
 								/> , document.querySelector('#container'))
+
 
 	},
 
@@ -429,6 +459,27 @@ sendInvitation:function(sitterId,sitterUsername,parentId){
 		
 	},
 
+	updateProfile:function(profileObj){
+		var self=this
+		console.log('profileObj', profileObj)
+
+		var q=new Parse.Query('User')
+		q.equalTo('objectId',Parse.User.current().id)
+		q.find().then(function(results){
+			var usr=results[0]
+			usr.set('firstName',profileObj['firstName'])
+			usr.set('lastName',profileObj['lastName'])
+			usr.set('email',profileObj['email'])
+			usr.set('phone',profileObj['phone'])
+			usr.set('address',profileObj['address'])
+			usr.save()
+		}).done(()=>alert('you have updated your profile successfully'))
+			
+
+	},
+
+
+
 fetchMySitters:function(){
 	var self=this;
 	this.msc.searchParams={complete:true,
@@ -456,7 +507,8 @@ initialize:function(){
 		this.aec=new EventsCollection();
 		this.aic=new InvitationCollection();
 		this.pec=new EventsCollection();
-		this.usrm=new SitterModel();
+		this.mpc=new InvitationCollection();
+		this.prfm=new ProfileModel();
 
 		Backbone.history.start();
 	}
