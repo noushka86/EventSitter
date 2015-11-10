@@ -1,5 +1,4 @@
-let fetch = require('./fetcher'),
-	React = require('react'),
+let React = require('react'),
     $ = require('jquery'),
     Backbone = require('backbone'),
     _ = require('underscore'),

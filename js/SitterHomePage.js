@@ -1,10 +1,5 @@
 
-let fetch = require('./fetcher'),
-	React = require('react'),
-    $ = require('jquery'),
-    Backbone = require('backbone'),
-    _ = require('underscore'),
-    Parse = require('parse')
+let React = require('react')
 
 import {UpperPanel} from "./UpperPanel.js"
 import {Menu} from "./Menu.js"

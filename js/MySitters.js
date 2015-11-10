@@ -1,5 +1,4 @@
-let fetch = require('./fetcher'),
-	React = require('react'),
+let React = require('react'),
     $ = require('jquery'),
     Backbone = require('backbone'),
     _ = require('underscore'),
@@ -133,24 +132,22 @@ var SitterConfirm=React.createClass({
 		lName="",
 		errMessage="email not found",
 		message="",
-		buttonsStyleObj={
-		fontFamily: 'helvetica',
-		width:'60px',
-        fontWeight:'200',
-        backgroundColor: '#9b59b6',
-        borderRadius: '20px',
-        fontFamily: 'helvetica',
-        color: '#ecf0f1',
-        borderBottom: 'none',
-        borderLeft: 'none',
-        borderRight: 'none',
-        borderTop: 'none',
-        margin:'10px',
-
-		},
-		OKbuttonStyle={display:'none'}
-
-
+		buttonsStyleObj = {
+	        fontFamily: 'helvetica',
+	        width: '60px',
+	        fontWeight: '200',
+	        backgroundColor: '#9b59b6',
+	        borderRadius: '20px',
+	        color: '#ecf0f1',
+	        borderBottom: 'none',
+	        borderLeft: 'none',
+	        borderRight: 'none',
+	        borderTop: 'none',
+	        margin: '10px'
+	    },
+	    OKbuttonStyle = {
+	        display: 'none'
+	    }
 
 		if(this.props.show===true){
 			popUpStyleObj={
@@ -179,14 +176,12 @@ var SitterConfirm=React.createClass({
 					        fontWeight:'200',
 					        backgroundColor: '#9b59b6',
 					        borderRadius: '20px',
-					        fontFamily: 'helvetica',
 					        color: '#ecf0f1',
 					        borderBottom: 'none',
 					        borderLeft: 'none',
 					        borderRight: 'none',
 					        borderTop: 'none',
-					        margin:'10px',}
-
+					        margin:'10px'}
 						}
 
 			else{

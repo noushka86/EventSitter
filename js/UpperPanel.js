@@ -1,10 +1,4 @@
-let fetch = require('./fetcher'),
-	React = require('react'),
-    $ = require('jquery'),
-    Backbone = require('backbone'),
-    _ = require('underscore'),
-    Parse = require('parse')
-
+let React = require('react')
 
 var UpperPanel=React.createClass({
 
