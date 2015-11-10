@@ -226,6 +226,11 @@ var SitterRouter=Backbone.Router.extend({
 		console.log('running show sitter home');
 		selfSitter=this
 
+		
+			selfSitter.aec.reset()
+		
+
+
 		selfSitter.aec.searchParams={claimed:true,sitterUserName:Parse.User.current().get("username")}
 
 		
@@ -304,6 +309,7 @@ this.fetchIntervalId = setInterval(function(){
 	showMyProfile:function(type){
 
 		var self=this
+
 		this.prfm.searchParams={objectId:Parse.User.current().id}
 		
 		this.prfm.customFetch().done((result)=>console.log(result))
