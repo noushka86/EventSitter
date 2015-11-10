@@ -201,11 +201,11 @@ var SitterRouter=Backbone.Router.extend({
 			// selfParent.aic.customFetch({include:'sitter'});
 			// selfParent.pec.customFetch({include:'listOfDenials'})
 
-	this.fetchIntervalId = setInterval(function(){
-			selfParent.aec.customFetch({include:'sitterWhoClaimed'})
-			selfParent.aic.customFetch({include:'sitter'});
-			selfParent.pec.customFetch({include:'listOfDenials'})
-			console.log('re-fetching collections')
+		this.fetchIntervalId = setInterval(function(){
+				selfParent.aec.customFetch({include:'sitterWhoClaimed'})
+				selfParent.aic.customFetch({include:'sitter'});
+				selfParent.pec.customFetch({include:'listOfDenials'})
+				console.log('re-fetching collections')
 			},5000)
 
 		React.render(<ParentHomePage showButtons={false} 
@@ -217,8 +217,6 @@ var SitterRouter=Backbone.Router.extend({
 									pendingEvents={selfParent.pec}
 									logoutUser={this.logoutUser.bind(this)}
 									/>,document.querySelector('#container'))
-
-
 	},
 
 	showSitterHome:function(){
@@ -254,13 +252,14 @@ var SitterRouter=Backbone.Router.extend({
 		
 
 this.fetchIntervalId = setInterval(function(){
-			selfSitter.nec.customFetch({include:'parent'})
-			selfSitter.ic.customFetch({include:'parent'})
-			selfSitter.aec.customFetch({include:'parent'})
-			console.log('re-fetching collections')
-			},5000)
+	selfSitter.nec.customFetch({include:'parent'})
+	selfSitter.ic.customFetch({include:'parent'})
+	selfSitter.aec.customFetch({include:'parent'})
+	console.log('re-fetching collections')
+},5000)
 
-		React.render(<SitterHomePage showButtons={false} 
+React.render(
+	<SitterHomePage showButtons={false} 
 			showCreateEventButton={false}
 			inviteNotifications={selfSitter.ic}
 			newEventNotifications={selfSitter.nec}
@@ -521,10 +520,10 @@ fetchMySitters:function(){
 
 logoutUser:function(){
 	Parse.User.logOut().then(
-			function(){
-				location.hash = "welcome"
-			})
-		clearInterval(router.fetchIntervalId)
+		function(){
+			location.hash = "welcome"
+		})
+	clearInterval(router.fetchIntervalId)
 },
 
 

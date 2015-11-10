@@ -1,45 +1,21 @@
-require('babel/register')({
-    stage: 1
-})
+// cluster management and load-balancing with nanny
+// ----
+// maintains a pool of workers,
+// monitors the health of the workers including event loop responsiveness and memory consumption,
+// restarts workers if they stop,
+// stops workers if they fail a health check,
+// distributes incoming connections to the cluster workers
 
-var cluster = require('cluster'),
-    numCPUs = require('os').cpus().length,
-    startServer = require("./server.js").startServer
+var config = require('./config.json')
 
-startServer()
+if(!config.nodeCluster){
+    return require('./server.js')
+}
 
-// if (cluster.isMaster) {
-//     for(var i=0; i<numCPUs; i++){ cluster.fork() }
+const nanny = require('nanny'),
+    mary_poppins = new nanny({
+        workerPath: `${__dirname}/server.js`
+    })
 
-//     cluster.on('online', function(worker){ console.log('Worker ' + worker.process.pid + ' is online') })
-
-//     cluster.on('exit', function(worker, code, signal) {
-//         console.log('Worker ' + worker.process.pid + ' died with code: ' + code + ', and signal: ' + signal)
-//         console.log('Starting a new worker')
-//         cluster.fork()
-//     })
-// } else {
-//     startServer()
-
-//     process.on('message', function(message) {
-//         if(message.type === 'shutdown') {
-//             process.exit(0)
-//         }
-//     })
-// }
-
-// function restartWorkers() {
-//     var wid, workerIds = []
-
-//     for(wid in cluster.workers) {
-//         workerIds.push(wid)
-//     }
-
-//     workerIds.forEach(function(wid) {
-//         cluster.workers[wid].send({ text: 'shutdown', from: 'master' })
-
-//         setTimeout(function() {
-//             cluster.workers[wid] && cluster.workers[wid].kill('SIGKILL')
-//         }, 5000)
-//     })
-// }
+process.title = 'nodejs - heroku-server'
+mary_poppins.start()
