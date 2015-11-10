@@ -1,3 +1,4 @@
+// the codes
 require("babel/polyfill")
 
 let React = require('react')
