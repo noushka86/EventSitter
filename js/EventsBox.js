@@ -182,7 +182,6 @@ var EventForm=React.createClass({
                 boxShadow:'4px 4px 4px 4px #999',
                 padding:'20px',
 
-
 			}
 		}
 		return(

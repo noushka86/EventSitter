@@ -68,6 +68,9 @@
  * GENERAL
  */
 
+
+
+
  p + p {
     text-indent: 0;
  }
@@ -84,23 +87,80 @@ img {
  }
 
 #UpperPanel{
+
     border-bottom: 1px solid #dedfdf;
     background-color: white;
+    
 
-img{
-    height:60px;
-    vertical-align: middle; 
-    margin-left:166px;  
+    #logo-image{
+        height:60px;
+        vertical-align: middle; 
+        margin-left: 166px;
 
-}
+    }
 
-h4{
- display: inline-block;
- margin-right:470px;
-font-family: Helvetica;
-font-weight: 200;
-color:#9b59b6;
-}
+    h4{
+     display: inline-block;
+    font-family: Helvetica;
+    font-weight: 200;
+    color:#9b59b6;
+    }
+
+    .upper-buttons{
+        display:inline;
+        margin-left:20px;
+        width:140px;
+        font-weight: 200;
+        color: #ecf0f1;
+        border-radius: 20px;
+        background-color: #9b59b6;
+        font-family: helvetica;
+        border: none;
+        box-shadow: 2px 2px 2px 2px #999;
+        outline:none;
+        float:right;
+        margin-top:10px;
+        margin-right:10px;
+    }
+
+
+
+    @media screen and (max-width: 815px){
+        #logo-image{
+            height:60px;
+            vertical-align: middle; 
+            margin-left:0;
+        }
+    }
+
+    @media screen and (max-width: 500px){
+        .upper-buttons{
+            width:120px;
+            font-size: 12px;
+            
+
+        }
+    }
+
+     @media screen and (max-width: 460px){
+        .upper-buttons{
+            width:100px;
+            font-size: 10px;
+            
+
+        }
+    }
+
+     @media screen and (max-width: 420px){
+        .upper-buttons{
+            width:80px;
+            font-size: 10px;
+            
+
+        }
+    }
+
+     
 }
 
 
@@ -143,7 +203,6 @@ button{
 }
 
 #FormPage{
-    text-align: center;
 
 
 }
@@ -151,6 +210,8 @@ button{
 #formBox{
     background-color: #ecf0f1;
     border-top:1px solid #dedfdf;
+        text-align: center;
+
 h3{
     margin-top: 50px;
     color:#9b59b6;
@@ -241,6 +302,13 @@ h3{
     #home{
         margin-left: 166px;
     }
+
+@media screen and (max-width: 815px){
+         #home{
+        margin-left: 0;
+    }
+}
+
     
 
 }
@@ -255,7 +323,7 @@ h3{
         padding-top: 30px;
         max-width: 800px;
         margin: 0 auto; 
-
+        position:relative;
        label{
         color:#9b59b6;
         font-family: helvetica;
@@ -277,6 +345,8 @@ h3{
         border-left: none;
         border-right: none;
         border-top: none;
+        position:absolute;
+        right:0;
 
         }
 
@@ -371,7 +441,7 @@ h3{
     #NotificationBox{
         text-align: center;
         padding-top: 30px;
-        max-width: 700px;
+        max-width: 800px;
         margin: 0 auto;
         
         label{

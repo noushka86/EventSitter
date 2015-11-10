@@ -26,31 +26,15 @@ var UpperPanel=React.createClass({
 		else {
 			styleObj={
 				display:'inline',
-				marginLeft:'20px',
-				width:'140px',
-			    fontWeight: '200',
-			    color: '#ecf0f1',
-			    borderRadius: '20px',
-			    backgroundColor: '#9b59b6',
-			    fontFamily: 'helvetica',
-			    borderBottom: 'none',
-		        borderLeft: 'none',
-		        borderRight: 'none',
-		        borderTop: 'none',
-		        boxShadow:'2px 2px 2px 2px #999',
-		        outline:'none'
-
-
-
 			}
 		}
 
 		return(
 			<div id="UpperPanel">
-				<img src="./images/babysitter.jpg"/>
-				<h4>EventSitter</h4>
-				<button onClick={this._handleButtonClick} value="logIn" style={styleObj}>LOG IN</button>
-				<button onClick={this._handleButtonClick} value="signUp" style={styleObj}>SIGN UP</button>			
+				<img id="logo-image" src="./images/babysitter.jpg"/>
+				<h4>SmartSit</h4>
+				<button className="upper-buttons" onClick={this._handleButtonClick} value="logIn" style={styleObj}>LOG IN</button>
+				<button className="upper-buttons" onClick={this._handleButtonClick} value="signUp" style={styleObj}>SIGN UP</button>			
 			</div>
 			)
 	}
