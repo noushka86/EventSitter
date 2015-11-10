@@ -215,6 +215,7 @@ var SitterRouter=Backbone.Router.extend({
 									approvedInvitationBySitter={this.aic}
 									seenByParent={this.seenByParent}
 									pendingEvents={selfParent.pec}
+									logoutUser={this.logoutUser.bind(this)}
 									/>,document.querySelector('#container'))
 
 
@@ -261,6 +262,7 @@ this.fetchIntervalId = setInterval(function(){
 			InvitationHandler={selfSitter.InvitationHandler}
 			newEventHandler={selfSitter.newEventHandler}
 			events={selfSitter.aec}
+			logoutUser={this.logoutUser.bind(this)}
 			/>, document.querySelector('#container'))
 
 	},
@@ -275,6 +277,7 @@ this.fetchIntervalId = setInterval(function(){
 		showConfirm={confirm||false}
 		sendInvitation={self.sendInvitation}
 		mySittersList={self.msc}
+		logoutUser={this.logoutUser.bind(this)}
 							
 		/>,document.querySelector('#container'))
 
@@ -289,6 +292,7 @@ this.fetchIntervalId = setInterval(function(){
 
 		React.render(<MyParents showButtons={false}
 								myParentsList={this.mpc}
+								logoutUser={this.logoutUser.bind(this)}
 
 			/>, document.querySelector('#container'))
 
@@ -310,6 +314,7 @@ this.fetchIntervalId = setInterval(function(){
 								userType={type}
 								profile={this.prfm}
 								updateProfile={this.updateProfile}
+								logoutUser={this.logoutUser.bind(this)}
 								/> , document.querySelector('#container'))
 
 
@@ -497,8 +502,6 @@ fetchMySitters:function(){
 	this.msc.searchParams={complete:true,
 							parentId:Parse.User.current().id
 							}
-
-
 		this.msc.customFetch({include: 'sitter'}).done(function(){
 		var sitters=self.msc.models
 			MYSITTERS=sitters.map(function(sitter){
@@ -508,6 +511,15 @@ fetchMySitters:function(){
 		})
 
 	},
+
+
+logoutUser:function(){
+	Parse.User.logOut().then(
+			function(){
+				location.hash = "welcome"
+			})
+		clearInterval(router.fetchIntervalId)
+},
 
 
 
@@ -527,7 +539,7 @@ initialize:function(){
 })
 
 var router=new SitterRouter();
-router.on('route',function(){
-	console.log('removing fetch interval')
-	clearInterval(router.fetchIntervalId)
-})
+// router.on('route',function(){
+// 	console.log('removing fetch interval')
+// 	clearInterval(router.fetchIntervalId)
+// })

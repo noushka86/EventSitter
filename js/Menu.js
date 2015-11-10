@@ -11,10 +11,7 @@ let fetch = require('./fetcher'),
 var Menu=React.createClass({
 	
 	_logUserOut:function(){
-		Parse.User.logOut().then(
-			function(){
-				location.hash = "welcome"
-			})
+		this.props.logoutUser()
 
 	},
 	

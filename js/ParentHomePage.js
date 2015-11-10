@@ -49,7 +49,9 @@ var ParentHomePage=React.createClass({
 		return(
 			<div>
 				<UpperPanel showButtons={this.props.showButtons}/>
-				<Menu userType={userType} currentUser={this.props.currentUser}/>
+				<Menu userType={userType} currentUser={this.props.currentUser}
+											logoutUser={this.props.logoutUser}
+/>
 				<InfoBox showCreateEventButton={this.props.showCreateEventButton}
 							events={this.props.events}
 							sendEventDetails={this.props.sendEventDetails}

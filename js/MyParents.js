@@ -25,7 +25,9 @@ var MyParents=React.createClass({
 		return(
 			<div>
 				<UpperPanel showButtons={this.props.showButtons}/>
-				<Menu userType={userType}/>
+				<Menu userType={userType}
+						logoutUser={this.props.logoutUser}
+						/>
 				<ParentsBox myParentsList={this.props.myParentsList}/>
 			</div>
 			)

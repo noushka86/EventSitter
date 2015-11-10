@@ -50,7 +50,9 @@ var SitterHomePage=React.createClass({
 		return(
 			<div>
 				<UpperPanel showButtons={this.props.showButtons}/>
-				<Menu userType={userType} currentUser={this.props.currentUser}/>
+				<Menu userType={userType} currentUser={this.props.currentUser}
+											logoutUser={this.props.logoutUser}
+/>
 				<InfoBox inviteNotifications={this.props.inviteNotifications}
 							newEventNotifications={this.props.newEventNotifications}
 							InvitationHandler={this.props.InvitationHandler}

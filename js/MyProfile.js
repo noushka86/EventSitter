@@ -22,7 +22,10 @@ var MyProfile=React.createClass({
 		return(
 			<div>
 				<UpperPanel showButtons={this.props.showButtons}/>
-				<Menu userType={this.props.userType} currentUser={this.props.currentUser}/>
+				<Menu userType={this.props.userType} 
+						currentUser={this.props.currentUser}
+						logoutUser={this.props.logoutUser}
+						/>
 				<ProfileForm profile={this.props.profile}
 								updateProfile={this.props.updateProfile}
 				/>
