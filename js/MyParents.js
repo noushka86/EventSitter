@@ -7,12 +7,13 @@ var MyParents=React.createClass({
 
 	componentDidMount:function(){
 		var self = this
-		this.props.myParentsList.on('change update', function(){
-			self.forceUpdate()
-		})
+		this.props.myParentsList.on('change update', ()=>this.forceUpdate())
 		
 	},
 
+	componentWillUnmount: function(){
+		this.props.myParentsList.off('change update')
+	},
 
 	render:function(){
 		// console.log(this)

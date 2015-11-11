@@ -13,31 +13,19 @@ var SitterHomePage=React.createClass({
 	componentWillMount: function(){
 		var self = this
 		window.sitterHomePage = this
-		this.props.inviteNotifications.on('change update', function(){
-			self.forceUpdate()
-		})
-		this.props.newEventNotifications.on('change update', function(){
-			self.forceUpdate()
-		})
+		this.props.inviteNotifications.on('change update', ()=>this.forceUpdate())
+		this.props.newEventNotifications.on('change update', ()=>this.forceUpdate())
 
-		this.props.events.on('change update', function(){
-			self.forceUpdate()
-		})
+		this.props.events.on('change update', ()=>this.forceUpdate())
 	},
 
 	componentWillUnmount: function(){
 		var self = this
 		clearInterval(this.refreshInterval)
-		this.props.inviteNotifications.off('change update', function(){
-			self.forceUpdate()
-		})
-		this.props.newEventNotifications.off('change update', function(){
-			self.forceUpdate()
-		})
+		this.props.inviteNotifications.off('change update')
+		this.props.newEventNotifications.off('change update')
 
-		this.props.events.off('change update', function(){
-			self.forceUpdate()
-		})
+		this.props.events.off('change update')
 	},
 
 	render:function(){

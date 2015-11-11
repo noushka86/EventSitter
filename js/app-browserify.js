@@ -3,6 +3,7 @@ require("babel/polyfill")
 require('isomorphic-fetch')
 
 let React = require('react'),
+	ReactDOM = require('react-dom'),
     $ = require('jquery'),
     Backbone = require('backbone'),
     _ = require('underscore'),
@@ -165,14 +166,14 @@ var SitterRouter=Backbone.Router.extend({
 	showLandingPage:function(){
 		//add:(1) if a user is currently logged in I want to redirect him to 
 		//MainViewParent/MainViewSitter
-		React.render(<LandingPage showButtons={false}/>, document.querySelector('#container'))
+		ReactDOM.render(<LandingPage showButtons={false}/>, document.querySelector('#container'))
 	},
 
 	
 
 	showForm:function(type){
 		console.log(type)
-		React.render(<FormPage 
+		ReactDOM.render(<FormPage 
 						showButtons={true} 
 						sendUserInfo={this.processUserInfo}
 						userType={type}
@@ -209,7 +210,7 @@ var SitterRouter=Backbone.Router.extend({
 				console.log('re-fetching collections')
 			},5000)
 
-		React.render(<ParentHomePage showButtons={false} 
+		ReactDOM.render(<ParentHomePage showButtons={false} 
 									showCreateEventButton={true}
 									sendEventDetails={selfParent.createEvent}
 									events={selfParent.aec}
@@ -239,7 +240,7 @@ var SitterRouter=Backbone.Router.extend({
 			console.log('re-fetching collections')
 		},5000)
 
-		React.render(
+		ReactDOM.render(
 			<SitterHomePage showButtons={false} 
 					showCreateEventButton={false}
 					inviteNotifications={selfSitter.ic}
@@ -256,7 +257,7 @@ var SitterRouter=Backbone.Router.extend({
 		self=this
 		self.fetchMySitters()
 
-		React.render(<MySitters 
+		ReactDOM.render(<MySitters 
 		showButtons={false}
 		sitterModel={self.sm}
 		showConfirm={confirm||false}
@@ -270,7 +271,7 @@ var SitterRouter=Backbone.Router.extend({
 	showMyParents:function(){
 		this.mpc.searchParams={complete:true,sitterId:Parse.User.current().id}
 		this.mpc.customFetch({include:'parent'})
-		React.render(<MyParents showButtons={false}
+		ReactDOM.render(<MyParents showButtons={false}
 								myParentsList={this.mpc}
 								logoutUser={this.logoutUser.bind(this)}/>,
 						document.querySelector('#container'))
@@ -281,7 +282,7 @@ var SitterRouter=Backbone.Router.extend({
 		var self=this
 		this.prfm.searchParams={objectId:Parse.User.current().id}
 		this.prfm.customFetch().done((result)=>console.log(result))
-		React.render(<MyProfile showButtons={false}
+		ReactDOM.render(<MyProfile showButtons={false}
 								userType={type}
 								profile={this.prfm}
 								updateProfile={this.updateProfile}

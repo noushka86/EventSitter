@@ -12,10 +12,12 @@ var MySitters=React.createClass({
 
 	componentDidMount:function(){
 		var self = this
-		this.props.mySittersList.on('change update', function(){
-			self.forceUpdate()
-		})
+		this.props.mySittersList.on('change update', ()=>this.forceUpdate())
 		console.log("My Sitters List",this.props.mySittersList)
+	},
+
+	componentWillUnmount: function(){
+		this.props.mySittersList.off('change update')
 	},
 
 	render:function(){

@@ -7,9 +7,11 @@ var MyProfile=React.createClass({
 	
 	componentDidMount:function(){
 		var self=this
-	this.props.profile.on("sync update",function(){
-		self.forceUpdate()})
+		this.props.profile.on("sync update",() => this.forceUpdate())
+	},
 
+	componentWillUnmount: function(){
+		this.props.profile.off("sync update")
 	},
 
 	render:function(){
