@@ -190,26 +190,26 @@ var SitterRouter=Backbone.Router.extend({
 										from:Parse.User.current().get("username")}
 		selfParent.pec.searchParams={claimed:false,parentUserName:Parse.User.current().get("username")}
 
-		var fetchAllCollections = function(){
-				selfParent.aec.customFetch({include:'sitterWhoClaimed'})
-				selfParent.aic.customFetch({include:'sitter'});
-				selfParent.pec.customFetch({include:'listOfDenials'})
-				console.log('re-fetching collections')
-			}
-		var startFetchInterval = function(){
-				selfParent.fetchIntervalId = setInterval(fetchAllCollections,5000)
-			}
+		// var fetchAllCollections = function(){
+		// 		selfParent.aec.customFetch({include:'sitterWhoClaimed'})
+		// 		selfParent.aic.customFetch({include:'sitter'});
+		// 		selfParent.pec.customFetch({include:'listOfDenials'})
+		// 		console.log('re-fetching collections')
+		// 	}
+		// var startFetchInterval = function(){
+		// 		selfParent.fetchIntervalId = setInterval(fetchAllCollections,5000)
+		// 	}
 
-		fetchAllCollections()
+		// fetchAllCollections()
 
-		setTimeout(startFetchInterval,500)
+		// setTimeout(startFetchInterval,500)
 
-		// this.fetchIntervalId = setInterval(function(){
-		// 	selfParent.aec.customFetch({include:'sitterWhoClaimed'})
-		// 	selfParent.aic.customFetch({include:'sitter'});
-		// 	selfParent.pec.customFetch({include:'listOfDenials'})
-		// 	console.log('re-fetching collections')
-		// },5000)
+		this.fetchIntervalId = setInterval(function(){
+			selfParent.aec.customFetch({include:'sitterWhoClaimed'})
+			selfParent.aic.customFetch({include:'sitter'});
+			selfParent.pec.customFetch({include:'listOfDenials'})
+			console.log('re-fetching collections')
+		},5000)
 
 
 
@@ -239,29 +239,29 @@ var SitterRouter=Backbone.Router.extend({
 
 
 
-		var fetchAllCollections = function(){
-			selfSitter.nec.customFetch({include:'parent'})
-			selfSitter.ic.customFetch({include:'parent'})
-			selfSitter.aec.customFetch({include:'parent'})
-				console.log('re-fetching collections')
-			}
-		var startFetchInterval = function(){
-				selfParent.fetchIntervalId = setInterval(fetchAllCollections,5000)
-			}
-
-		fetchAllCollections()
-
-		setTimeout(startFetchInterval,500)
-
-
-
-
-		// this.fetchIntervalId = setInterval(function(){
+		// var fetchAllCollections = function(){
 		// 	selfSitter.nec.customFetch({include:'parent'})
 		// 	selfSitter.ic.customFetch({include:'parent'})
 		// 	selfSitter.aec.customFetch({include:'parent'})
-		// 	console.log('re-fetching collections')
-		// },5000)
+		// 		console.log('re-fetching collections')
+		// 	}
+		// var startFetchInterval = function(){
+		// 		selfSitter.fetchIntervalId = setInterval(fetchAllCollections,5000)
+		// 	}
+
+		// fetchAllCollections()
+
+		// setTimeout(startFetchInterval,500)
+
+
+
+
+		this.fetchIntervalId = setInterval(function(){
+			selfSitter.nec.customFetch({include:'parent'})
+			selfSitter.ic.customFetch({include:'parent'})
+			selfSitter.aec.customFetch({include:'parent'})
+			console.log('re-fetching collections')
+		},5000)
 
 		ReactDOM.render(
 			<SitterHomePage showButtons={false} 
@@ -530,9 +530,9 @@ var SitterRouter=Backbone.Router.extend({
 
 var router=new SitterRouter();
 var firstRoute = true
-router.on('route',function(functionName){
-	// if(functionName!='showSitterHome'|| functionName!='showSitterHome'){
-	console.log('removing fetch interval')
-	clearInterval(router.fetchIntervalId)
-	// } 
-})
+// router.on('route',function(functionName){
+// 	// if(functionName!='showSitterHome'|| functionName!='showSitterHome'){
+// 	console.log('removing fetch interval')
+// 	clearInterval(router.fetchIntervalId)
+// 	// } 
+// })
