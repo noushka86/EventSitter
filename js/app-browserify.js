@@ -9,15 +9,17 @@ let React = require('react'),
     _ = require('underscore'),
     Parse = require('parse')
 
-console.log("jS loaded")
+
 var self, selfSitter, selfParent;
 var MYSITTERS, CURRENTUSER;
+
+    // <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD9cp_vbWmt7vYuFs4GQido4sB7xMNfzYc"></script>
 
 
 var APP_ID = 'wXCq4PN1u7OGDCjyS4xkWMwTvIMlN8dfJKGkA4DE',
 	JS_KEY = 'u3F2jXFkB1WZX44vRiGX7roenlOY8CadeGp4uzwi',
-	REST_API_KEY = 'K4WIHPL5Q4eXxKnmyE1W2sqJUaU8E2Bcb8WLLaKI'
-
+	REST_API_KEY = 'K4WIHPL5Q4eXxKnmyE1W2sqJUaU8E2Bcb8WLLaKI',
+	GEO='AIzaSyD9cp_vbWmt7vYuFs4GQido4sB7xMNfzYc'
 
 Parse.initialize(APP_ID,JS_KEY)
 
@@ -170,7 +172,7 @@ var SitterRouter=Backbone.Router.extend({
 	
 
 	showForm:function(type){
-		console.log(type)
+		
 		ReactDOM.render(<FormPage 
 						showButtons={true} 
 						sendUserInfo={this.processUserInfo}
@@ -180,7 +182,7 @@ var SitterRouter=Backbone.Router.extend({
 	},
 
 	showParentHome:function(){
-
+		this.aec.reset();
 
 		selfParent=this
 
@@ -190,26 +192,34 @@ var SitterRouter=Backbone.Router.extend({
 										from:Parse.User.current().get("username")}
 		selfParent.pec.searchParams={claimed:false,parentUserName:Parse.User.current().get("username")}
 
-		// var fetchAllCollections = function(){
-		// 		selfParent.aec.customFetch({include:'sitterWhoClaimed'})
-		// 		selfParent.aic.customFetch({include:'sitter'});
-		// 		selfParent.pec.customFetch({include:'listOfDenials'})
-		// 		console.log('re-fetching collections')
-		// 	}
-		// var startFetchInterval = function(){
-		// 		selfParent.fetchIntervalId = setInterval(fetchAllCollections,5000)
-		// 	}
+// selfParent.aec.customFetch({include:'sitterWhoClaimed'})
+// 				selfParent.aic.customFetch({include:'sitter'});
+// 				selfParent.pec.customFetch({include:'listOfDenials'})
 
-		// fetchAllCollections()
 
-		// setTimeout(startFetchInterval,500)
+		var fetchAllCollections = function(){
+				console.log('re-fetching collections')
+				selfParent.aec.customFetch({include:'sitterWhoClaimed'})
+				selfParent.aic.customFetch({include:'sitter'});
+				selfParent.pec.customFetch({include:'listOfDenials'})
+				
+			}
+		
+		var startFetchInterval = function(){
+				selfParent.fetchIntervalId = setInterval(fetchAllCollections,5000)
+				console.log(selfParent.fetchIntervalId)
+		}
 
-		this.fetchIntervalId = setInterval(function(){
-			selfParent.aec.customFetch({include:'sitterWhoClaimed'})
-			selfParent.aic.customFetch({include:'sitter'});
-			selfParent.pec.customFetch({include:'listOfDenials'})
-			console.log('re-fetching collections')
-		},5000)
+		console.log(selfParent.fetchIntervalId)
+		fetchAllCollections()
+		setTimeout(startFetchInterval,500)
+
+		// this.fetchIntervalId = setInterval(function(){
+		// 	selfParent.aec.customFetch({include:'sitterWhoClaimed'})
+		// 	selfParent.aic.customFetch({include:'sitter'});
+		// 	selfParent.pec.customFetch({include:'listOfDenials'})
+		// 	
+		// },5000)
 
 
 
@@ -225,11 +235,11 @@ var SitterRouter=Backbone.Router.extend({
 	},
 
 	showSitterHome:function(){
-
-		console.log('running show sitter home');
+		this.aec.reset();
+		;
 		selfSitter=this
-		selfSitter.aec.reset()
-		selfSitter.nec.reset()
+		// selfSitter.aec.reset()
+		// selfSitter.nec.reset()
 		selfSitter.aec.searchParams={claimed:true,sitterUserName:Parse.User.current().get("username")}
 		this.ic.searchParams={sitterId:Parse.User.current().id, complete:false}
 		this.ic.customFetch({include:'parent'})
@@ -238,30 +248,35 @@ var SitterRouter=Backbone.Router.extend({
 		this.nec.searchParams={listOfSitters:{$in:[Parse.User.current().get("username")]}, claimed:false}
 
 
+		selfSitter.nec.customFetch({include:'parent'})
+		selfSitter.ic.customFetch({include:'parent'})
+		selfSitter.aec.customFetch({include:'parent'})
 
-		// var fetchAllCollections = function(){
+		var fetchAllCollections = function(){
+			console.log('re-fetching collections')
+			selfSitter.nec.customFetch({include:'parent'})
+			selfSitter.ic.customFetch({include:'parent'})
+			selfSitter.aec.customFetch({include:'parent'})	
+			}
+
+		var startFetchInterval = function(){
+				selfSitter.fetchIntervalId = setInterval(fetchAllCollections,5000)
+			}
+
+		fetchAllCollections()
+
+		setTimeout(startFetchInterval,500)
+
+
+
+
+		// this.fetchIntervalId = setInterval(function(){
 		// 	selfSitter.nec.customFetch({include:'parent'})
 		// 	selfSitter.ic.customFetch({include:'parent'})
 		// 	selfSitter.aec.customFetch({include:'parent'})
-		// 		console.log('re-fetching collections')
-		// 	}
-		// var startFetchInterval = function(){
-		// 		selfSitter.fetchIntervalId = setInterval(fetchAllCollections,5000)
-		// 	}
+		// 	
 
-		// fetchAllCollections()
-
-		// setTimeout(startFetchInterval,500)
-
-
-
-
-		this.fetchIntervalId = setInterval(function(){
-			selfSitter.nec.customFetch({include:'parent'})
-			selfSitter.ic.customFetch({include:'parent'})
-			selfSitter.aec.customFetch({include:'parent'})
-			console.log('re-fetching collections')
-		},5000)
+		// },5000)
 
 		ReactDOM.render(
 			<SitterHomePage showButtons={false} 
@@ -304,7 +319,7 @@ var SitterRouter=Backbone.Router.extend({
 
 		var self=this
 		this.prfm.searchParams={objectId:Parse.User.current().id}
-		this.prfm.customFetch().done((result)=>console.log(result))
+		this.prfm.customFetch()
 		ReactDOM.render(<MyProfile showButtons={false}
 								userType={type}
 								profile={this.prfm}
@@ -313,9 +328,8 @@ var SitterRouter=Backbone.Router.extend({
 								/> , document.querySelector('#container'))
 	},
 
-	processUserInfo:function(userInputObj, action){
-		console.log("processUserInfo:")
-		console.log(userInputObj)
+	processUserInfo:function(userInputObj, action){		
+		
 		var newUsr = new Parse.User()
 		newUsr.set('username',userInputObj["username"])
 		newUsr.set('email',userInputObj["email"])
@@ -325,15 +339,28 @@ var SitterRouter=Backbone.Router.extend({
 		newUsr.set('lastName',userInputObj["lastName"])
 		newUsr.set('phone',userInputObj["phone"])
 		newUsr.set('address',userInputObj["address"])
-		window.usr = newUsr
-		// console.log(action)
-		if(action==='signUp') {
+
+		// var ajaxParams={
+		// 	url: `https://maps.googleapis.com/maps/api/geocode/json?address=${userInputObj["address"]}`
+
+		// }
+
+		// $.ajax(ajaxParams).then(
+		// 	(responseData)=>{
+		// 	var loc = responseData.results[0].geometry.location;
+  //      		var lat = loc.lat,
+  //           	lng = loc.lng;
+
+		// 	newUsr.set('latlon',{lat,lng})
+
+
+			if(action==='signUp') {
 		newUsr.signUp().then(
 			function(){
 				alert('nice');
 				location.hash=userInputObj["type"]+"/home"
 			}).fail(function(err){
-				console.log(err)
+				
 				Parse.User.logOut()
 			})
 		}
@@ -343,9 +370,14 @@ var SitterRouter=Backbone.Router.extend({
 					alert('nice');
 					location.hash=userInputObj["type"]+"/home"
 			}).fail(function(err){
-				console.log(err)
+				
 			})
 		}
+			// })
+
+
+	
+		
 	},
 
 	findSitterByEmail: function(email){
@@ -461,7 +493,7 @@ var SitterRouter=Backbone.Router.extend({
 
     updateProfile: function(profileObj) {
         var self = this
-        console.log('profileObj', profileObj)
+        
 
         var q = new Parse.Query('User')
         q.equalTo('objectId', Parse.User.current().id)
@@ -496,22 +528,16 @@ var SitterRouter=Backbone.Router.extend({
 
 
 	logoutUser:function(){
-		this.sm.clear();
-		this.ic.reset()
-		this.msc.reset()
-		this.nec.reset()
-		this.aec.reset()
-		this.aic.reset()
-		this.pec.reset()
-		this.mpc.reset()
-		this.prfm.clear()
-
+		
+// clearInterval(router.fetchIntervalId)
 		Parse.User.logOut().then(
 			function(){
 				location.hash = "welcome"
 			})
-		clearInterval(router.fetchIntervalId)
+		
 	},
+
+
 
 	initialize:function(){
 		this.sm=new SitterModel();
@@ -530,9 +556,9 @@ var SitterRouter=Backbone.Router.extend({
 
 var router=new SitterRouter();
 var firstRoute = true
-// router.on('route',function(functionName){
-// 	// if(functionName!='showSitterHome'|| functionName!='showSitterHome'){
-// 	console.log('removing fetch interval')
-// 	clearInterval(router.fetchIntervalId)
-// 	// } 
-// })
+router.on('route',function(functionName){
+	// if(functionName!='showSitterHome'|| functionName!='showSitterHome'){
+	console.log(router.fetchIntervalId)
+	clearInterval(router.fetchIntervalId)
+	// } 
+})

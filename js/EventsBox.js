@@ -46,7 +46,7 @@ var EventsBox=React.createClass({
 			events=this.props.pendingEvents.models
 			title="Unclaimed Events"
 		}
-		// console.log(events,"EVENTS")
+		// 
 		var styleObj={},
 			userHeader="",
 			eventNameStyleObj={}
@@ -120,8 +120,8 @@ var EventForm=React.createClass({
 
 
 	_validateInput: function(e){
-    		// console.log('blurred!')
-    		console.log(e)
+    		// 
+    		
 
     		var name=e.target.name, 
     			value=e.target.value
@@ -134,7 +134,7 @@ var EventForm=React.createClass({
     			} 
     			this.eventDetails[name]=value
 
-    			console.log(this.eventDetails)
+    			
     	},
 
     _checkValidInput:function(e){
@@ -145,7 +145,7 @@ var EventForm=React.createClass({
 							return
 						}
 					}
-					// console.log(this.eventDetails)
+					// 
 					this.props.sendEventDetails(this.eventDetails)
 					this._clearForm()
 					this.props.changeState(false)			
@@ -198,19 +198,24 @@ var EventForm=React.createClass({
 
 
 var Event=React.createClass({
-	render:function(){
+	
 
+	render:function(){
+		;
 		var user="",title="", styleObj={}, tmp="";
 			
 		
 		if(this.props.userType==='parent' && this.props.approvedEvents)
 		{
+
 			user=this.props.data.sitterWhoClaimed.firstName+" "+this.props.data.sitterWhoClaimed.lastName
-		
+			// 
+			// 
 			title=this.props.data.title
-			styleObj={display:'inline',
-			fontWeight:'bold',
-			marginRight:'20px'
+			styleObj={
+				display:'inline',
+				fontWeight:'bold',
+				marginRight:'20px'
 		}
 
 
@@ -222,10 +227,11 @@ var Event=React.createClass({
 			}
 			user=tmp.slice(0,tmp.length-1)
 			title=this.props.data.title
-			styleObj={display:'inline',
-			fontWeight:'bold',
-			marginRight:'20px'
-		}
+			styleObj={
+				display:'inline',
+				fontWeight:'bold',
+				marginRight:'20px'
+			}
 			
 
 		}

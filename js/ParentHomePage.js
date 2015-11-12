@@ -57,6 +57,8 @@ var ParentHomePage=React.createClass({
 
 var InfoBox=React.createClass({
 	render:function(){
+		// console.log('props 2 EventsBox daata -->')
+		// console.log(this.props.events)
 		return(
 			<div id="InfoBox">
 				<PrntNotificationBox approvedInvitationBySitter={this.props.approvedInvitationBySitter}
@@ -68,6 +70,7 @@ var InfoBox=React.createClass({
 							events={this.props.events}
 							userType={'parent'}
 							approvedEvents={true}
+							
 							/>
 
 				<EventsBox  showCreateEventButton={false} //Pending Events

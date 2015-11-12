@@ -7,7 +7,7 @@ var NotificationBox = React.createClass({
 	_createInviteNotification:function(notificationObj){
 		
 		return (<InviteNotification data={notificationObj.attributes} 
-								key={notificationObj.parentId}
+								key={notificationObj.objectIds}
 								InvitationHandler={this.props.InvitationHandler}
 								/>)
 	},

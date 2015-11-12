@@ -446,6 +446,17 @@ h3{
 
         }
 
+        @media screen and (max-width: 768px){
+            #newEvent{
+                height: 32px;
+                width:30px; 
+                font-size: 20px;
+                right:50px;
+                padding: 0;
+                padding-bottom: 20px;
+                } 
+            }
+
         @media screen and (max-width: 420px){
             #newEvent{
                 height: 20px;
@@ -572,6 +583,16 @@ h3{
 
             }
 
+
+                  @media screen and (max-width: 768px){
+                    #EBox{
+                        font-size: 20px;
+                        margin-bottom: 30px;
+                        margin-right: 30px;
+                        margin-left: 30px;
+                    }
+                 }
+
             @media screen and (max-width: 420px){
                     #EBox{
                         font-size: 10px;
@@ -580,6 +601,7 @@ h3{
                         margin-left: 10px;
                     }
                  }
+
 }
 
 
@@ -638,6 +660,17 @@ h3{
                     outline: none; 
                     }
 
+                     @media screen and (max-width: 768px){
+                    
+
+                    button{
+                        padding: 0;
+                        margin-bottom: 10px;
+
+
+                    }
+                }
+
                 @media screen and (max-width: 420px){
                     
                      p{
@@ -658,7 +691,23 @@ h3{
 }
 
 
- @media screen and (max-width: 420px){
+ @media screen and (max-width: 768px){
+
+                    #NBox div{
+                        border-bottom: 1px solid rgba(192,192,192,.35);
+                    }
+
+
+                    #NotificationBox{
+                        margin-right: 30px;
+                         margin-left: 30px;
+                    }
+
+
+                 }
+
+
+@media screen and (max-width: 420px){
 
                     #NBox div{
                         border-bottom: 1px solid rgba(192,192,192,.35);
@@ -776,6 +825,13 @@ h3{
 
 
         }
+
+        @media screen and (max-width: 768px){
+            #ListBox{
+                margin-left:30px;
+                margin-right: 30px;               
+                } 
+            }
 
            @media screen and (max-width: 420px){
             #ListBox{
@@ -920,3 +976,12 @@ h3{
             }
 
             }
+
+
+
+
+#MapBox{
+    width:300px;
+    width:300px;
+
+}

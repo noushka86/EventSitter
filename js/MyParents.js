@@ -24,11 +24,16 @@ var MyParents=React.createClass({
 				<Menu userType={userType}
 						logoutUser={this.props.logoutUser}
 						/>
-				<ParentsBox myParentsList={this.props.myParentsList}/>
+				<ParentsBox myParentsList={this.props.myParentsList}
+
+							/>
 			</div>
 			)
 	}
 })
+
+				// <MapBox  myParentsList={this.props.myParentsList}/>
+				
 
 
 var ParentsBox=React.createClass({
@@ -87,7 +92,39 @@ var Parent=React.createClass({
 })
 
 
+// var MapBox=React.createClass({
 
+// 	componentDidMount:function(){
+// 		this._initMap();
+// 	},
+
+
+// 	_initMap:function(){
+// 	// var markers =this.props.myParentsList.map(function(element){
+// 	// 	return element.parent.latlon
+// 	// });
+
+
+// 		 var map = new google.maps.Map(document.getElementById("MapBox"),{
+// 		 	center:{lat:29.7630556,lng:-95.3630556},
+// 		 	scrollwheel:false,
+// 		 	zoom:12
+// 		 })
+
+
+// 	},
+
+// 	render:function(){
+
+// 		return(
+
+// 			<div id="MapBox">
+
+// 			</div>
+
+// 			)
+// 	}
+// })
 
 
 
