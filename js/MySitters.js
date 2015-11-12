@@ -13,7 +13,6 @@ var MySitters=React.createClass({
 	componentDidMount:function(){
 		var self = this
 		this.props.mySittersList.on('change update', ()=>this.forceUpdate())
-		console.log("My Sitters List",this.props.mySittersList)
 	},
 
 	componentWillUnmount: function(){
@@ -94,9 +93,9 @@ var ListOfSitters=React.createClass({
 				<div id="ListBox">
 					<div id="Sitter">
 						<p className="header">Name</p> 
-						<p className="header">Email</p> 
 						<p className="header">Phone</p>
-						<p className="header address">Adress</p>
+						<p className="header">Email</p> 
+
 					</div>
 						{sittersList.map(this._createSitter)}
 					</div>
@@ -104,6 +103,10 @@ var ListOfSitters=React.createClass({
 			)
 	}
 })
+
+						// <p className="header address">Adress</p>
+
+
 
 var SitterConfirm=React.createClass({
 	_clickHandler:function(event){
@@ -153,21 +156,7 @@ var SitterConfirm=React.createClass({
 
 		if(this.props.show===true){
 			popUpStyleObj={
-				display:'inline',
-				position: 'fixed',
-				width:'250px',
-				border:'2px solid #9b59b6',
-				borderRadius:'20px',
-				left: '50%',
-                top: '30%',
-                transform: "translate(-50%,-50%)",
-                'backgroundColor':'#AEA8D3',
-                textAlign:'center',
-                fontFamily:'helvetica',
-                fontWeight:'200',
-                boxShadow:'4px 4px 4px 4px #999',
-                color:'white',
-                padding:'15px',
+				display:'inline'
 			}
 
 			if(typeof this.props.sitterModel.attributes.results[0] ==='undefined'){
@@ -197,7 +186,7 @@ var SitterConfirm=React.createClass({
 			popUpStyleObj={display:'none'}
 		}
 		return(
-			<div style={popUpStyleObj}>
+			<div id="SitterConfirm"  style={popUpStyleObj}>
 				<p>{message}</p>
 				<button style={buttonsStyleObj} onClick={this._clickHandler} value="Yes">Yes</button>
 				<button style={buttonsStyleObj} onClick={this._clickHandler} value="No">No</button>
@@ -217,15 +206,17 @@ var Sitter=React.createClass({
 		return(
 			<div id="Sitter">
 				<p>{this.props.data.sitter.firstName} {this.props.data.sitter.lastName}</p>
-				<p>{this.props.data.sitter.email}</p>
 				<p> {this.props.data.sitter.phone}</p>
-				<a target="_blank" href={address} className="address"> {this.props.data.sitter.address}</a>
+				<p>{this.props.data.sitter.email}</p>
 			</div>
 			)
 	}
 })
 
 			
+				// <a target="_blank" href={address} className="address"> {this.props.data.sitter.address}</a>
+
+				// <p>{this.props.data.sitter.email}</p>
 
 
 

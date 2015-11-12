@@ -81,7 +81,6 @@ var InvitationCollection=Backbone.Collection.extend({
 	},
 
 	parse: function(response){
-		console.log(response)
 		window.invitationResponse = response
 		return response.results
 	}
@@ -114,7 +113,6 @@ var EventsCollection=Backbone.Collection.extend({
 	},
 
 	parse: function(response){
-		console.log(response)
 		return response.results
 	}
 
@@ -187,28 +185,33 @@ var SitterRouter=Backbone.Router.extend({
 		selfParent=this
 
 		selfParent.aec.searchParams = {claimed:true,parentUserName:Parse.User.current().get("username")}
-
-		
-
-		
 		selfParent.fetchMySitters();
-
-
 		selfParent.aic.searchParams={complete:true, seenByParent:false,
 										from:Parse.User.current().get("username")}
-
 		selfParent.pec.searchParams={claimed:false,parentUserName:Parse.User.current().get("username")}
 
-			// selfParent.aec.customFetch({include:'sitterWhoClaimed'})
-			// selfParent.aic.customFetch({include:'sitter'});
-			// selfParent.pec.customFetch({include:'listOfDenials'})
-
-		this.fetchIntervalId = setInterval(function(){
+		var fetchAllCollections = function(){
 				selfParent.aec.customFetch({include:'sitterWhoClaimed'})
 				selfParent.aic.customFetch({include:'sitter'});
 				selfParent.pec.customFetch({include:'listOfDenials'})
 				console.log('re-fetching collections')
-			},5000)
+			}
+		var startFetchInterval = function(){
+				selfParent.fetchIntervalId = setInterval(fetchAllCollections,5000)
+			}
+
+		fetchAllCollections()
+
+		setTimeout(startFetchInterval,500)
+
+		// this.fetchIntervalId = setInterval(function(){
+		// 	selfParent.aec.customFetch({include:'sitterWhoClaimed'})
+		// 	selfParent.aic.customFetch({include:'sitter'});
+		// 	selfParent.pec.customFetch({include:'listOfDenials'})
+		// 	console.log('re-fetching collections')
+		// },5000)
+
+
 
 		ReactDOM.render(<ParentHomePage showButtons={false} 
 									showCreateEventButton={true}
@@ -226,6 +229,7 @@ var SitterRouter=Backbone.Router.extend({
 		console.log('running show sitter home');
 		selfSitter=this
 		selfSitter.aec.reset()
+		selfSitter.nec.reset()
 		selfSitter.aec.searchParams={claimed:true,sitterUserName:Parse.User.current().get("username")}
 		this.ic.searchParams={sitterId:Parse.User.current().id, complete:false}
 		this.ic.customFetch({include:'parent'})
@@ -233,12 +237,31 @@ var SitterRouter=Backbone.Router.extend({
 		window.n=this.nec
 		this.nec.searchParams={listOfSitters:{$in:[Parse.User.current().get("username")]}, claimed:false}
 
-		this.fetchIntervalId = setInterval(function(){
+
+
+		var fetchAllCollections = function(){
 			selfSitter.nec.customFetch({include:'parent'})
 			selfSitter.ic.customFetch({include:'parent'})
 			selfSitter.aec.customFetch({include:'parent'})
-			console.log('re-fetching collections')
-		},5000)
+				console.log('re-fetching collections')
+			}
+		var startFetchInterval = function(){
+				selfParent.fetchIntervalId = setInterval(fetchAllCollections,5000)
+			}
+
+		fetchAllCollections()
+
+		setTimeout(startFetchInterval,500)
+
+
+
+
+		// this.fetchIntervalId = setInterval(function(){
+		// 	selfSitter.nec.customFetch({include:'parent'})
+		// 	selfSitter.ic.customFetch({include:'parent'})
+		// 	selfSitter.aec.customFetch({include:'parent'})
+		// 	console.log('re-fetching collections')
+		// },5000)
 
 		ReactDOM.render(
 			<SitterHomePage showButtons={false} 
@@ -425,6 +448,7 @@ var SitterRouter=Backbone.Router.extend({
 				selfSitter.showSitterHome.bind(selfSitter))
 		}
 	},
+
 	seenByParent: function(objectId) {
         var q = new Parse.Query('Invitation')
         q.equalTo('objectId', objectId)
@@ -472,6 +496,16 @@ var SitterRouter=Backbone.Router.extend({
 
 
 	logoutUser:function(){
+		this.sm.clear();
+		this.ic.reset()
+		this.msc.reset()
+		this.nec.reset()
+		this.aec.reset()
+		this.aic.reset()
+		this.pec.reset()
+		this.mpc.reset()
+		this.prfm.clear()
+
 		Parse.User.logOut().then(
 			function(){
 				location.hash = "welcome"
@@ -495,7 +529,10 @@ var SitterRouter=Backbone.Router.extend({
 
 
 var router=new SitterRouter();
-// router.on('route',function(){
-// 	console.log('removing fetch interval')
-// 	clearInterval(router.fetchIntervalId)
-// })
+var firstRoute = true
+router.on('route',function(functionName){
+	// if(functionName!='showSitterHome'|| functionName!='showSitterHome'){
+	console.log('removing fetch interval')
+	clearInterval(router.fetchIntervalId)
+	// } 
+})

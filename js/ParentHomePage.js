@@ -25,17 +25,11 @@ var ParentHomePage=React.createClass({
 
 	componentWillUnmount: function(){
 		var self = this
-		this.props.events.off('change update', function(){
-			self.forceUpdate()
-		})
+		this.props.events.off('change update')
 
-		this.props.approvedInvitationBySitter.off('change update', function(){
-			self.forceUpdate()
-		})
+		this.props.approvedInvitationBySitter.off('change update')
 
-		this.props.pendingEvents.off('change update', function(){
-			self.forceUpdate()
-		})
+		this.props.pendingEvents.off('change update')
 	},
 
 

@@ -167,20 +167,7 @@ var EventForm=React.createClass({
 		}
 		else{
 			styleObj={
-				display:'inline',
-				position: 'fixed',
-				border:'2px solid #9b59b6',
-				borderRadius:'20px',
-				left: '50%',
-                top: '50%',
-                transform: "translate(-50%,-50%)",
-                'backgroundColor':'#AEA8D3',
-                textAlign:'center',
-                fontFamily:'helvetica',
-                fontWeight:'200',
-                boxShadow:'4px 4px 4px 4px #999',
-                padding:'20px',
-
+				display:'inline'
 			}
 		}
 		return(
@@ -221,6 +208,11 @@ var Event=React.createClass({
 			user=this.props.data.sitterWhoClaimed.firstName+" "+this.props.data.sitterWhoClaimed.lastName
 		
 			title=this.props.data.title
+			styleObj={display:'inline',
+			fontWeight:'bold',
+			marginRight:'20px'
+		}
+
 
 		}
 
@@ -230,6 +222,10 @@ var Event=React.createClass({
 			}
 			user=tmp.slice(0,tmp.length-1)
 			title=this.props.data.title
+			styleObj={display:'inline',
+			fontWeight:'bold',
+			marginRight:'20px'
+		}
 			
 
 		}
