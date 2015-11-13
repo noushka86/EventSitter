@@ -62,7 +62,7 @@ _getSitterInfo:function(event){
 
 
 	render:function(){
-		var placeholder="Invite New Sitter to My Group";
+		var placeholder="Invite New Sitter By Email";
 		
 		return(
 			<div id="AddSitter">

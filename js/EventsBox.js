@@ -214,8 +214,7 @@ var Event=React.createClass({
 			title=this.props.data.title
 			styleObj={
 				display:'inline',
-				fontWeight:'bold',
-				marginRight:'20px'
+				fontWeight:'bold'
 		}
 
 
@@ -229,8 +228,7 @@ var Event=React.createClass({
 			title=this.props.data.title
 			styleObj={
 				display:'inline',
-				fontWeight:'bold',
-				marginRight:'20px'
+				fontWeight:'bold'
 			}
 			
 

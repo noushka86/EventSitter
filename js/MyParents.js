@@ -27,12 +27,13 @@ var MyParents=React.createClass({
 				<ParentsBox myParentsList={this.props.myParentsList}
 
 							/>
+				<MapBox  myParentsList={this.props.myParentsList}/>
+
 			</div>
 			)
 	}
 })
 
-				// <MapBox  myParentsList={this.props.myParentsList}/>
 				
 
 
@@ -64,7 +65,7 @@ var ListOfParents=React.createClass({
 				<div id="ListBox">
 					<div id="Sitter">
 						<p className="header">Name</p> 
-						<p className="header">Email</p> 
+						<p className="header email">Email</p> 
 						<p className="header">Phone</p>
 						<p className="header address">Adress</p>
 					</div>
@@ -92,39 +93,64 @@ var Parent=React.createClass({
 })
 
 
-// var MapBox=React.createClass({
+var MapBox=React.createClass({
 
-// 	componentDidMount:function(){
-// 		this._initMap();
-// 	},
+	// componentDidMount:function(){
+	// 	this._initMap();
+	// },
 
-
-// 	_initMap:function(){
-// 	// var markers =this.props.myParentsList.map(function(element){
-// 	// 	return element.parent.latlon
-// 	// });
+	componentWillUpdate:function(){
+		this._initMap();
+	},
 
 
-// 		 var map = new google.maps.Map(document.getElementById("MapBox"),{
-// 		 	center:{lat:29.7630556,lng:-95.3630556},
-// 		 	scrollwheel:false,
-// 		 	zoom:12
-// 		 })
+	_initMap:function(){
+		console.log(this.props)
+		window.props = this.props
+
+var map = new google.maps.Map(document.getElementById("MapBox"),{
+			center: new google.maps.LatLng(29.7630556, -95.3630556),
+			scrollwheel:false,
+			zoom:12
+		})
 
 
-// 	},
+		this.props.myParentsList.forEach(function(element){
+				 var newMarker = new google.maps.Marker({
+                    map: map,
+                    position: element.attributes.parent.latlon,
+                    title: element.attributes.parent.username
+                })
 
-// 	render:function(){
+				 var infoWindow = new google.maps.InfoWindow({
+                    content: '<p id="marker">' + element.attributes.parent.username + '</p>'
+                })
 
-// 		return(
 
-// 			<div id="MapBox">
+				 newMarker.addListener("click", function(){
+                    infoWindow.open(map, newMarker)
+                })
 
-// 			</div>
 
-// 			)
-// 	}
-// })
+				 console.log(element.attributes.parent.username)
+
+	})
+		console.log('creating map')
+		// console.log(markers)
+		
+	},
+
+	render:function(){
+
+		return(
+
+			<div id="MapBox">
+
+			</div>
+
+			)
+	}
+})
 
 
 

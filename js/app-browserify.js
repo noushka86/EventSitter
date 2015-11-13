@@ -9,12 +9,13 @@ let React = require('react'),
     _ = require('underscore'),
     Parse = require('parse')
 
+console.log('is anybody there?')
+window.jquery = $
 
 var self, selfSitter, selfParent;
 var MYSITTERS, CURRENTUSER;
 
-    // <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD9cp_vbWmt7vYuFs4GQido4sB7xMNfzYc"></script>
-
+window.google = google
 
 var APP_ID = 'wXCq4PN1u7OGDCjyS4xkWMwTvIMlN8dfJKGkA4DE',
 	JS_KEY = 'u3F2jXFkB1WZX44vRiGX7roenlOY8CadeGp4uzwi',
@@ -162,14 +163,36 @@ var SitterRouter=Backbone.Router.extend({
 		'*default':'showLandingPage'
 	},
 
+	fetchParentCollections: function() {
+		// set search parameters
+		console.log('fetching parent collections')
+		this.aec.searchParams = {claimed:true,parentUserName:Parse.User.current().get("username")}
+		this.aic.searchParams={complete:true, seenByParent:false,
+										from:Parse.User.current().get("username")}
+		this.pec.searchParams={claimed:false,parentUserName:Parse.User.current().get("username")}
+
+		// do fetches
+		this.aec.customFetch({include:'sitterWhoClaimed'})
+		this.aic.customFetch({include:'sitter'});
+		this.pec.customFetch({include:'listOfDenials'})
+	},
+
+	fetchSitterCollections: function() {
+		console.log('fetching sitter collections')
+		this.aec.searchParams={claimed:true,sitterUserName:Parse.User.current().get("username")}
+		this.ic.searchParams={sitterId:Parse.User.current().id, complete:false}
+		this.nec.searchParams={listOfSitters:{$in:[Parse.User.current().get("username")]}, claimed:false}
+
+		this.aec.customFetch({include:'parent'})
+		this.ic.customFetch({include:'parent'})
+		this.nec.customFetch({include:'parent'})
+	},
 
 	showLandingPage:function(){
 		//add:(1) if a user is currently logged in I want to redirect him to 
 		//MainViewParent/MainViewSitter
 		ReactDOM.render(<LandingPage showButtons={false}/>, document.querySelector('#container'))
 	},
-
-	
 
 	showForm:function(type){
 		
@@ -178,50 +201,16 @@ var SitterRouter=Backbone.Router.extend({
 						sendUserInfo={this.processUserInfo}
 						userType={type}
 					/>,
-						document.querySelector('#container'))
+					document.querySelector('#container'))
 	},
 
 	showParentHome:function(){
-		this.aec.reset();
+		
 
 		selfParent=this
-
-		selfParent.aec.searchParams = {claimed:true,parentUserName:Parse.User.current().get("username")}
 		selfParent.fetchMySitters();
-		selfParent.aic.searchParams={complete:true, seenByParent:false,
-										from:Parse.User.current().get("username")}
-		selfParent.pec.searchParams={claimed:false,parentUserName:Parse.User.current().get("username")}
 
-// selfParent.aec.customFetch({include:'sitterWhoClaimed'})
-// 				selfParent.aic.customFetch({include:'sitter'});
-// 				selfParent.pec.customFetch({include:'listOfDenials'})
-
-
-		var fetchAllCollections = function(){
-				console.log('re-fetching collections')
-				selfParent.aec.customFetch({include:'sitterWhoClaimed'})
-				selfParent.aic.customFetch({include:'sitter'});
-				selfParent.pec.customFetch({include:'listOfDenials'})
-				
-			}
-		
-		var startFetchInterval = function(){
-				selfParent.fetchIntervalId = setInterval(fetchAllCollections,5000)
-				console.log(selfParent.fetchIntervalId)
-		}
-
-		console.log(selfParent.fetchIntervalId)
-		fetchAllCollections()
-		setTimeout(startFetchInterval,500)
-
-		// this.fetchIntervalId = setInterval(function(){
-		// 	selfParent.aec.customFetch({include:'sitterWhoClaimed'})
-		// 	selfParent.aic.customFetch({include:'sitter'});
-		// 	selfParent.pec.customFetch({include:'listOfDenials'})
-		// 	
-		// },5000)
-
-
+		this.fetchParentCollections();
 
 		ReactDOM.render(<ParentHomePage showButtons={false} 
 									showCreateEventButton={true}
@@ -235,49 +224,11 @@ var SitterRouter=Backbone.Router.extend({
 	},
 
 	showSitterHome:function(){
-		this.aec.reset();
-		;
+	
 		selfSitter=this
-		// selfSitter.aec.reset()
-		// selfSitter.nec.reset()
-		selfSitter.aec.searchParams={claimed:true,sitterUserName:Parse.User.current().get("username")}
-		this.ic.searchParams={sitterId:Parse.User.current().id, complete:false}
-		this.ic.customFetch({include:'parent'})
-		window.p=Parse
-		window.n=this.nec
-		this.nec.searchParams={listOfSitters:{$in:[Parse.User.current().get("username")]}, claimed:false}
-
-
-		selfSitter.nec.customFetch({include:'parent'})
-		selfSitter.ic.customFetch({include:'parent'})
-		selfSitter.aec.customFetch({include:'parent'})
-
-		var fetchAllCollections = function(){
-			console.log('re-fetching collections')
-			selfSitter.nec.customFetch({include:'parent'})
-			selfSitter.ic.customFetch({include:'parent'})
-			selfSitter.aec.customFetch({include:'parent'})	
-			}
-
-		var startFetchInterval = function(){
-				selfSitter.fetchIntervalId = setInterval(fetchAllCollections,5000)
-			}
-
-		fetchAllCollections()
-
-		setTimeout(startFetchInterval,500)
-
-
-
-
-		// this.fetchIntervalId = setInterval(function(){
-		// 	selfSitter.nec.customFetch({include:'parent'})
-		// 	selfSitter.ic.customFetch({include:'parent'})
-		// 	selfSitter.aec.customFetch({include:'parent'})
-		// 	
-
-		// },5000)
-
+	
+		this.fetchSitterCollections()
+		
 		ReactDOM.render(
 			<SitterHomePage showButtons={false} 
 					showCreateEventButton={false}
@@ -340,44 +291,36 @@ var SitterRouter=Backbone.Router.extend({
 		newUsr.set('phone',userInputObj["phone"])
 		newUsr.set('address',userInputObj["address"])
 
-		// var ajaxParams={
-		// 	url: `https://maps.googleapis.com/maps/api/geocode/json?address=${userInputObj["address"]}`
+		var ajaxParams={
+			url: `https://maps.googleapis.com/maps/api/geocode/json?address=${userInputObj["address"]}`
 
-		// }
-
-		// $.ajax(ajaxParams).then(
-		// 	(responseData)=>{
-		// 	var loc = responseData.results[0].geometry.location;
-  //      		var lat = loc.lat,
-  //           	lng = loc.lng;
-
-		// 	newUsr.set('latlon',{lat,lng})
-
-
-			if(action==='signUp') {
-		newUsr.signUp().then(
-			function(){
-				alert('nice');
-				location.hash=userInputObj["type"]+"/home"
-			}).fail(function(err){
-				
-				Parse.User.logOut()
-			})
 		}
+
+		if(action==='signUp') {
+
+			$.ajax(ajaxParams).then(
+				(responseData)=>{
+					var loc = responseData.results[0].geometry.location;
+		       		var lat = loc.lat,
+		            	lng = loc.lng;
+
+		            console.log(lat,lng)
+					newUsr.set('latlon',{'lat':lat,'lng':lng})
+					return newUsr.signUp()
+				}
+			).then(()=>{
+				alert('You are signed up');
+				location.hash=userInputObj["type"]+"/home"
+				})
+			}	
+		
 		else {
 			newUsr.logIn().then(
 				function(){
-					alert('nice');
+					alert('You are logged in');
 					location.hash=userInputObj["type"]+"/home"
-			}).fail(function(err){
-				
 			})
 		}
-			// })
-
-
-	
-		
 	},
 
 	findSitterByEmail: function(email){
@@ -422,7 +365,7 @@ var SitterRouter=Backbone.Router.extend({
 		invitation.set("seenByParent",false)
 		invitation.set("parent",Parse.User.current())
 		invitation.save().then(function(){
-			alert('nice')
+			alert('Invitation Sent')
 		})
 		self.showMySitters(false)
 	},
@@ -529,15 +472,13 @@ var SitterRouter=Backbone.Router.extend({
 
 	logoutUser:function(){
 		
-// clearInterval(router.fetchIntervalId)
+
 		Parse.User.logOut().then(
 			function(){
 				location.hash = "welcome"
 			})
 		
 	},
-
-
 
 	initialize:function(){
 		this.sm=new SitterModel();
@@ -555,10 +496,19 @@ var SitterRouter=Backbone.Router.extend({
 
 
 var router=new SitterRouter();
-var firstRoute = true
+router.fetchIntervalId = null
+
+
+// setting up fixed-interval polling of server data
+
 router.on('route',function(functionName){
-	// if(functionName!='showSitterHome'|| functionName!='showSitterHome'){
-	console.log(router.fetchIntervalId)
+	console.log('hash changed with resulting function ' + functionName)
+	console.log('clearing interval ' + router.fetchIntervalId)
 	clearInterval(router.fetchIntervalId)
-	// } 
+	if (functionName =='showParentHome') {
+		router.fetchIntervalId = setInterval(router.fetchParentCollections.bind(router),5000)
+	}
+	if (functionName =='showSitterHome') {
+		router.fetchIntervalId = setInterval(router.fetchSitterCollections.bind(router),5000)
+	}
 })

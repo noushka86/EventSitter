@@ -9,8 +9,6 @@ var UpperPanel=React.createClass({
 	},
 
 	render:function(){
-			console.log(this.props)
-
 		var styleObj={}
 
 		if(this.props.showButtons===false){
