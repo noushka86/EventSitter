@@ -11,8 +11,8 @@ var SitterHomePage=React.createClass({
 
 
 	componentWillMount: function(){
-		var self = this
-		window.sitterHomePage = this
+		// var self = this
+		// window.sitterHomePage = this
 		this.props.inviteNotifications.on('change update', ()=>this.forceUpdate())
 		this.props.newEventNotifications.on('change update', ()=>this.forceUpdate())
 
@@ -21,7 +21,7 @@ var SitterHomePage=React.createClass({
 
 	componentWillUnmount: function(){
 		var self = this
-		clearInterval(this.refreshInterval)
+		// clearInterval(this.refreshInterval)
 		this.props.inviteNotifications.off('change update')
 		this.props.newEventNotifications.off('change update')
 

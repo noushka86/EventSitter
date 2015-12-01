@@ -2,8 +2,8 @@ let React = require('react')
 
 var UpperPanel=React.createClass({
 
-	_handleButtonClick: function(e){
-		var formType = e.target.value
+	_handleButtonClick: function(event){
+		var formType = event.target.value
 		if (formType === "logIn") this.props.toggleForm(formType)
 		else this.props.toggleForm(formType)
 	},

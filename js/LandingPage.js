@@ -19,21 +19,17 @@ var LandingPage=React.createClass({
 
 
 var SelectionBox=React.createClass({
-	_parentLogin:function(){
-		location.hash="invite/parent"
-	},
 
-	_sitterLogin:function(){
-		location.hash="invite/sitter"
+	_LoginView:function(event){
+			location.hash="invite/"+event.target.name
 	},
-
 
 	render:function(){
 		return(
 			<div id="SelectionBox">
 				<h2>Manage your babysitting schedule, easily.</h2>
-				<button onClick={this._parentLogin}>I am a Parent</button>
-				<button onClick={this._sitterLogin}>I am a Sitter</button>
+				<button onClick={this._LoginView} name={'parent'}>I am a Parent</button>
+				<button onClick={this._LoginView} name={'sitter'}>I am a Sitter</button>
 			</div>
 			)
 	}

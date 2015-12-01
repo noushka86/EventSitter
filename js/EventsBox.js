@@ -51,7 +51,7 @@ var EventsBox=React.createClass({
 			userHeader="",
 			eventNameStyleObj={}
 
-		if(!this.props.showCreateEventButton && !this.props.approvedEvents)
+		if(!this.props.showCreateEventButton && !this.props.approvedEvents) // (Pending Events - only in the parent)
 		{
 			styleObj={
 				display:'none'
@@ -59,11 +59,11 @@ var EventsBox=React.createClass({
 			userHeader="Declined By"
 		}
 
-		else if(this.props.showCreateEventButton){
+		else if(this.props.showCreateEventButton){ // (Approved Events and the current user logged is the parent)
 			userHeader="Sitter"
 		}
 		
-		else{
+		else{  							// (Approved Events and the current user logged is the sitter)
 			styleObj={
 				display:'none'
 			}
@@ -80,7 +80,7 @@ var EventsBox=React.createClass({
 				<button id="newEvent" onClick={this._clickHandler} 
 				style={styleObj}>{"\u2795"}</button>
 
-				<EventForm show={this.state.showEventForm} 
+				<EventForm show={this.state.showEventForm}     
 							changeState={this.changeState}
 							sendEventDetails={this.props.sendEventDetails}
 							/>
@@ -101,6 +101,9 @@ var EventsBox=React.createClass({
 	}
 })
 
+
+
+
 var EventForm=React.createClass({
 
 	componentDidMount:function(){
@@ -120,9 +123,7 @@ var EventForm=React.createClass({
 
 
 	_validateInput: function(e){
-    		// 
-    		
-
+    		// after the user clicks the button ' SUBMIT EVENT'
     		var name=e.target.name, 
     			value=e.target.value
     			if(name==='startTime'|| name==='endTime'){
@@ -152,11 +153,13 @@ var EventForm=React.createClass({
 					// this.props.sendUserInfo(this.userInput,e.target.value)
 		},
 
-		_clearForm:function(){
+	_clearForm:function(){
 			for (var key in this.refs){
-						this.refs[key].getDOMNode().value = ''
+						this.refs[key].value = ''
 					}	
 				},
+
+
 
 	render:function(){
 		window.form = this
@@ -205,7 +208,7 @@ var Event=React.createClass({
 		var user="",title="", styleObj={}, tmp="";
 			
 		
-		if(this.props.userType==='parent' && this.props.approvedEvents)
+		if(this.props.userType==='parent' && this.props.approvedEvents) // Approved Events in the parent
 		{
 
 			user=this.props.data.sitterWhoClaimed.firstName+" "+this.props.data.sitterWhoClaimed.lastName
@@ -220,7 +223,7 @@ var Event=React.createClass({
 
 		}
 
-		else if(this.props.userType==='parent' && !this.props.approvedEvents){
+		else if(this.props.userType==='parent' && !this.props.approvedEvents){ // Pending Events in the parent
 			for(var sitter in this.props.data.listOfDenials){
 				tmp+= this.props.data.listOfDenials[sitter].firstName+","
 			}
@@ -237,7 +240,7 @@ var Event=React.createClass({
 		
 
 		else{
-			user=this.props.data.parent.firstName+" "+this.props.data.parent.lastName
+			user=this.props.data.parent.firstName+" "+this.props.data.parent.lastName // approved Events in the sitter
 			styleObj={display:'none'}
 		}
 

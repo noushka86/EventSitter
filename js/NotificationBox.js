@@ -5,27 +5,27 @@ var NotificationBox = React.createClass({
 	
 
 	_createInviteNotification:function(notificationObj){
-		
 		return (<InviteNotification data={notificationObj.attributes} 
-								key={notificationObj.objectIds}
+								key={notificationObj.attributes.objectId}
 								InvitationHandler={this.props.InvitationHandler}
 								/>)
+
 	},
 
 	_createNewEventNotification:function(notificationObj){
 		return (<NewEventNotification data={notificationObj.attributes} 
-								key={notificationObj.objectId}
+								key={notificationObj.attributes.objectId}
 								newEventHandler={this.props.newEventHandler}
 								/>)
 	},
 
 	render:function(){
 		// console.log('notifications');
-		// console.log(this.props.notifications)
+		// console.log(this.props.notifications,'OOOOOOOOOOOOOOO')
 
 		var inviteNotifications=this.props.inviteNotifications.models,
 			newEventNotifications=this.props.newEventNotifications.models
-			// console.log(this.props.newEventNotifications)
+			// console.log(this.props.newEventNotifications,'OOOOOOOOOOOOOOO')
 
 		return(
 			<div id="NotificationBox">

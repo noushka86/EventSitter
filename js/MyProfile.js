@@ -40,7 +40,7 @@ var ProfileForm=React.createClass({
 
 	_update:function(){
 		for(var key in this.refs){
-			this.profileObj[key]=this.refs[key].getDOMNode().innerHTML
+			this.profileObj[key]=this.refs[key].innerHTML
 		}
 		console.log(this.profileObj)
 

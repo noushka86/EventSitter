@@ -7,10 +7,12 @@ import {NotificationBox} from "./NotificationBox.js"
 import {PrntNotificationBox} from "./PrntNotificationBox.js"
 
 var ParentHomePage=React.createClass({
-
+// adding events to the collections that are being fetched before they Mount on the DOM. on change and update, we want the React component to do force update
+//if we dont add the events, then we wouldnt be able to see the change.
 	componentWillMount:function(){
 		var self = this
 		this.props.events.on('change update', function(){
+			console.log("change")
 			self.forceUpdate()
 		})
 
@@ -22,6 +24,8 @@ var ParentHomePage=React.createClass({
 			self.forceUpdate()
 		})
 	},
+// removing the events from the collections just before they unmount from the DOM. if we 
+// we nned to remove the events before they unmount from the DOM because then we wont be able to grab them
 
 	componentWillUnmount: function(){
 		var self = this
@@ -47,8 +51,6 @@ var ParentHomePage=React.createClass({
 							approvedInvitationBySitter={this.props.approvedInvitationBySitter}
 							seenByParent={this.props.seenByParent}
 							pendingEvents={this.props.pendingEvents}
-
-
 					/>
 			</div>
 			)
@@ -65,7 +67,9 @@ var InfoBox=React.createClass({
 										seenByParent={this.props.seenByParent}
 				/>	
 
-				<EventsBox showCreateEventButton={this.props.showCreateEventButton}
+				{/* Reusable EventsBox Component*/}
+
+				<EventsBox showCreateEventButton={this.props.showCreateEventButton} //AProved Events
 							sendEventDetails={this.props.sendEventDetails}
 							events={this.props.events}
 							userType={'parent'}
@@ -87,6 +91,5 @@ var InfoBox=React.createClass({
 })
 
 
-				// <NotificationBox/>
 
 export {ParentHomePage}

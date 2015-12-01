@@ -4,7 +4,7 @@ var PrntNotificationBox=React.createClass({
 
 	_createApprovedInvitation:function(notificationObj){
 		return (<ApprovedInvitation data={notificationObj.attributes} 
-								key={notificationObj.objectId}
+								key={notificationObj.attributes.objectId}
 								seenByParent={this.props.seenByParent}
 
 								/>
@@ -12,8 +12,7 @@ var PrntNotificationBox=React.createClass({
 	},
 
 	render:function(){
-		// console.log('approved Invitation By sitter')
-		// console.log(this.props.approvedInvitationBySitter.models)
+	
 		var appInv=this.props.approvedInvitationBySitter.models
 		return(
 			<div id="NotificationBox">
